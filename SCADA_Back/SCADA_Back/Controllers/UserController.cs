@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SCADA_Back.Model;
+using SCADA_Back.Model.DTO;
 using SCADA_Back.Service;
 
 namespace SCADA_Back.Controllers
@@ -40,5 +41,11 @@ namespace SCADA_Back.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+
+		//[HttpPost]
+		//public IActionResult Login([FromBody]LoginDTO loginDTO)
+		//{
+
+		//}
 	}
 }

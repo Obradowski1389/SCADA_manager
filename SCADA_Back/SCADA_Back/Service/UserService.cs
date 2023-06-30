@@ -1,6 +1,7 @@
 ﻿using SCADA_Back.Context;
 using SCADA_Back.Exceptions;
 using SCADA_Back.Model;
+using SCADA_Back.Model.DTO;
 using SCADA_Back.Repository;
 
 
@@ -39,5 +40,11 @@ namespace SCADA_Back.Service
 		{
 			throw new NotImplementedException();
 		}
+
+
+		//public void Login(LoginDTO loginDTO)
+		//{
+
+		//}
 	}
 }

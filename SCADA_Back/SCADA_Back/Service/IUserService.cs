@@ -1,4 +1,5 @@
 ﻿using SCADA_Back.Model;
+using SCADA_Back.Model.DTO;
 
 namespace SCADA_Back.Service
 {
@@ -7,5 +8,6 @@ namespace SCADA_Back.Service
 		public User GetUser(int id);
 		public void UpdateUser(User user);
 		public User AddUser(User user);
+		//public void Login(LoginDTO loginDTO);
 	}
 }
