@@ -42,8 +42,24 @@ namespace SCADA_Back.Controllers
 			}
 		}
 
+
+		[IgnoreAntiforgeryToken] // TODO replace with actual anti-forgery token
+		[HttpPost("admin")]
+		public IActionResult AddAdmin([FromBody] User user)
+		{
+			try
+			{
+				_userService.AddAdmin(user);
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
 		//[HttpPost]
-		//public IActionResult Login([FromBody]LoginDTO loginDTO)
+		//public IActionResult Login([FromBody] LoginDTO loginDTO)
 		//{
 
 		//}

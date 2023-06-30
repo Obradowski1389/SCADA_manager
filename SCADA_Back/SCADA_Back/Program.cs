@@ -5,6 +5,8 @@ using SCADA_Back.Model;
 using SCADA_Back.Service;
 using SCADA_Back.Repository;
 using SCADA_Back.Exceptions;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,12 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // DI Service
 builder.Services.AddScoped<IUserService, UserService>();
+
+
+//builder.Services.Configure<KestrelServerOptions>(options =>
+//{
+//	options.Listen(IPAddress.Loopback, 7073); 
+//});
 
 
 //builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)

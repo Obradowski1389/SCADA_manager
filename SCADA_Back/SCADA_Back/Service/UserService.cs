@@ -3,7 +3,8 @@ using SCADA_Back.Exceptions;
 using SCADA_Back.Model;
 using SCADA_Back.Model.DTO;
 using SCADA_Back.Repository;
-
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SCADA_Back.Service
 {
@@ -25,13 +26,17 @@ namespace SCADA_Back.Service
 
 		public User AddUser(User user)
 		{
-			Console.Error.WriteLine(user.Email);
 			User? existing = _userRepository.GetUser(user.Email);
 			if (existing != null)
 			{
 				throw new Exception("User with this email already exists");
 			}
-			//user.Role = UserRole.USER;
+			user.Role = UserRole.USER;
+			return _userRepository.AddUser(user);
+		}
+
+		public User AddAdmin(User user)
+		{
 			return _userRepository.AddUser(user);
 		}
 
@@ -40,7 +45,6 @@ namespace SCADA_Back.Service
 		{
 			throw new NotImplementedException();
 		}
-
 
 		//public void Login(LoginDTO loginDTO)
 		//{
