@@ -17,10 +17,10 @@ namespace SCADA_Back.Repository
 			return _context.Users.First(u => u.Id == id);
 		}
 
-		public User? GetUser(string email)
+		public User? GetUser(string username)
 		{
-			Console.WriteLine(email);
-			return _context.Users.FirstOrDefault(u => u.Email.Equals(email));
+			Console.WriteLine(username);
+			return _context.Users.FirstOrDefault(u => u.Username.Equals(username));
 		}
 
 		public User AddUser(User user)

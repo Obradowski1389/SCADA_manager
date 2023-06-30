@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../services/user.service';
+import { LoginDTO } from 'src/model/User';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,5 +15,25 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required])
   });
 
-  public login(){}
+  constructor(private userService: UserService, private router: Router) {}
+
+  public login(){
+    if(this.loginForm.valid){
+      const values = this.loginForm.value;
+      const loginDTO : LoginDTO = {
+        "Password": values.password!,
+        "Username" : values.username!
+      }
+      this.userService.login(loginDTO).subscribe({
+        next: (value : any) => {
+          console.log("login");
+          this.router.navigate(["/main"]);
+        },
+        error: (error: any) => {
+          console.log(error);
+          alert(error.error);
+        }
+      })
+    }
+  }
 }

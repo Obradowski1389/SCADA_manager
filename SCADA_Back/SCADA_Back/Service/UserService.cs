@@ -26,10 +26,10 @@ namespace SCADA_Back.Service
 
 		public User AddUser(User user)
 		{
-			User? existing = _userRepository.GetUser(user.Email);
+			User? existing = _userRepository.GetUser(user.Username);
 			if (existing != null)
 			{
-				throw new Exception("User with this email already exists");
+				throw new Exception("User with this username already exists");
 			}
 			user.Role = UserRole.USER;
 			return _userRepository.AddUser(user);
@@ -46,9 +46,17 @@ namespace SCADA_Back.Service
 			throw new NotImplementedException();
 		}
 
-		//public void Login(LoginDTO loginDTO)
-		//{
-
-		//}
+		public User? Login(LoginDTO loginDTO)
+		{
+			User? existing = _userRepository.GetUser(loginDTO.Username);
+			if(existing != null)
+			{
+				if(existing.Password == loginDTO.Password)
+				{
+					return existing;
+				}
+			}
+			return null;
+		}
 	}
 }

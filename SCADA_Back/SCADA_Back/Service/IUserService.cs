@@ -9,6 +9,6 @@ namespace SCADA_Back.Service
 		public void UpdateUser(User user);
 		public User AddUser(User user);
 		public User AddAdmin(User user);
-		//public void Login(LoginDTO loginDTO);
+		public User? Login(LoginDTO loginDTO);
 	}
 }

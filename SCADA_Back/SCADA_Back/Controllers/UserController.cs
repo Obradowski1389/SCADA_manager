@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SCADA_Back.Model;
 using SCADA_Back.Model.DTO;
@@ -6,6 +7,7 @@ using SCADA_Back.Service;
 
 namespace SCADA_Back.Controllers
 {
+	[EnableCors]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class UserController : ControllerBase
@@ -58,10 +60,17 @@ namespace SCADA_Back.Controllers
 			}
 		}
 
-		//[HttpPost]
-		//public IActionResult Login([FromBody] LoginDTO loginDTO)
-		//{
-
-		//}
+		[IgnoreAntiforgeryToken]
+		[HttpPost("login")]
+		public IActionResult Login([FromBody] LoginDTO loginDTO)
+		{
+			Console.WriteLine(loginDTO);
+			User? user = _userService.Login(loginDTO);
+			if(user == null)
+			{
+				return BadRequest("Incorrect Username or Password");
+			}
+			return Ok();
+		}
 	}
 }
