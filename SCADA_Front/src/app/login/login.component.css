@@ -1,0 +1,38 @@
+#main-view{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+img{
+    width: 100px;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 50px;
+    border: 1px solid #c8c8c8;
+}
+
+.form-input{
+    border-width: 1px !important;
+    width: 400px;
+    border-radius: 10px !important;
+}
+
+.form-input input{
+    width: 100%;
+}
+
+.form-btn{
+    width: 400px;
+    font-weight: 400;
+    font-size: large;
+    padding: 30px;
+}
