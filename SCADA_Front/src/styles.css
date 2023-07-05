@@ -3,6 +3,13 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-html, body { height: 100%; background-color: #ededed;}
+html, body { height: 100%; background-color: #eee;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.b{
+    border:1px solid cornflowerblue
+}
+
+p{
+    margin: 0;
+}

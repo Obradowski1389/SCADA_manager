@@ -1,0 +1,24 @@
+<table>
+    <tr class="row" *ngFor="let input of Inputs.AnalogInputs">
+        <td class="address-wrapper">
+            <p class="address">A{{input.Address}}</p>
+        </td>
+        <td class="basic-td">
+            <div class="info">
+                <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
+                <p class="info-value" *ngIf="input.ScanOn">{{input.Value}}{{input.Unit}}</p>
+            </div>
+        </td>
+        <td  
+            class="alarm" 
+            [ngClass]="{'last-alarm':input.Alarms.indexOf(alarm) == input.Alarms.length - 1}"
+            *ngFor="let alarm of input.Alarms">
+            <div class="alarm-info">
+                <p class="alarm-treshold">{{ alarm.Type == 0 ? "🠗" : "🠕" }} {{alarm.Treshold}}{{alarm.Unit}}</p>
+                <p class="alarm-priority" [ngStyle]="{'border-radius': input.Alarms.indexOf(alarm) === input.Alarms.length - 1 ? '0 0 10px 0' : ''}">
+                    {{ alarm.Priority === 1 ? "MINOR" : alarm.Priority === 2 ? "MEDIUM" : "URGENT" }}
+                </p>
+            </div>
+        </td>
+    </tr>
+</table>
