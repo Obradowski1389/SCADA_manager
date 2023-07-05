@@ -18,6 +18,11 @@ var connectionString = builder.Configuration.GetConnectionString("SCADADatabase"
 builder.Services.AddDbContext<SCADA_Context>(options =>
 	options.UseSqlServer(connectionString));
 
+var usersConnectionString = builder.Configuration.GetConnectionString("UsersDatabase");
+builder.Services.AddDbContext<Users_Context>(options =>
+	options.UseSqlServer(usersConnectionString)
+);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
