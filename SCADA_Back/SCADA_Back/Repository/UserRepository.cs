@@ -1,9 +1,10 @@
 ﻿using SCADA_Back.Context;
 using SCADA_Back.Model;
+using SCADA_Back.Repository.IRepo;
 
 namespace SCADA_Back.Repository
 {
-	public class UserRepository: IUserRepository
+    public class UserRepository: IUserRepository
 	{
 		private readonly Users_Context _users_context;
 

@@ -7,6 +7,8 @@ using SCADA_Back.Repository;
 using SCADA_Back.Exceptions;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
+using SCADA_Back.Repository.IRepo;
+using SCADA_Back.Service.IService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,9 +31,14 @@ builder.Services.AddSwaggerGen();
 
 // DI Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAlarmRepository, AlarmRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+
 
 // DI Service
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAlarmService, AlarmService>();
+builder.Services.AddScoped<ITagService, TagService>();
 
 
 builder.Services.AddCors(options =>
