@@ -1,7 +1,8 @@
-table {
-    border-collapse:separate; 
-    border-spacing: 5px 15px;
+.body{
     padding: 30px;
+}
+.title{
+    margin-left: 10px;
 }
 tr{
     height: 85px;
@@ -44,16 +45,20 @@ tr{
     display: grid;
     grid-template-rows: 2fr 1fr;
 }
-.last-alarm{
-    border-radius: 0 10px 10px 0;
-}
 .alarm-treshold{
     font-size: 26px;
     font-weight: 300;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 10px 0 10px;
+    padding: 0 8px 0 8px;
+    border: solid 3px transparent;
+}
+.unit-label{
+    font-size: 18px; 
+    font-weight:400;
+    margin-left: 2px;
+    margin-bottom: -10px;
 }
 .alarm-priority{
     background-color: #bbb;
@@ -63,4 +68,30 @@ tr{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* active alarm */
+.minor-alarm-priority{
+    background-color:#ede245;
+}
+.medium-alarm-priority{
+    background-color:#dea31b;
+}
+.urgent-alarm-priority{
+    background-color:#de421b;
+}
+.medium-alarm-treshold{
+    border: 3px solid #dea31b;
+}
+.urgent-alarm-treshold{
+    border: 3px solid #de421b;
+    animation: blinkingBackground 1s infinite;
+}
+@keyframes blinkingBackground {
+    0% {
+        background-color: #ddd;
+    }
+    50% {
+        background-color: #fca4a4;
+    }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { InputsDTO } from 'src/model/models';
+import { Alarm, AnalogInput, InputsDTO } from 'src/model/models';
 
 @Component({
   selector: 'app-trending-page',
@@ -7,6 +7,13 @@ import { InputsDTO } from 'src/model/models';
   styleUrls: ['./trending-page.component.css']
 })
 export class TrendingPageComponent {
+
+  isAlarmActive(alarm: Alarm, input: AnalogInput) : boolean {
+    if(!input.ScanOn) return false
+    if(alarm.Type == 0 && input.Value < alarm.Treshold) return true
+    if(alarm.Type == 1 && input.Value > alarm.Treshold) return true
+    return false
+  }
 
   Inputs: InputsDTO = {
     AnalogInputs: [
@@ -72,7 +79,7 @@ export class TrendingPageComponent {
         LowLimit: 0,
         HightLimit: 100,
         Unit: 'l',
-        Value: 78
+        Value: 82
       },
       {
         Id: 3,
@@ -95,7 +102,7 @@ export class TrendingPageComponent {
           },
           {
             Type: 1,
-            Priority: 1,
+            Priority: 3,
             Treshold: 180,
             Unit: 'lps'
           }
@@ -133,7 +140,7 @@ export class TrendingPageComponent {
           },
           {
             Type: 1,
-            Priority: 1,
+            Priority: 3,
             Treshold: 80,
             Unit: 'l'
           }

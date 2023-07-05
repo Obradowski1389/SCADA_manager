@@ -13,3 +13,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 p{
     margin: 0;
 }
+
+h1{
+    margin: 0;
+    font-size: 28px;
+    font-weight: 500;
+}
+table {
+    border-collapse:separate; 
+    border-spacing: 5px 15px;
+}
