@@ -1,5 +1,16 @@
+.table-container {
+    margin-top: 15px;
+    columns: 2;
+    column-gap: 20px;
+    max-height: 80%;
+}
+.table td {
+    break-inside: avoid-column; /* Prevent cells from breaking across columns */
+}
+
 .body{
     padding: 30px;
+    height: 100%;
 }
 .title{
     margin-left: 10px;

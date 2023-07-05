@@ -182,7 +182,293 @@ export class TrendingPageComponent {
         HightLimit: 45,
         Unit: '°C',
         Value: 78
-      }
+      },
+      {
+        Id: 6,
+        Name: 'Kotao',
+        Driver: 'cos',
+        Address: 6,
+        ScanTime: 200,
+        Alarms: [
+          {
+            Type: 1,
+            Priority: 1,
+            Treshold: 45,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 1,
+            Treshold: 55,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 2,
+            Treshold: 75,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 3,
+            Treshold: 85,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 3,
+            Treshold: 96,
+            Unit: '°C'
+          }
+        ],
+        ScanOn: true,
+        LowLimit: 0,
+        HightLimit: 100,
+        Unit: '°C',
+        Value: 86
+      },
+      {
+        Id: 7,
+        Name: 'Radijator',
+        Driver: 'sin',
+        Address: 7,
+        ScanTime: 250,
+        Alarms: [
+          {
+            Type: 0,
+            Priority: 1,
+            Treshold: 5,
+            Unit: '°C'
+          }
+        ],
+        ScanOn: true,
+        LowLimit: 0,
+        HightLimit: 50,
+        Unit: '°C',
+        Value: 4
+      },
+      {
+        Id: 8,
+        Name: 'Kotao',
+        Driver: 'cos',
+        Address: 8,
+        ScanTime: 200,
+        Alarms: [
+          {
+            Type: 1,
+            Priority: 1,
+            Treshold: 45,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 1,
+            Treshold: 55,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 2,
+            Treshold: 75,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 3,
+            Treshold: 85,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 3,
+            Treshold: 96,
+            Unit: '°C'
+          }
+        ],
+        ScanOn: false,
+        LowLimit: 0,
+        HightLimit: 100,
+        Unit: '°C',
+        Value: 86
+      },
+      {
+        Id: 9,
+        Name: 'Ventilator',
+        Driver: 'cos',
+        Address: 9,
+        ScanTime: 200,
+        Alarms: [
+          {
+            Type: 0,
+            Priority: 1,
+            Treshold: 10,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 1,
+            Treshold: 30,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 2,
+            Treshold: 40,
+            Unit: '°C'
+          }
+        ],
+        ScanOn: true,
+        LowLimit: 0,
+        HightLimit: 45,
+        Unit: '°C',
+        Value: 25
+      },
+      {
+        Id: 10,
+        Name: 'Bazen',
+        Driver: 'cos',
+        Address: 10,
+        ScanTime: 200,
+        Alarms: [
+          {
+            Type: 0,
+            Priority: 1,
+            Treshold: 10,
+            Unit: 'l'
+          },
+          {
+            Type: 0,
+            Priority: 3,
+            Treshold: 5,
+            Unit: 'l'
+          },
+          {
+            Type: 1,
+            Priority: 1,
+            Treshold: 30,
+            Unit: 'l'
+          },
+          {
+            Type: 1,
+            Priority: 2,
+            Treshold: 40,
+            Unit: 'l'
+          }
+        ],
+        ScanOn: true,
+        LowLimit: 0,
+        HightLimit: 50,
+        Unit: 'l',
+        Value: 4
+      },
+      {
+        Id: 11,
+        Name: 'Ventilator',
+        Driver: 'cos',
+        Address: 11,
+        ScanTime: 200,
+        Alarms: [
+          {
+            Type: 0,
+            Priority: 1,
+            Treshold: 10,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 1,
+            Treshold: 30,
+            Unit: '°C'
+          },
+          {
+            Type: 1,
+            Priority: 2,
+            Treshold: 40,
+            Unit: '°C'
+          }
+        ],
+        ScanOn: false,
+        LowLimit: 0,
+        HightLimit: 45,
+        Unit: '°C',
+        Value: 25
+      },
+      // {
+      //   Id: 12,
+      //   Name: 'Cisterna',
+      //   Driver: 'cos',
+      //   Address: 12,
+      //   ScanTime: 200,
+      //   Alarms: [
+      //     {
+      //       Type: 0,
+      //       Priority: 1,
+      //       Treshold: 10,
+      //       Unit: 'l'
+      //     },
+      //     {
+      //       Type: 1,
+      //       Priority: 1,
+      //       Treshold: 50,
+      //       Unit: 'l'
+      //     },
+      //     {
+      //       Type: 1,
+      //       Priority: 2,
+      //       Treshold: 65,
+      //       Unit: 'l'
+      //     },
+      //     {
+      //       Type: 1,
+      //       Priority: 3,
+      //       Treshold: 80,
+      //       Unit: 'l'
+      //     }
+      //   ],
+      //   ScanOn: true,
+      //   LowLimit: 0,
+      //   HightLimit: 100,
+      //   Unit: 'l',
+      //   Value: 82
+      // },
+      // {
+      //   Id: 12,
+      //   Name: 'Cisterna',
+      //   Driver: 'cos',
+      //   Address: 12,
+      //   ScanTime: 200,
+      //   Alarms: [
+      //     {
+      //       Type: 0,
+      //       Priority: 1,
+      //       Treshold: 10,
+      //       Unit: 'l'
+      //     },
+      //     {
+      //       Type: 1,
+      //       Priority: 1,
+      //       Treshold: 50,
+      //       Unit: 'l'
+      //     },
+      //     {
+      //       Type: 1,
+      //       Priority: 2,
+      //       Treshold: 65,
+      //       Unit: 'l'
+      //     },
+      //     {
+      //       Type: 1,
+      //       Priority: 3,
+      //       Treshold: 80,
+      //       Unit: 'l'
+      //     }
+      //   ],
+      //   ScanOn: true,
+      //   LowLimit: 0,
+      //   HightLimit: 100,
+      //   Unit: 'l',
+      //   Value: 82
+      // }
     ],
     DigitalInputs: []
   }

@@ -1,40 +1,42 @@
-<div class="body">
+<div class="body b">
     <h1 class="title">Analog Inputs</h1>
-    <table>
-        <tr *ngFor="let input of Inputs.AnalogInputs">
-            <td class="address-wrapper">
-                <p class="address">A{{input.Address}}</p>
-            </td>
-            <td class="basic-td">
-                <div class="info">
-                    <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
-                    <p class="info-value" *ngIf="input.ScanOn">{{input.Value}}{{input.Unit}}</p>
-                </div>
-            </td>
-            <td  
-                class="alarm" 
-                *ngFor="let alarm of input.Alarms">
-                <div class="alarm-info">
-                    <div
-                        class="alarm-treshold"
-                        [ngClass]="{
-                            'medium-alarm-treshold': alarm.Priority === 2 && isAlarmActive(alarm, input),
-                            'urgent-alarm-treshold blink-text': alarm.Priority === 3 && isAlarmActive(alarm, input)
-                        }">
-                        <p>{{ alarm.Type == 0 ? "🠗 " : "🠕 " }}{{alarm.Treshold}}</p>
-                        <p class="unit-label">{{alarm.Unit}}</p>
+    <div class="table-container">
+        <table class="table" style="margin-top: -14px;">
+            <tr *ngFor="let input of Inputs.AnalogInputs">
+                <td class="address-wrapper">
+                    <p class="address">A{{input.Address}}</p>
+                </td>
+                <td class="basic-td">
+                    <div class="info">
+                        <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
+                        <p class="info-value" *ngIf="input.ScanOn">{{input.Value}}{{input.Unit}}</p>
                     </div>
-                    <p 
-                        class="alarm-priority minor-alarm" 
-                        [ngClass]="{
-                            'minor-alarm-priority': alarm.Priority === 1 && isAlarmActive(alarm, input),
-                            'medium-alarm-priority': alarm.Priority === 2 && isAlarmActive(alarm, input),
-                            'urgent-alarm-priority': alarm.Priority === 3 && isAlarmActive(alarm, input)
-                        }">
-                        {{ alarm.Priority === 1 ? "MINOR" : alarm.Priority === 2 ? "MEDIUM" : "URGENT" }}
-                    </p>
-                </div>
-            </td>
-        </tr>
-    </table>
+                </td>
+                <td  
+                    class="alarm" 
+                    *ngFor="let alarm of input.Alarms">
+                    <div class="alarm-info">
+                        <div
+                            class="alarm-treshold"
+                            [ngClass]="{
+                                'medium-alarm-treshold': alarm.Priority === 2 && isAlarmActive(alarm, input),
+                                'urgent-alarm-treshold blink-text': alarm.Priority === 3 && isAlarmActive(alarm, input)
+                            }">
+                            <p>{{ alarm.Type == 0 ? "🠗 " : "🠕 " }}{{alarm.Treshold}}</p>
+                            <p class="unit-label">{{alarm.Unit}}</p>
+                        </div>
+                        <p 
+                            class="alarm-priority minor-alarm" 
+                            [ngClass]="{
+                                'minor-alarm-priority': alarm.Priority === 1 && isAlarmActive(alarm, input),
+                                'medium-alarm-priority': alarm.Priority === 2 && isAlarmActive(alarm, input),
+                                'urgent-alarm-priority': alarm.Priority === 3 && isAlarmActive(alarm, input)
+                            }">
+                            {{ alarm.Priority === 1 ? "MINOR" : alarm.Priority === 2 ? "MEDIUM" : "URGENT" }}
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
