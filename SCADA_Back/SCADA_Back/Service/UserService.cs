@@ -2,13 +2,14 @@
 using SCADA_Back.Exceptions;
 using SCADA_Back.Model;
 using SCADA_Back.Model.DTO;
-using SCADA_Back.Repository;
+using SCADA_Back.Repository.IRepo;
+using SCADA_Back.Service.IService;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace SCADA_Back.Service
 {
-	public class UserService : IUserService
+    public class UserService : IUserService
 	{
 
 		private readonly IUserRepository _userRepository;

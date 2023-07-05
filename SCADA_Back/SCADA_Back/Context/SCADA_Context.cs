@@ -5,7 +5,13 @@ namespace SCADA_Back.Context
 {
 	public class SCADA_Context : DbContext
 	{
-		public DbSet<User> Users { get; set; }
+		public DbSet<Alarm> Alarms { get; set; }
+		public DbSet<AnalogInput> AnalogInput { get; set; }
+		public DbSet<AnalogOutput> AnalogOutput { get; set; }
+		public DbSet<DigitalOutput> DigitalOutput { get; set; }
+		public DbSet<DigitalInput> DigitalInput { get; set; }
+
+
 		public SCADA_Context(DbContextOptions<SCADA_Context> options)
 		: base(options)
 		{
@@ -15,8 +21,10 @@ namespace SCADA_Back.Context
 		{
 			base.OnModelCreating(builder);
 
-			builder.Entity<User>()
-				.HasKey(u => u.Id);
+			builder.Entity<Alarm>()
+				.HasOne(a => a.AnalogInput)
+				.WithMany(t => t.Alarms)
+				.HasForeignKey(a => a.AnalogInputId);
 
 		}
 	}
