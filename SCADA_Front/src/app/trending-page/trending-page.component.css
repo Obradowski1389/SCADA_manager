@@ -1,19 +1,18 @@
 .table-container {
-    margin-top: 15px;
     columns: 2;
     column-gap: 20px;
     max-height: 80%;
 }
-.table td {
-    break-inside: avoid-column; /* Prevent cells from breaking across columns */
+td {
+    break-inside: avoid-column;
 }
-
 .body{
     padding: 30px;
     height: 100%;
 }
 .title{
     margin-left: 10px;
+    margin-bottom: 15px;
 }
 tr{
     height: 85px;
@@ -25,11 +24,11 @@ tr{
     background-color: #ddd;
 }
 .address-wrapper{
+    width: 26px;
     background-color: #bbb;
     border-radius: 10px 0 0 10px;
-    width: 26px;
 }
-.address{
+.address-label{
     transform:rotate(-90deg);
     text-align: center;
     color: #4f4f4f;
@@ -62,7 +61,7 @@ tr{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 8px 0 8px;
+    padding: 0 5px 0 5px;
     border: solid 3px transparent;
 }
 .unit-label{
@@ -105,4 +104,26 @@ tr{
     50% {
         background-color: #fca4a4;
     }
+}
+
+/* digital inputs */
+.digital-inputs{
+    display: flex;
+    margin-left: 5px;
+    flex-wrap: wrap;
+    column-gap: 25px;
+    row-gap: 15px;
+}
+.digital-item{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    min-width: 100px;
+    min-height: 85px;
+    column-gap: 4px;
+}
+
+.center-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

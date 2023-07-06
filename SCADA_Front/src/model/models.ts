@@ -17,9 +17,8 @@ export interface DigitalInput{
     Name: string,
     Driver: string,
     Address: number,
-    ScanTime: string,
-    ScanOn: boolean,
-    Value: number
+    ScanTime: number,
+    ScanOn: boolean
 }
 
 export interface InputsDTO {

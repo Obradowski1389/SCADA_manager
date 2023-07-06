@@ -1,15 +1,19 @@
-<div class="body b">
+<div class="body">
+    <!-- Analog Inputs -->
     <h1 class="title">Analog Inputs</h1>
     <div class="table-container">
-        <table class="table" style="margin-top: -14px;">
+        <table style="margin-top: -14px;">
             <tr *ngFor="let input of Inputs.AnalogInputs">
                 <td class="address-wrapper">
-                    <p class="address">A{{input.Address}}</p>
+                    <p class="address-label">A{{input.Address}}</p>
                 </td>
                 <td class="basic-td">
                     <div class="info">
                         <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
-                        <p class="info-value" *ngIf="input.ScanOn">{{input.Value}}{{input.Unit}}</p>
+                        <p class="info-value" *ngIf="input.ScanOn">
+                            <span class="value-style">{{input.Value}}</span>
+                            <span class="unit-label">{{input.Unit}}</span>
+                        </p>
                     </div>
                 </td>
                 <td  
@@ -22,8 +26,7 @@
                                 'medium-alarm-treshold': alarm.Priority === 2 && isAlarmActive(alarm, input),
                                 'urgent-alarm-treshold blink-text': alarm.Priority === 3 && isAlarmActive(alarm, input)
                             }">
-                            <p>{{ alarm.Type == 0 ? "🠗 " : "🠕 " }}{{alarm.Treshold}}</p>
-                            <p class="unit-label">{{alarm.Unit}}</p>
+                            <p style="font-size: 24px;">{{ alarm.Type == 0 ? "🠗 " : "🠕 " }}{{alarm.Treshold}}</p>
                         </div>
                         <p 
                             class="alarm-priority minor-alarm" 
@@ -38,5 +41,19 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <!-- Digital Inputs -->
+    <div *ngIf="Inputs.DigitalInputs.length != 0">
+        <h1 class="title">Digital Inputs</h1>
+        <div class="digital-inputs">
+            <div class="digital-item" *ngFor="let input of Inputs.DigitalInputs">
+                <div class="center-text address-wrapper" style="padding: 2px;">
+                    <p class="address-label">A{{input.Address}}</p>
+                </div>
+                <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;">
+                    <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
