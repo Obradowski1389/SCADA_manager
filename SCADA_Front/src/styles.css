@@ -19,7 +19,44 @@ h1{
     font-size: 28px;
     font-weight: 500;
 }
+h2{
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+}
 table {
     border-collapse:separate; 
     border-spacing: 5px 15px; 
+}
+.address-wrapper{
+    width: 26px;
+    background-color: #bbb;
+    border-radius: 10px 0 0 10px;
+}
+.address-label{
+    transform:rotate(-90deg);
+    text-align: center;
+    color: #4f4f4f;
+    font-weight: 600;
+}
+.basic-td{
+    background-color: #ddd;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    margin: 10px;
+    background: #f1f1f1;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #aaa;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #888;
 }

@@ -1,0 +1,44 @@
+<div class="wrapper">
+    <h1>Inputs</h1>
+    <div class="content-card">
+        <div>
+            <h2 class="title">Analog</h2>
+            <table>
+                <tr *ngFor="let input of Inputs.AnalogInputs">
+                    <td class="address-wrapper">
+                        <p class="address-label">A{{input.Address}}</p>
+                    </td>
+                    <td class="basic-td">
+                        <div class="info">
+                            <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
+                            <p class="info-value" *ngIf="input.ScanOn">{{input.Value}}{{input.Unit}}</p>
+                        </div>
+                    </td>
+                    <td  
+                        class="alarm" 
+                        *ngFor="let alarm of input.Alarms">
+                        <div class="alarm-info">
+                            <div class="alarm-treshold">
+                                <p style="font-size: 24px;">{{ alarm.Type == 0 ? "🠗 " : "🠕 " }}{{alarm.Treshold}}</p>
+                            </div>
+                            <p class="alarm-priority minor-alarm">
+                                {{ alarm.Priority === 1 ? "MINOR" : alarm.Priority === 2 ? "MEDIUM" : "URGENT" }}
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <h2 class="title" style="margin-top: 0;">Digital</h2>
+            <div class="digital-inputs">
+                <div class="digital-item" *ngFor="let input of Inputs.DigitalInputs">
+                    <div class="center-text address-wrapper" style="padding: 2px;">
+                        <p class="address-label">A{{input.Address}}</p>
+                    </div>
+                    <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;">
+                        <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

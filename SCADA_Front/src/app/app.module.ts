@@ -9,13 +9,17 @@ import { MaterialModule } from 'src/environment/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MainPageComponent } from './main-page/main-page.component';
 import { TrendingPageComponent } from './trending-page/trending-page.component';
+import { ManagerPageComponent } from './manager-page/manager-page.component';
+import { InputsManageComponent } from './inputs-manage/inputs-manage.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MainPageComponent,
-    TrendingPageComponent
+    TrendingPageComponent,
+    ManagerPageComponent,
+    InputsManageComponent
   ],
   imports: [
     BrowserModule,

@@ -20,20 +20,6 @@ tr{
 .info{
     padding: 15px;
 }
-.basic-td{
-    background-color: #ddd;
-}
-.address-wrapper{
-    width: 26px;
-    background-color: #bbb;
-    border-radius: 10px 0 0 10px;
-}
-.address-label{
-    transform:rotate(-90deg);
-    text-align: center;
-    color: #4f4f4f;
-    font-weight: 600;
-}
 .info-title{
     font-size: 18px;
     text-align: center;
@@ -44,6 +30,12 @@ tr{
     text-align: center;
     margin-top: 5px;
     font-weight: 300;
+}
+.unit-label{
+    font-size: 18px; 
+    font-weight:400;
+    margin-left: 2px;
+    margin-bottom: -10px;
 }
 .alarm{
     padding: 0;
@@ -63,12 +55,6 @@ tr{
     align-items: center;
     padding: 0 5px 0 5px;
     border: solid 3px transparent;
-}
-.unit-label{
-    font-size: 18px; 
-    font-weight:400;
-    margin-left: 2px;
-    margin-bottom: -10px;
 }
 .alarm-priority{
     background-color: #bbb;
@@ -121,7 +107,6 @@ tr{
     min-height: 85px;
     column-gap: 4px;
 }
-
 .center-text {
     display: flex;
     align-items: center;
