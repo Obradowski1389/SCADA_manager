@@ -19,13 +19,16 @@ namespace SCADA_Back.Context
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
-			base.OnModelCreating(builder);
-
 			builder.Entity<Alarm>()
 				.HasOne(a => a.AnalogInput)
 				.WithMany(t => t.Alarms)
 				.HasForeignKey(a => a.AnalogInputId);
 
+			builder.Entity<AnalogOutput>().HasKey(t => t.Id);
+			builder.Entity<AnalogInput>().HasKey(t => t.Id);
+			builder.Entity<DigitalOutput>().HasKey(t => t.Id);
+			builder.Entity<DigitalInput>().HasKey(t => t.Id);
+			base.OnModelCreating(builder);
 		}
 	}
 }
