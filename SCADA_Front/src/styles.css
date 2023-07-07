@@ -60,3 +60,73 @@ table {
 ::-webkit-scrollbar-thumb:hover {
     background: #888;
 }
+
+/* input field */
+.input {
+    font-weight: 500;
+    font-size: 16px;
+    color: #444;
+    background-color: transparent;
+    border: solid 1.5px #9e9e9e;
+    border-radius: 4px;
+    outline: none;
+    padding: 6px 15px;
+    transition: 150ms;
+    height: 56px;
+    width: 100%;
+    box-sizing: border-box;
+}
+  
+.input:hover {
+    border: solid 1.5px #000;
+}
+  
+.input:focus {
+    border: solid 2px #666;
+}
+
+/* radio group */
+.mydict div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+  
+.mydict input[type="radio"] {
+    clip: rect(0 0 0 0);
+    clip-path: inset(100%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+  
+.mydict input[type="radio"]:checked + span {
+    box-shadow: 0 0 0 0.0625em #000;
+    background-color: #ececec;
+    z-index: 1;
+    color: #000;
+}
+  
+label span {
+    display: block;
+    cursor: pointer;
+    background-color: #fff;
+    padding: 6px 15px;
+    position: relative;
+    margin-left: .0625em;
+    box-shadow: 0 0 0 0.0625em #9e9e9e;
+    letter-spacing: .05em;
+    color: #3e4963;
+    text-align: center;
+    transition: background-color 250ms ease;
+}
+  
+label:first-child span {
+    border-radius: 4px 0 0 4px;
+}
+
+label:last-child span {
+    border-radius: 0 4px 4px 0;
+}  
