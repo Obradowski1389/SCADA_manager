@@ -2,16 +2,21 @@
 using SCADA_Back.Model.DTO;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
+using Driver = SimulationDriver.SimulationDriver;
 
 namespace SCADA_Back.Service
 {
 	public class TagService : ITagService
 	{
-		public readonly ITagRepository _tagRepository;
+		private readonly ITagRepository _tagRepository;
+		private readonly Dictionary<int, Timer> scanTimers;
+		private readonly Driver Driver;
 
 		public TagService(ITagRepository tagRepository)
 		{
 			_tagRepository = tagRepository;
+			scanTimers = new Dictionary<int, Timer>();
+			Driver = new Driver();
 		}
 
 		public void AddAnalogInput(AnalogInput input)
@@ -75,6 +80,78 @@ namespace SCADA_Back.Service
 				throw new Exception("Tag with this id doesn't exist");
 			}
 			_tagRepository.ToggleScan(tag, on);
+			if (on) { StartScanning(tag); }
+			else { StopScanning(tag); }
+		}
+
+		private void _startTimerAnalog(AnalogInput analogInput)
+		{
+			Timer scanTimer = new Timer(state =>
+			{
+				double val;
+				switch (analogInput.DriverFunction)
+				{
+					case "sin":
+						val = Driver.Sin();
+						break;
+					case "cos":
+						val = Driver.Cos();
+						break;
+					default:
+						val = 0;
+						break;
+				}
+				_sendValue(analogInput.Id, val);
+			}, null, TimeSpan.Zero, TimeSpan.FromSeconds(analogInput.ScanTime));
+			scanTimers[analogInput.Id] = scanTimer;
+		}
+
+		private void _startTimerDigital(DigitalInput digitalInput)
+		{
+			Timer scanTimer = new Timer(state =>
+			{
+				double val;
+				switch (digitalInput.DriverFunction)
+				{
+					case "sin":
+						val = Driver.Sin() >= 0 ? 1 : 0;
+						break;
+					case "cos":
+						val = Driver.Cos() >= 0 ? 1 : 0;
+						break;
+					default:
+						val = 0;
+						break;
+				}
+				_sendValue(digitalInput.Id, val);
+			}, null, TimeSpan.Zero, TimeSpan.FromSeconds(digitalInput.ScanTime));
+			scanTimers[digitalInput.Id] = scanTimer;
+		}
+
+		private void _sendValue(int tagId, double val)
+		{
+			Console.WriteLine(tagId + " : " + val);
+		}
+
+		public void StartScanning(Tag tag)
+		{
+			if (scanTimers.ContainsKey(tag.Id)) { return; }
+			if(tag is AnalogInput)
+			{
+				_startTimerAnalog((AnalogInput)tag);
+			}else if(tag is DigitalInput)
+			{
+				_startTimerDigital((DigitalInput)tag);
+			}
+			
+		}
+
+		public void StopScanning(Tag tag) {
+			if (scanTimers.TryGetValue(tag.Id, out Timer scanTimer))
+			{
+				scanTimer.Dispose();
+				scanTimers.Remove(tag.Id);
+			}
 		}
 	}
 }
