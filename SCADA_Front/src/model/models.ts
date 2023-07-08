@@ -1,15 +1,15 @@
 export interface AnalogInput{
-    Id: number,
-    Name: string,
-    Driver: string,
-    Address: number,
-    ScanTime: number,
-    Alarms: Alarm[],
-    ScanOn: boolean,
-    LowLimit: number,
-    HightLimit: number,
-    Unit: string,
-    Value: number
+    id: number,
+    name: string,
+    driver: string,
+    ioAddress: number,
+    scanTime: number,
+    alarms: Alarm[],
+    isOn: boolean,
+    lowLimit: number,
+    hightLimit: number,
+    units: string,
+    value: number
 }
 
 export interface DigitalInput{
@@ -22,8 +22,8 @@ export interface DigitalInput{
 }
 
 export interface InputsDTO {
-    AnalogInputs: AnalogInput[],
-    DigitalInputs: DigitalInput[]
+    analogInputs: AnalogInput[],
+    digitalInputs: DigitalInput[]
 }
 
 export interface Alarm{

@@ -3,22 +3,22 @@
     <h1 class="title">Analog Inputs</h1>
     <div class="table-container">
         <table style="margin-top: -14px;">
-            <tr *ngFor="let input of Inputs.AnalogInputs">
+            <tr *ngFor="let input of Inputs.analogInputs">
                 <td class="address-wrapper">
-                    <p class="address-label">A{{input.Address}}</p>
+                    <p class="address-label">A{{input.ioAddress}}</p>
                 </td>
                 <td class="basic-td">
                     <div class="info">
-                        <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
-                        <p class="info-value" *ngIf="input.ScanOn">
-                            <span class="value-style">{{input.Value}}</span>
-                            <span class="unit-label">{{input.Unit}}</span>
+                        <p class="info-title">{{input.name}} • {{ input.isOn ? "On" : "Off" }}</p>
+                        <p class="info-value" *ngIf="input.isOn">
+                            <span class="value-style">{{input.value}}</span>
+                            <span class="unit-label">{{input.units}}</span>
                         </p>
                     </div>
                 </td>
                 <td  
                     class="alarm" 
-                    *ngFor="let alarm of input.Alarms">
+                    *ngFor="let alarm of input.alarms">
                     <div class="alarm-info">
                         <div
                             class="alarm-treshold"
@@ -43,10 +43,10 @@
         </table>
     </div>
     <!-- Digital Inputs -->
-    <div *ngIf="Inputs.DigitalInputs.length != 0">
+    <div *ngIf="Inputs.digitalInputs.length != 0">
         <h1 class="title">Digital Inputs</h1>
         <div class="digital-inputs">
-            <div class="digital-item" *ngFor="let input of Inputs.DigitalInputs">
+            <div class="digital-item" *ngFor="let input of Inputs.digitalInputs">
                 <div class="center-text address-wrapper" style="padding: 2px;">
                     <p class="address-label">A{{input.Address}}</p>
                 </div>
