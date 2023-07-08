@@ -1,7 +1,9 @@
-﻿using SCADA_Back.Model;
+﻿using Microsoft.AspNetCore.SignalR;
+using SCADA_Back.Model;
 using SCADA_Back.Model.DTO;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
+using SCADA_Back.Utility;
 using Driver = SimulationDriver.SimulationDriver;
 
 namespace SCADA_Back.Service
@@ -9,14 +11,40 @@ namespace SCADA_Back.Service
 	public class TagService : ITagService
 	{
 		private readonly ITagRepository _tagRepository;
+		private readonly IHubContext<SimulationHub, ISimulationClient> _simulationHub;
 		private readonly Dictionary<int, Timer> scanTimers;
 		private readonly Driver Driver;
 
-		public TagService(ITagRepository tagRepository)
+		public TagService(ITagRepository tagRepository, IHubContext<SimulationHub, ISimulationClient> hubContext)
 		{
 			_tagRepository = tagRepository;
+			_simulationHub = hubContext;
 			scanTimers = new Dictionary<int, Timer>();
 			Driver = new Driver();
+
+		}
+
+		public void StartSimulation()
+		{
+			Console.WriteLine("start simulation");
+			foreach(var tag in _tagRepository.GetInputs())
+			{
+				Console.WriteLine(tag.Id);
+				if(tag is AnalogInput analogInput)
+				{
+					Console.WriteLine("tag is analog");
+					if(analogInput.IsOn)
+					{
+						_startTimerAnalog(analogInput);
+					}
+				}else if(tag is DigitalInput digitalInput)
+				{
+					if (digitalInput.IsOn)
+					{
+						_startTimerDigital(digitalInput);
+					}
+				}
+			}
 		}
 
 		public void AddAnalogInput(AnalogInput input)
@@ -92,10 +120,10 @@ namespace SCADA_Back.Service
 				switch (analogInput.DriverFunction)
 				{
 					case "sin":
-						val = Driver.Sin();
+						val = Driver.Sin(analogInput.LowLimit, analogInput.HighLimit);
 						break;
 					case "cos":
-						val = Driver.Cos();
+						val = Driver.Cos(analogInput.LowLimit, analogInput.HighLimit);
 						break;
 					default:
 						val = 0;
@@ -114,10 +142,10 @@ namespace SCADA_Back.Service
 				switch (digitalInput.DriverFunction)
 				{
 					case "sin":
-						val = Driver.Sin() >= 0 ? 1 : 0;
+						val = Driver.Sin(-1,1) >= 0 ? 1 : 0;
 						break;
 					case "cos":
-						val = Driver.Cos() >= 0 ? 1 : 0;
+						val = Driver.Cos(-1,1) >= 0 ? 1 : 0;
 						break;
 					default:
 						val = 0;
@@ -130,7 +158,10 @@ namespace SCADA_Back.Service
 
 		private void _sendValue(int tagId, double val)
 		{
+			val = Math.Round(val, 2, MidpointRounding.AwayFromZero);
+			_simulationHub.Clients.All.SendSimulationData(new SimulationDataDTO(tagId, val));
 			Console.WriteLine(tagId + " : " + val);
+			
 		}
 
 		public void StartScanning(Tag tag)

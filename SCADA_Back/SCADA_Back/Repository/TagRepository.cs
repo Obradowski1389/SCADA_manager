@@ -8,6 +8,10 @@ namespace SCADA_Back.Repository
 	public class TagRepository : ITagRepository
 	{
 		private readonly SCADA_Context _context;
+		public TagRepository(SCADA_Context context)
+		{
+			_context = context;
+		}
 
 		public List<Tag> GetAll()
 		{
@@ -22,11 +26,6 @@ namespace SCADA_Back.Repository
 		public Tag? GetById(int id)
 		{
 			return GetAll().FirstOrDefault(x => x.Id == id);
-		}
-
-		public TagRepository(SCADA_Context context)
-		{
-			_context = context;
 		}
 
 		public List<AnalogInput> GetAnalogInputs()
@@ -47,6 +46,14 @@ namespace SCADA_Back.Repository
 		public List<DigitalOutput> GetDigitalOutputs()
 		{
 			return _context.DigitalOutput.ToList();
+		}
+
+		public List<Tag> GetInputs()
+		{
+			List<Tag> tags = new List<Tag>();
+			tags.AddRange(GetAnalogInputs());
+			tags.AddRange(GetDigitalInputs());
+			return tags;
 		}
 
 		public void AddAnalogInput(AnalogInput analogInput)

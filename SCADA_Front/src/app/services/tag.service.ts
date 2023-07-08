@@ -12,4 +12,8 @@ export class TagService {
   getInputs(): any{
     return this.http.get(environment.apiUrl + "Tag/input");
   }
+
+  startSimulation(): any{
+    return this.http.post(environment.apiUrl+ "Tag/simulation", null);
+  }
 }

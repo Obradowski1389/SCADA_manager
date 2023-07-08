@@ -12,6 +12,9 @@ namespace SCADA_Back.Repository.IRepo
 		public List<DigitalInput> GetDigitalInputs();
 		public List<DigitalOutput> GetDigitalOutputs();
 
+		public List<Tag> GetInputs();
+		//public List<Tag> GetOutputs();
+
 		public void AddAnalogInput(AnalogInput analogInput);
 		public void AddAnalogOutput(AnalogOutput analogOutput);
 		public void AddDigitalInput(DigitalInput digitalInput);

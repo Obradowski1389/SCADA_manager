@@ -140,5 +140,13 @@ namespace SCADA_Back.Controllers
 			}
 		}
 
+		[IgnoreAntiforgeryToken]
+		[HttpPost("simulation")]
+		public IActionResult StartSimulation()
+		{
+			_tagService.StartSimulation();
+			return Ok();
+		}
+
 	}
 }

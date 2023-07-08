@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { TrendingPageComponent } from './trending-page/trending-page.component';
+import { DBManagerComponent } from './dbmanager/dbmanager.component';
 
 const routes: Routes = [
   {path: "login", component:LoginComponent},
   {path: 'trending', component: TrendingPageComponent},
+  {path: "dbManager", component: DBManagerComponent},
   {path: '', pathMatch: 'full', redirectTo:'login'}
 ];
 
