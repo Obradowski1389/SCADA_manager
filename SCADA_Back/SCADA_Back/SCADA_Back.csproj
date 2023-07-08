@@ -23,4 +23,8 @@
     <Folder Include="Utility\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SimulationDriver\SimulationDriver.csproj" />
+  </ItemGroup>
+
 </Project>

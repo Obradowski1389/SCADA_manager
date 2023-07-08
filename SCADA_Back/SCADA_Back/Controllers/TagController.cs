@@ -12,10 +12,12 @@ namespace SCADA_Back.Controllers
 	public class TagController : ControllerBase
 	{
 		private readonly ITagService _tagService;
+		private readonly IAlarmService _alarmService;
 
-		public TagController(ITagService tagService)
+		public TagController(ITagService tagService, IAlarmService alarmService)
 		{
 			_tagService = tagService;
+			_alarmService = alarmService;
 		}
 
 		[HttpGet("input")]
@@ -117,6 +119,20 @@ namespace SCADA_Back.Controllers
 			try
 			{
 				_tagService.ToggleScan(id, false);
+				return Ok();
+			}catch(Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[IgnoreAntiforgeryToken]
+		[HttpPost("alarm")]
+		public IActionResult AddAlarm([FromBody]Alarm alarm)
+		{
+			try
+			{
+				_alarmService.AddAlarm(alarm);
 				return Ok();
 			}catch(Exception ex)
 			{

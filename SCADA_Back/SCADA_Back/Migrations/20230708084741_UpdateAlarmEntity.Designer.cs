@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SCADA_Back.Context;
 
@@ -10,9 +11,11 @@ using SCADA_Back.Context;
 namespace SCADA_Back.Migrations
 {
     [DbContext(typeof(SCADA_Context))]
-    partial class SCADA_ContextModelSnapshot : ModelSnapshot
+    [Migration("20230708084741_UpdateAlarmEntity")]
+    partial class UpdateAlarmEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +59,7 @@ namespace SCADA_Back.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DriverFunction")
+                    b.Property<string>("Driver")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -131,7 +134,7 @@ namespace SCADA_Back.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DriverFunction")
+                    b.Property<string>("Driver")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
