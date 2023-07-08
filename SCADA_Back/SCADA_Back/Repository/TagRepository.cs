@@ -1,4 +1,5 @@
-﻿using SCADA_Back.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using SCADA_Back.Context;
 using SCADA_Back.Model;
 using SCADA_Back.Model.DTO;
 using SCADA_Back.Repository.IRepo;
@@ -30,7 +31,7 @@ namespace SCADA_Back.Repository
 
 		public List<AnalogInput> GetAnalogInputs()
 		{
-			return _context.AnalogInput.ToList();
+			return _context.AnalogInput.Include(ai => ai.Alarms).ToList();
 		}
 
 		public List<DigitalInput> GetDigitalInputs()

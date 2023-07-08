@@ -31,16 +31,18 @@ export class TrendingPageComponent {
         this.Inputs.analogInputs.forEach(x => this.tags.push(x));
         this.Inputs.digitalInputs.forEach(x => this.tags.push(x));
         console.log(this.tags);
+
+        this.tagService.startSimulation().subscribe({
+          error: (err: any) => {
+            console.log(err.error);
+          }
+        });
       },
       error: (err: any) => {
         console.log(err);
       }
     });
-    this.tagService.startSimulation().subscribe({
-      error: (err: any) => {
-        console.log(err.error);
-      }
-    });
+    
 
     this.connectHub();
   }
@@ -69,8 +71,8 @@ export class TrendingPageComponent {
 
   isAlarmActive(alarm: Alarm, input: AnalogInput) : boolean {
     if(!input.isOn) return false
-    if(alarm.Type == 0 && input.value < alarm.Treshold) return true
-    if(alarm.Type == 1 && input.value > alarm.Treshold) return true
+    if(alarm.type == 0 && input.value < alarm.threshold) return true
+    if(alarm.type == 1 && input.value > alarm.threshold) return true
     return false
   }
 

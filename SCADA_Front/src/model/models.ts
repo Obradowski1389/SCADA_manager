@@ -27,10 +27,10 @@ export interface InputsDTO {
 }
 
 export interface Alarm{
-    Type: AlarmType,
-    Priority: number,
-    Treshold: number,
-    Unit: string
+    type: AlarmType,
+    priority: number,
+    threshold: number,
+    unit: string
 }
 
 enum AlarmType { Low, Hight }
