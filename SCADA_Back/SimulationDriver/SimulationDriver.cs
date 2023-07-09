@@ -2,25 +2,25 @@
 {
 	public class SimulationDriver
 	{
-		public double Sin(double low, double high)
+		public double Sin()
 		{
-			double amplitude = high-low;
+			double amplitude = 100;
 			double frequency = 0.01;
 
 			double time = DateTime.Now.TimeOfDay.TotalSeconds;
 			double angle = 2 * Math.PI * frequency * time;
-			double value = amplitude * Math.Sin(angle); 
-			return Math.Clamp(value, low, high);
+			double value = amplitude * Math.Sin(angle);
+			return value;
 		}
 
-		public double Cos(double low, double high)
+		public double Cos()
 		{
-			double amplitude = high - low;
+			double amplitude = 100;
 			double frequency = 0.01;
 			double time = DateTime.Now.TimeOfDay.TotalSeconds;
 			double angle = 2 * Math.PI * frequency * time;
 			double value = amplitude * Math.Sin(angle);
-			return Math.Clamp(value, low, high);
+			return value;
 		}
 	}
 }

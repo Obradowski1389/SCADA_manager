@@ -57,6 +57,24 @@ namespace SCADA_Back.Repository
 			return tags;
 		}
 
+		public async Task<List<Tag>> GetInputsAsync()
+		{
+			return await Task.Run(() =>
+			{
+				List<Tag> allTags = new List<Tag>();
+				allTags.AddRange(GetAnalogInputs().Cast<Tag>());
+				allTags.AddRange(GetDigitalInputs().Cast<Tag>());
+
+				return allTags;
+			});
+		}
+
+		public async Task<Tag?> GetInputByAddress(string address)
+		{
+			List<Tag> allTags = await GetInputsAsync();
+			return allTags.FirstOrDefault(t => t.IOAddress == address);
+		}
+
 		public void AddAnalogInput(AnalogInput analogInput)
 		{
 			_context.AnalogInput.Add(analogInput);

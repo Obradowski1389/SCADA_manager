@@ -127,3 +127,8 @@ tr{
     align-items: center;
     justify-content: center;
 }
+
+#info-isOn:hover{
+    color: #de421b;
+    cursor: pointer;
+}

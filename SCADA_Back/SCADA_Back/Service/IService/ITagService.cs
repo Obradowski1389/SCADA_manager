@@ -5,7 +5,7 @@ namespace SCADA_Back.Service.IService
 {
 	public interface ITagService
 	{
-		public void StartSimulation();
+		//public void StartSimulation();
 		public InputsDTO GetInputs();
 		public List<Tag> GetOutputs();
 

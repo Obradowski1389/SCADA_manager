@@ -2,12 +2,12 @@
 {
 	public class SimulationDataDTO
 	{
-		public int Id { get; set; }
+		public string Address { get; set; }
 		public double Value { get; set; }
 
-		public SimulationDataDTO(int id, double value)
+		public SimulationDataDTO(string address, double value)
 		{
-			Id = id;
+			Address = address;
 			Value = value;
 		}
 	}

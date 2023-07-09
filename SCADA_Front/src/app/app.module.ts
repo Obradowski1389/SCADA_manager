@@ -9,13 +9,15 @@ import { MaterialModule } from 'src/environment/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TrendingPageComponent } from './trending-page/trending-page.component';
 import { DBManagerComponent } from './dbmanager/dbmanager.component';
+import { NumberRangePipe } from './number-range.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     TrendingPageComponent,
-    DBManagerComponent
+    DBManagerComponent,
+    NumberRangePipe
   ],
   imports: [
     BrowserModule,

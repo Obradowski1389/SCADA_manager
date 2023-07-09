@@ -5,7 +5,6 @@ namespace SCADA_Back.Model
 {
 	public class AnalogInput : Tag
 	{
-		public string DriverFunction { get; set; }
 		public double ScanTime { get; set; }
 		public List<Alarm> Alarms { get; set; } = new List<Alarm>();
 		public bool IsOn { get; set; }

@@ -1,15 +1,14 @@
-import { Component } from '@angular/core';
-import { Alarm, AnalogInput, InputsDTO } from 'src/model/models';
+import { Component, OnInit } from '@angular/core';
+import { Alarm, AnalogInput, DigitalInput, InputsDTO } from 'src/model/models';
 import { TagService } from '../services/tag.service';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import * as signalR from '@microsoft/signalr';
+import { NumberRangePipe } from '../number-range.pipe';
 
 @Component({
   selector: 'app-trending-page',
   templateUrl: './trending-page.component.html',
   styleUrls: ['./trending-page.component.css']
 })
-export class TrendingPageComponent {
+export class TrendingPageComponent implements OnInit{
   Inputs: InputsDTO = {
     analogInputs: [],
     digitalInputs: []
@@ -17,10 +16,8 @@ export class TrendingPageComponent {
 
   tags: any[] = [];
 
-  private hubConnection: HubConnection;
-
   constructor( private tagService: TagService){
-    this.hubConnection = new HubConnectionBuilder().withUrl("https://localhost:7073/hub/simulation", {skipNegotiation:true, transport: signalR.HttpTransportType.WebSockets}).build();
+    this.connectHub();
   }
 
   ngOnInit(){
@@ -31,33 +28,29 @@ export class TrendingPageComponent {
         this.Inputs.analogInputs.forEach(x => this.tags.push(x));
         this.Inputs.digitalInputs.forEach(x => this.tags.push(x));
         console.log(this.tags);
-
-        this.tagService.startSimulation().subscribe({
-          error: (err: any) => {
-            console.log(err.error);
-          }
-        });
       },
       error: (err: any) => {
         console.log(err);
       }
     });
     
+  }
 
-    this.connectHub();
+  ngOnDestroy(){
+    this.tagService.stopConnection();
   }
 
   connectHub(){
-    this.hubConnection.start()
+    this.tagService.startConnection()
       .then(() => {
         console.log('SignalR connection established');
       })
       .catch((error) => {
         console.error('SignalR connection error:', error);
       });
-
     // Handle received simulation data
-    this.hubConnection.on('SendSimulationData', (data) => {
+    // Handle received simulation data
+    this.tagService.getHubConnection().on('SendSimulationData', (data) => {
       this.handleSimulationData(data);
     });
   }
@@ -65,7 +58,7 @@ export class TrendingPageComponent {
   handleSimulationData(data: any){
     console.log(data);
     for(let tag of this.tags){
-      if(tag.id == data.id) tag.value=data.value;
+      if(tag.ioAddress == data.address) tag.value=data.value;
     }
   }
 
@@ -74,6 +67,28 @@ export class TrendingPageComponent {
     if(alarm.type == 0 && input.value < alarm.threshold) return true
     if(alarm.type == 1 && input.value > alarm.threshold) return true
     return false
+  }
+
+  toggleScan(input: AnalogInput | DigitalInput){
+    if(input.isOn){
+      this.tagService.toggleScan(false, input.id).subscribe({
+        next: (val: any) => {
+          input.isOn = false;
+        },
+        error: (error: any) => {
+          console.log(error.error);
+        }
+      })
+    }else{
+      this.tagService.toggleScan(true, input.id).subscribe({
+        next:(val: any) => {
+          input.isOn = true;
+        },
+        error: (error: any) => {
+          console.log(error.error);
+        }
+      })
+    }
   }
 
 }

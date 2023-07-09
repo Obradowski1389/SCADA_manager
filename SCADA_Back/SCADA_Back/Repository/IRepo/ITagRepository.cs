@@ -6,6 +6,7 @@ namespace SCADA_Back.Repository.IRepo
     public interface ITagRepository
     {
 		public List<Tag> GetAll();
+		public Task<List<Tag>> GetInputsAsync();
 		public Tag? GetById(int id);
 		public List<AnalogInput> GetAnalogInputs();
 		public List<AnalogOutput> GetAnalogOutputs();
@@ -13,7 +14,7 @@ namespace SCADA_Back.Repository.IRepo
 		public List<DigitalOutput> GetDigitalOutputs();
 
 		public List<Tag> GetInputs();
-		//public List<Tag> GetOutputs();
+		public Task<Tag?> GetInputByAddress(string address);
 
 		public void AddAnalogInput(AnalogInput analogInput);
 		public void AddAnalogOutput(AnalogOutput analogOutput);
