@@ -9,10 +9,15 @@ import { environment } from 'src/environment/environment';
 export class TagService {
 
   private hubConnection: HubConnection;
+  private rtuConnection: HubConnection;
 
   constructor(private http: HttpClient) { 
     this.hubConnection = new HubConnectionBuilder()
       .withUrl("https://localhost:7073/hub/simulation", {skipNegotiation:true, transport: HttpTransportType.WebSockets})
+      .build();
+
+    this.rtuConnection = new HubConnectionBuilder()
+      .withUrl("https://localhost:7073/hub/rtu", {skipNegotiation:true, transport: HttpTransportType.WebSockets})
       .build();
   }
 
@@ -20,12 +25,24 @@ export class TagService {
     return this.hubConnection.start();
   }
 
+  startRTU(){
+    return this.rtuConnection.start();
+  }
+
   stopConnection() {
     return this.hubConnection.stop();
   }
 
+  stopRTU(){
+    return this.rtuConnection.stop();
+  }
+
   getHubConnection() {
     return this.hubConnection;
+  }
+
+  getRTU(){
+    return this.rtuConnection;
   }
 
   getInputs(): any{
@@ -33,7 +50,7 @@ export class TagService {
   }
 
   toggleScan(on: boolean, id: number): any{
-    
+
     if(on) { return this.http.put(environment.apiUrl+ "Tag/on/"+id, null);}
 
     return this.http.put(environment.apiUrl+"Tag/off/"+id, null);

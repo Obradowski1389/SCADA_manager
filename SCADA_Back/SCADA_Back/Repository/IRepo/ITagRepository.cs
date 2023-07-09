@@ -22,5 +22,6 @@ namespace SCADA_Back.Repository.IRepo
 		public void AddDigitalOutput(DigitalOutput digitalOutput);
 		public void ToggleScan(Tag tag, bool on);
 		public void AddTagValue(TagValue tagValue);
+		public Task<TagValue?> GetTagValueByAddress(string address);
 	}
 }

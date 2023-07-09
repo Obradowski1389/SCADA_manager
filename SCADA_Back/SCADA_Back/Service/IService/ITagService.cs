@@ -15,6 +15,6 @@ namespace SCADA_Back.Service.IService
 		public void AddDigitalOutput(DigitalOutput output);
 		public Tag? GetByAddress(string address);
 		public void ToggleScan(int id, bool on);
-
+		public void StartThreads();
 	}
 }

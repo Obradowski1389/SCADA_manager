@@ -17,7 +17,6 @@ namespace SCADA_Back.Service.Background
 
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Console.WriteLine("Execute async");
             while (!stoppingToken.IsCancellationRequested)
             {
                 using(var scope = _serviceProvider.CreateScope())
@@ -25,31 +24,35 @@ namespace SCADA_Back.Service.Background
                     var tagRepository = scope.ServiceProvider.GetRequiredService<ITagRepository>();
 
                     var inputTags = await tagRepository.GetInputsAsync();
-
-                    foreach(var inputTag in inputTags)
+                    for(int i = 5; i < 11; i++)
                     {
-                        if(int.Parse(inputTag.IOAddress) < 5) continue;
-
                         double value;
                         ValueType valueType;
-
-                        Console.WriteLine(inputTag.IOAddress);
-
-                        if(inputTag is AnalogInput analogInput)
+                        Tag? tag = inputTags.FirstOrDefault(t => t.IOAddress == i.ToString());
+                        if(tag == null)
+                        {
+                            value = random.NextDouble();
+                            value = Math.Round(value, 2, MidpointRounding.AwayFromZero);
+                            valueType = ValueType.ANALOG;
+                        }else if(tag is AnalogInput analogInput)
                         {
                             value = analogInput.LowLimit + (random.NextDouble() * (analogInput.HighLimit - analogInput.LowLimit));
-                            valueType = ValueType.ANALOG;
-                        }else
+							value = Math.Round(value, 2, MidpointRounding.AwayFromZero);
+							valueType = ValueType.ANALOG;
+                        }
+                        else
                         {
                             value = random.NextInt64(0, 2);
-                            valueType = ValueType.DIGITAL;
+                            value = Math.Round(value, 2, MidpointRounding.AwayFromZero);
+							valueType = ValueType.DIGITAL;
                         }
 
-                        tagRepository.AddTagValue(new TagValue(inputTag.IOAddress, value, valueType));
-                    }
+						tagRepository.AddTagValue(new TagValue(i.ToString(), value, valueType));
+					}
+
                 }
 
-                await Task.Delay(5000, stoppingToken);
+                await Task.Delay(10000, stoppingToken);
             }
         }
     }

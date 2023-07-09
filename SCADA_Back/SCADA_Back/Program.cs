@@ -76,5 +76,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapHub<SimulationHub>("/hub/simulation");
+app.MapHub<RTUHub>("/hub/RTU");
 
 app.Run();

@@ -43,15 +43,26 @@ export class TrendingPageComponent implements OnInit{
   connectHub(){
     this.tagService.startConnection()
       .then(() => {
-        console.log('SignalR connection established');
+        console.log('SignalR Simulation connection established');
       })
       .catch((error) => {
-        console.error('SignalR connection error:', error);
+        console.error('SignalR Simulation connection error:', error);
       });
     // Handle received simulation data
     // Handle received simulation data
     this.tagService.getHubConnection().on('SendSimulationData', (data) => {
       this.handleSimulationData(data);
+    });
+
+    this.tagService.startRTU()
+      .then(() => {
+        console.log("SignalR RTU connection established");
+      }).catch((error) => {
+        console.error('SignalR RTU connection error:', error);
+      });
+
+    this.tagService.getRTU().on("SendRTUData", (data) => {
+      this.handleRTU(data);
     });
   }
 
@@ -59,6 +70,12 @@ export class TrendingPageComponent implements OnInit{
     console.log(data);
     for(let tag of this.tags){
       if(tag.ioAddress == data.address) tag.value=data.value;
+    }
+  }
+
+  handleRTU(data: any){
+    for (let tag of this.tags){
+      if(tag.ioAddress == data.ioAddress) tag.value = data.value;
     }
   }
 

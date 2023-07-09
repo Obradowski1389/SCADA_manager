@@ -4,18 +4,21 @@ using SCADA_Back.Model.Tags;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
 using SCADA_Back.Utility;
-using Driver = SimulationDriver.SimulationDriver;
 
 namespace SCADA_Back.Service
 {
     public class TagService : ITagService
 	{
 		private readonly ITagRepository _tagRepository;
+		private readonly IHubContext<RTUHub, IRTUClient> _rtuHub;
+		private readonly IServiceScopeFactory _serviceScope;
 
-		public TagService(ITagRepository tagRepository)
+
+		public TagService(ITagRepository tagRepository, IHubContext<RTUHub, IRTUClient> hub, IServiceScopeFactory serviceScope)
 		{
 			_tagRepository = tagRepository;
-
+			_rtuHub = hub;
+			_serviceScope = serviceScope;
 		}
 
 		public void AddAnalogInput(AnalogInput input)
@@ -57,8 +60,8 @@ namespace SCADA_Back.Service
 		public InputsDTO GetInputs()
 		{
 			InputsDTO inputsDTO = new InputsDTO();
-			inputsDTO.AnalogInputs = _tagRepository.GetAnalogInputs();
-			inputsDTO.DigitalInputs = _tagRepository.GetDigitalInputs();
+			inputsDTO.AnalogInputs = _tagRepository.GetAnalogInputs().OrderBy(x => int.Parse(x.IOAddress)).ToList();
+			inputsDTO.DigitalInputs = _tagRepository.GetDigitalInputs().OrderBy(x => int.Parse(x.IOAddress)).ToList();
 			return inputsDTO;
 		}
 
@@ -80,6 +83,74 @@ namespace SCADA_Back.Service
 			}
 			_tagRepository.ToggleScan(tag, on);
 			
+		}
+
+		public void StartThreads()
+		{
+			var inputs = _tagRepository.GetInputs();
+
+			foreach (var input in inputs)
+			{
+				if (input is AnalogInput analog) { StartAnalogThread(analog); }
+				else if(input is DigitalInput digital) { StartDigitalThread(digital); }
+			}
+
+		}
+
+		private async void SendValue(TagValue tagValue)
+		{
+			await _rtuHub.Clients.All.SendRTUData(tagValue);
+		}
+
+		private void StartAnalogThread(AnalogInput analogInput)
+		{
+			new Thread(async () =>
+			{
+				Thread.CurrentThread.IsBackground = true;
+
+				while (true)
+				{
+					using (var scope = _serviceScope.CreateScope())
+					{
+						if (analogInput.IsOn)
+						{
+							var repo = scope.ServiceProvider.GetRequiredService<ITagRepository>();
+							TagValue? value = await repo.GetTagValueByAddress(analogInput.IOAddress);
+							if (value == null) { return; }
+							SendValue(value);
+							//send alarms
+						}
+					}
+
+					Thread.Sleep(TimeSpan.FromSeconds(analogInput.ScanTime));
+				}
+			}).Start();
+
+
+		}
+
+		private void StartDigitalThread(DigitalInput digitalInput)
+		{
+			new Thread(async () =>
+			{
+				Thread.CurrentThread.IsBackground = true;
+				while (true)
+				{
+					using (var scope = _serviceScope.CreateScope())
+					{
+
+						if (digitalInput.IsOn)
+						{
+							var repo = scope.ServiceProvider.GetRequiredService<ITagRepository>();
+							TagValue? value = await _tagRepository.GetTagValueByAddress(digitalInput.IOAddress);
+							if (value == null) { return; }
+							SendValue(value);
+
+						}
+					}
+					Thread.Sleep(TimeSpan.FromSeconds(digitalInput.ScanTime));
+				}
+			}).Start();
 		}
 	}
 }

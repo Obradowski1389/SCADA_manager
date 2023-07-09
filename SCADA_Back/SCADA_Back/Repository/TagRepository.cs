@@ -119,5 +119,10 @@ namespace SCADA_Back.Repository
 			_context.TagValue.Add(tagValue);
 			_context.SaveChanges();
 		}
+
+		public Task<TagValue?> GetTagValueByAddress(string address)
+		{
+			return _context.TagValue.Where(x => x.IOAddress == address).OrderByDescending(x=>x.TimeStamp).FirstOrDefaultAsync();
+		}
 	}
 }
