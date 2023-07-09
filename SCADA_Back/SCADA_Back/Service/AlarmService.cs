@@ -17,6 +17,11 @@ namespace SCADA_Back.Service
 			_tagRepository = tagRepository;
 		}
 
+		public Alarm GetById(int id)
+		{
+			return _alarmRepository.GetById(id);
+		}
+
 		public void AddAlarm(Alarm alarm)
 		{
 			Tag? tag = _tagRepository.GetById(alarm.AnalogInputId);
@@ -26,6 +31,21 @@ namespace SCADA_Back.Service
 			}
 			alarm.AnalogInput = (AnalogInput)tag;
 			_alarmRepository.AddAlarm(alarm);
+		}
+
+		public void AddAlarmValue(AlarmValue alarmValue, AnalogInput analogInput)
+		{
+			_alarmRepository.AddAlarmValue(alarmValue);
+			LogAlarm(alarmValue, analogInput);
+		}
+
+		private void LogAlarm(AlarmValue alarmValue, AnalogInput analogInput)
+		{
+			string fName = "Logs/alarmLog.txt";
+			using(StreamWriter writer = new StreamWriter(fName))
+			{
+				writer.WriteLine("{0}   Alarm for input: {1}    Priority: {2}    Type: {3} ", alarmValue.TimeStamp ,analogInput.Name, alarmValue.Alarm.Priority, alarmValue.Alarm.Type);
+			}
 		}
 	}
 }
