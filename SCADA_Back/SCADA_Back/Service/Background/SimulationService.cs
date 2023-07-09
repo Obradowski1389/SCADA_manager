@@ -4,7 +4,7 @@ using Microsoft.OpenApi.Validations;
 using SCADA_Back.Model.DTO;
 using SCADA_Back.Model.Tags;
 using SCADA_Back.Repository.IRepo;
-using SCADA_Back.Utility;
+using SCADA_Back.Utility.Hubs;
 using Driver = SimulationDriver.SimulationDriver;
 
 namespace SCADA_Back.Service.Background

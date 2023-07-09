@@ -9,8 +9,10 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
-using SCADA_Back.Utility;
 using SCADA_Back.Service.Background;
+using Microsoft.AspNetCore.Hosting;
+using Serilog;
+using SCADA_Back.Utility.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +58,6 @@ builder.Services.AddCors(options =>
 			   .AllowAnyHeader();
 	});
 });
-
 
 var app = builder.Build();
 

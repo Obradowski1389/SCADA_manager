@@ -11,10 +11,22 @@ namespace SCADA_Back.Repository
 			_context = context;
 		}
 
+		public Alarm GetById(int id)
+		{
+			return _context.Alarms.First(a => a.Id == id);
+		}
+
 		public void AddAlarm(Alarm alarm)
 		{
 			_context.Alarms.Add(alarm);
 			_context.Attach(alarm.AnalogInput);
+			_context.SaveChanges();
+		}
+
+		public void AddAlarmValue(AlarmValue alarmValue)
+		{
+			_context.AlarmsValue.Add(alarmValue);
+			_context.Attach(alarmValue.Alarm);
 			_context.SaveChanges();
 		}
 	}

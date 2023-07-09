@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using SCADA_Back.Model;
 using SCADA_Back.Model.DTO;
 using SCADA_Back.Model.Tags;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
-using SCADA_Back.Utility;
+using SCADA_Back.Utility.Hubs;
 
 namespace SCADA_Back.Service
 {
@@ -91,18 +92,18 @@ namespace SCADA_Back.Service
 
 			foreach (var input in inputs)
 			{
-				if (input is AnalogInput analog) { StartAnalogThread(analog); }
-				else if(input is DigitalInput digital) { StartDigitalThread(digital); }
+				if (input is AnalogInput analog) { startAnalogThread(analog); }
+				else if(input is DigitalInput digital) { startDigitalThread(digital); }
 			}
 
 		}
 
-		private async void SendValue(TagValue tagValue)
+		private async void sendValue(TagValue tagValue)
 		{
 			await _rtuHub.Clients.All.SendRTUData(tagValue);
 		}
 
-		private void StartAnalogThread(AnalogInput analogInput)
+		private void startAnalogThread(AnalogInput analogInput)
 		{
 			new Thread(async () =>
 			{
@@ -117,8 +118,9 @@ namespace SCADA_Back.Service
 							var repo = scope.ServiceProvider.GetRequiredService<ITagRepository>();
 							TagValue? value = await repo.GetTagValueByAddress(analogInput.IOAddress);
 							if (value == null) { return; }
-							SendValue(value);
-							//send alarms
+							sendValue(value);
+							var alarmService = scope.ServiceProvider.GetRequiredService<IAlarmService>();
+							checkAlarm(value, analogInput, alarmService);
 						}
 					}
 
@@ -129,7 +131,19 @@ namespace SCADA_Back.Service
 
 		}
 
-		private void StartDigitalThread(DigitalInput digitalInput)
+		private void checkAlarm(TagValue tagValue, AnalogInput input, IAlarmService alarmService)
+		{
+			foreach(var alarm in input.Alarms)
+			{
+				Alarm a = alarmService.GetById(alarm.Id);
+				if ((alarm.Type == AlarmType.LOW && alarm.Threshold >= tagValue.Value) || (alarm.Type == AlarmType.HIGH && alarm.Threshold <= tagValue.Value))
+				{
+					alarmService.AddAlarmValue(new AlarmValue(a), input);
+				}
+			}
+		}
+
+		private void startDigitalThread(DigitalInput digitalInput)
 		{
 			new Thread(async () =>
 			{
@@ -144,7 +158,7 @@ namespace SCADA_Back.Service
 							var repo = scope.ServiceProvider.GetRequiredService<ITagRepository>();
 							TagValue? value = await _tagRepository.GetTagValueByAddress(digitalInput.IOAddress);
 							if (value == null) { return; }
-							SendValue(value);
+							sendValue(value);
 
 						}
 					}

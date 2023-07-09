@@ -10,5 +10,13 @@ namespace SCADA_Back.Model
 		public DateTime TimeStamp { get; set; }
 		public Alarm Alarm { get; set; }
 		public int AlarmId { get; set; }
+
+		public AlarmValue() { }
+		public AlarmValue(Alarm alarm)
+		{
+			TimeStamp = DateTime.Now;
+			Alarm = alarm;
+			AlarmId = alarm.Id;
+		}
 	}
 }
