@@ -1,9 +1,9 @@
-﻿using SCADA_Back.Model;
-using SCADA_Back.Model.DTO;
+﻿using SCADA_Back.Model.DTO;
+using SCADA_Back.Model.Tags;
 
 namespace SCADA_Back.Service.IService
 {
-	public interface ITagService
+    public interface ITagService
 	{
 		//public void StartSimulation();
 		public InputsDTO GetInputs();

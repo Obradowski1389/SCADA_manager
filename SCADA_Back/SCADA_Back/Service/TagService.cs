@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using SCADA_Back.Model;
 using SCADA_Back.Model.DTO;
+using SCADA_Back.Model.Tags;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
 using SCADA_Back.Utility;
@@ -8,7 +8,7 @@ using Driver = SimulationDriver.SimulationDriver;
 
 namespace SCADA_Back.Service
 {
-	public class TagService : ITagService
+    public class TagService : ITagService
 	{
 		private readonly ITagRepository _tagRepository;
 

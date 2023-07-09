@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using SCADA_Back.Model.Tags;
 
 namespace SCADA_Back.Model
 {
-	public enum AlarmType
+    public enum AlarmType
 	{
 		LOW, HIGH
 	}

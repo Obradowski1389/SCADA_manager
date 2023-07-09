@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SCADA_Back.Model;
+using SCADA_Back.Model.Tags;
 using SCADA_Back.Service.IService;
 
 namespace SCADA_Back.Controllers
 {
-	[EnableCors]
+    [EnableCors]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class TagController : ControllerBase
