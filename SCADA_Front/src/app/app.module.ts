@@ -7,15 +7,17 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/environment/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
-import { MainPageComponent } from './main-page/main-page.component';
 import { TrendingPageComponent } from './trending-page/trending-page.component';
+import { DBManagerComponent } from './dbmanager/dbmanager.component';
+import { NumberRangePipe } from './number-range.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    MainPageComponent,
-    TrendingPageComponent
+    TrendingPageComponent,
+    DBManagerComponent,
+    NumberRangePipe
   ],
   imports: [
     BrowserModule,

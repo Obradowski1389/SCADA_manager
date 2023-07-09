@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
+using SCADA_Back.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +26,13 @@ builder.Services.AddDbContext<Users_Context>(options =>
 	options.UseSqlServer(usersConnectionString)
 );
 
+builder.Services.AddSignalR();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHostedService<SimulationService>();
 
 // DI Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -39,7 +44,6 @@ builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAlarmService, AlarmService>();
 builder.Services.AddScoped<ITagService, TagService>();
-
 
 builder.Services.AddCors(options =>
 {
@@ -68,5 +72,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<SimulationHub>("/hub/simulation");
 
 app.Run();

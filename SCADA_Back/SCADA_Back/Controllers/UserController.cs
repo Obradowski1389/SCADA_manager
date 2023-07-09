@@ -70,7 +70,7 @@ namespace SCADA_Back.Controllers
 			{
 				return BadRequest("Incorrect Username or Password");
 			}
-			return Ok();
+			return Ok(user);
 		}
 	}
 }

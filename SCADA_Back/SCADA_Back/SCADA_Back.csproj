@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utility\" />
+    <ProjectReference Include="..\SimulationDriver\SimulationDriver.csproj" />
   </ItemGroup>
 
 </Project>

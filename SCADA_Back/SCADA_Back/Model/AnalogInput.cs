@@ -1,16 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SimulationDriver;
 
 namespace SCADA_Back.Model
 {
-	public class AnalogInput
+	public class AnalogInput : Tag
 	{
-		[Key]
-		public int Id { get; set; }
-		public string Name { get; set; }
-		public string Driver { get; set; }
-		public string IOAddress { get; set; }
 		public double ScanTime { get; set; }
-		public List<Alarm> Alarms { get; set; }
+		public List<Alarm> Alarms { get; set; } = new List<Alarm>();
 		public bool IsOn { get; set; }
 		public double LowLimit { get; set; }
 		public double HighLimit { get; set; }

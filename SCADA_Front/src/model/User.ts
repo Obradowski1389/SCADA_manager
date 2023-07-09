@@ -1,8 +1,8 @@
 export interface User{
-    Username: string,
-    Password: string,
-    Email: string,
-    Role: number
+    username: string,
+    password: string,
+    email: string,
+    role: number
 }
 
 export interface LoginDTO{
