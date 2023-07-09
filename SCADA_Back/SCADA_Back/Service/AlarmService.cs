@@ -1,11 +1,12 @@
 ﻿using SCADA_Back.Model;
+using SCADA_Back.Model.Tags;
 using SCADA_Back.Repository;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
 
 namespace SCADA_Back.Service
 {
-	public class AlarmService : IAlarmService
+    public class AlarmService : IAlarmService
 	{
 		private readonly IAlarmRepository _alarmRepository;
 		private readonly ITagRepository _tagRepository;

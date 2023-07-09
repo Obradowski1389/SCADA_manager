@@ -1,5 +1,5 @@
-﻿using SCADA_Back.Model;
-using SCADA_Back.Model.DTO;
+﻿using SCADA_Back.Model.DTO;
+using SCADA_Back.Model.Tags;
 
 namespace SCADA_Back.Repository.IRepo
 {
@@ -21,5 +21,7 @@ namespace SCADA_Back.Repository.IRepo
 		public void AddDigitalInput(DigitalInput digitalInput);
 		public void AddDigitalOutput(DigitalOutput digitalOutput);
 		public void ToggleScan(Tag tag, bool on);
+		public void AddTagValue(TagValue tagValue);
+		public Task<TagValue?> GetTagValueByAddress(string address);
 	}
 }

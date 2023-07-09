@@ -13,10 +13,12 @@ namespace SCADA_Back.Controllers
 	public class UserController : ControllerBase
 	{
 		private readonly IUserService _userService;
+		private readonly ITagService _tagService;
 
-		public UserController(IUserService userService)
+		public UserController(IUserService userService, ITagService tagService)
 		{
 			_userService = userService;
+			_tagService = tagService;
 		}
 
 		[HttpGet("{id}")]
@@ -70,6 +72,7 @@ namespace SCADA_Back.Controllers
 			{
 				return BadRequest("Incorrect Username or Password");
 			}
+			_tagService.StartThreads();
 			return Ok(user);
 		}
 	}

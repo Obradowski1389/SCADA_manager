@@ -10,6 +10,7 @@ using System.Net;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
 using SCADA_Back.Utility;
+using SCADA_Back.Service.Background;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHostedService<SimulationService>();
+builder.Services.AddHostedService<RTU>();
 
 // DI Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -74,5 +76,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapHub<SimulationHub>("/hub/simulation");
+app.MapHub<RTUHub>("/hub/RTU");
 
 app.Run();

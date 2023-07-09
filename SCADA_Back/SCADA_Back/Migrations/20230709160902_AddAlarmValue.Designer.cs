@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SCADA_Back.Context;
 
@@ -11,9 +12,11 @@ using SCADA_Back.Context;
 namespace SCADA_Back.Migrations
 {
     [DbContext(typeof(SCADA_Context))]
-    partial class SCADA_ContextModelSnapshot : ModelSnapshot
+    [Migration("20230709160902_AddAlarmValue")]
+    partial class AddAlarmValue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,32 +193,6 @@ namespace SCADA_Back.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DigitalOutput");
-                });
-
-            modelBuilder.Entity("SCADA_Back.Model.Tags.TagValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("IOAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Value")
-                        .HasColumnType("float");
-
-                    b.Property<int>("ValueType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TagValue");
                 });
 
             modelBuilder.Entity("SCADA_Back.Model.Alarm", b =>

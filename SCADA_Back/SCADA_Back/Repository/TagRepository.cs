@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SCADA_Back.Context;
-using SCADA_Back.Model;
 using SCADA_Back.Model.DTO;
+using SCADA_Back.Model.Tags;
 using SCADA_Back.Repository.IRepo;
 
 namespace SCADA_Back.Repository
 {
-	public class TagRepository : ITagRepository
+    public class TagRepository : ITagRepository
 	{
 		private readonly SCADA_Context _context;
 		public TagRepository(SCADA_Context context)
@@ -112,6 +112,17 @@ namespace SCADA_Back.Repository
 				_context.Attach(digital);
 				_context.SaveChanges();
 			}
+		}
+
+		public void AddTagValue(TagValue tagValue)
+		{
+			_context.TagValue.Add(tagValue);
+			_context.SaveChanges();
+		}
+
+		public Task<TagValue?> GetTagValueByAddress(string address)
+		{
+			return _context.TagValue.Where(x => x.IOAddress == address).OrderByDescending(x=>x.TimeStamp).FirstOrDefaultAsync();
 		}
 	}
 }
