@@ -133,15 +133,21 @@ namespace SCADA_Back.Repository
 			}
 		}
 
-		public void AddTagValue(TagValue tagValue)
+		public void AddTagValue(InputsValue tagValue)
 		{
-			_context.TagValue.Add(tagValue);
+			_context.InputsValues.Add(tagValue);
 			_context.SaveChanges();
 		}
 
-		public Task<TagValue?> GetTagValueByAddress(string address)
+		public Task<InputsValue?> GetTagValueByAddress(string address)
 		{
-			return _context.TagValue.Where(x => x.IOAddress == address).OrderByDescending(x=>x.TimeStamp).FirstOrDefaultAsync();
+			return _context.InputsValues.Where(x => x.IOAddress == address).OrderByDescending(x=>x.TimeStamp).FirstOrDefaultAsync();
+		}
+
+		public void AddOutputValue(OutputsValue outputsValue)
+		{
+			_context.OutputsValues.Add(outputsValue);
+			_context.SaveChanges();
 		}
 	}
 }

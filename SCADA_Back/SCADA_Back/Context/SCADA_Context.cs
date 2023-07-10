@@ -12,7 +12,8 @@ namespace SCADA_Back.Context
 		public DbSet<AnalogOutput> AnalogOutput { get; set; }
 		public DbSet<DigitalOutput> DigitalOutput { get; set; }
 		public DbSet<DigitalInput> DigitalInput { get; set; }
-		public DbSet<TagValue> TagValue { get; set; }
+		public DbSet<InputsValue> InputsValues { get; set; }
+		public DbSet<OutputsValue> OutputsValues { get; set; }
 
 
 		public SCADA_Context(DbContextOptions<SCADA_Context> options)

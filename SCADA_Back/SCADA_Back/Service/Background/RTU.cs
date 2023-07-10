@@ -47,7 +47,7 @@ namespace SCADA_Back.Service.Background
 							valueType = ValueType.DIGITAL;
                         }
 
-						tagRepository.AddTagValue(new TagValue(i.ToString(), value, valueType));
+						tagRepository.AddTagValue(new InputsValue(i.ToString(), value, valueType));
 					}
 
                 }

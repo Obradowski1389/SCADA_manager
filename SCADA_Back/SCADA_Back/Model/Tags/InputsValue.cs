@@ -8,7 +8,7 @@ namespace SCADA_Back.Model.Tags
 		ANALOG, DIGITAL
 	}
 
-	public class TagValue
+	public class InputsValue
 	{
 		[Key]
 		public int Id { get; set; }
@@ -17,9 +17,9 @@ namespace SCADA_Back.Model.Tags
 		public double Value { get; set; }
 		public ValueType ValueType { get; set; }
 
-		public TagValue() { }
+		public InputsValue() { }
 
-		public TagValue(string address, double value, ValueType valueType)
+		public InputsValue(string address, double value, ValueType valueType)
 		{
 			IOAddress = address;
 			TimeStamp = DateTime.Now;

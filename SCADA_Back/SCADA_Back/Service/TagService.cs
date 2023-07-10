@@ -6,6 +6,7 @@ using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
 using SCADA_Back.Utility.Hubs;
 using System.ComponentModel;
+using ValueType = SCADA_Back.Model.Tags.ValueType;
 
 namespace SCADA_Back.Service
 {
@@ -59,6 +60,40 @@ namespace SCADA_Back.Service
 			_tagRepository.AddDigitalOutput(output);
 		}
 
+		public void AddOutputValue(OutputValueDTO outputValue)
+		{
+			Tag? tag = GetByAddress(outputValue.IOAddress);
+			if(tag == null)
+			{
+				throw new Exception("No tag registered to this address");
+			}
+			if(tag is AnalogInput || tag is DigitalInput)
+			{
+				throw new Exception("Tag on this address is input!");
+			}
+			OutputsValue outputsValue;
+			if(tag is DigitalOutput)
+			{
+				if (outputValue.Value < 0 || outputValue.Value > 1)
+				{
+					throw new Exception("Tag on this address is a digital output!");
+				}
+
+				outputsValue = new OutputsValue(outputValue.IOAddress, outputValue.Value, ValueType.DIGITAL);
+
+			}else
+			{
+				var analog = (AnalogOutput)tag;
+				if(analog.LowLimit > outputValue.Value || analog.HighLimit < outputValue.Value)
+				{
+					throw new Exception("Invalid value for this output");
+				}
+				outputsValue = new OutputsValue(outputValue.IOAddress, outputValue.Value, ValueType.ANALOG);
+			}
+			_tagRepository.AddOutputValue(outputsValue);
+
+		}
+
 		public InputsDTO GetInputs()
 		{
 			InputsDTO inputsDTO = new InputsDTO();
@@ -67,9 +102,12 @@ namespace SCADA_Back.Service
 			return inputsDTO;
 		}
 
-		public List<Tag> GetOutputs()
+		public OutputsDTO GetOutputs()
 		{
-			throw new NotImplementedException();
+			OutputsDTO outputsDTO = new OutputsDTO();
+			outputsDTO.AnalogOutputs = _tagRepository.GetAnalogOutputs().OrderBy(x => int.Parse(x.IOAddress)).ToList();
+			outputsDTO.DigitalOutputs = _tagRepository.GetDigitalOutputs().OrderBy(x => int.Parse(x.IOAddress)).ToList();
+			return outputsDTO;
 		}
 
 		public Tag? GetByAddress(string address) {
@@ -124,7 +162,7 @@ namespace SCADA_Back.Service
 
 		}
 
-		private async void sendValue(TagValue tagValue)
+		private async void sendValue(InputsValue tagValue)
 		{
 			await _rtuHub.Clients.All.SendRTUData(tagValue);
 		}
@@ -142,7 +180,7 @@ namespace SCADA_Back.Service
 						if (analogInput.IsOn)
 						{
 							var repo = scope.ServiceProvider.GetRequiredService<ITagRepository>();
-							TagValue? value = await repo.GetTagValueByAddress(analogInput.IOAddress);
+							InputsValue? value = await repo.GetTagValueByAddress(analogInput.IOAddress);
 							if (value == null) { return; }
 							sendValue(value);
 							var alarmService = scope.ServiceProvider.GetRequiredService<IAlarmService>();
@@ -157,7 +195,7 @@ namespace SCADA_Back.Service
 
 		}
 
-		private void checkAlarm(TagValue tagValue, AnalogInput input, IAlarmService alarmService)
+		private void checkAlarm(InputsValue tagValue, AnalogInput input, IAlarmService alarmService)
 		{
 			foreach(var alarm in input.Alarms)
 			{
@@ -182,7 +220,7 @@ namespace SCADA_Back.Service
 						if (digitalInput.IsOn)
 						{
 							var repo = scope.ServiceProvider.GetRequiredService<ITagRepository>();
-							TagValue? value = await _tagRepository.GetTagValueByAddress(digitalInput.IOAddress);
+							InputsValue? value = await _tagRepository.GetTagValueByAddress(digitalInput.IOAddress);
 							if (value == null) { return; }
 							sendValue(value);
 

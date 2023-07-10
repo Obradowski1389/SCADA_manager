@@ -184,5 +184,21 @@ namespace SCADA_Back.Controllers
 			}
 		}
 
+		[IgnoreAntiforgeryToken]
+		[HttpPost("output")]
+		public IActionResult AddOutputValue([FromBody] OutputValueDTO outputValueDTO)
+		{
+			try
+			{
+				_tagService.AddOutputValue(outputValueDTO);
+				return Ok();
+			}
+			catch(Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+
+		}
+
 	}
 }
