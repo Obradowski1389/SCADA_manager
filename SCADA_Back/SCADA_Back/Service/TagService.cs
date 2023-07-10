@@ -76,7 +76,7 @@ namespace SCADA_Back.Service
 			return _tagRepository.GetAll().Find(a => a.IOAddress == address);
 		}
 
-		public void MoveTag(Tag tag)
+		public void MoveTag(MoveTagDTO tag)
 		{
 			Tag? newTag = _tagRepository.GetById(tag.Id);
 			if (tag == null)

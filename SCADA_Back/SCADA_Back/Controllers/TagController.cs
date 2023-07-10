@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SCADA_Back.Model;
+using SCADA_Back.Model.DTO;
 using SCADA_Back.Model.Tags;
 using SCADA_Back.Service.IService;
 
@@ -142,12 +143,12 @@ namespace SCADA_Back.Controllers
 		}
 
 		[IgnoreAntiforgeryToken]
-		[HttpPost("move")]
-		public IActionResult MoveTag([FromBody] Tag tag)
+		[HttpPut("move")]
+		public IActionResult MoveTag([FromBody] MoveTagDTO moveTagDTO)
 		{
 			try
 			{
-				_tagService.MoveTag(tag);
+				_tagService.MoveTag(moveTagDTO);
 				return Ok();
 			}catch(Exception e)
 			{

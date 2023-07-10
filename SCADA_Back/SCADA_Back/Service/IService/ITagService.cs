@@ -14,7 +14,7 @@ namespace SCADA_Back.Service.IService
 		public void AddDigitalInput(DigitalInput input);
 		public void AddDigitalOutput(DigitalOutput output);
 		public Tag? GetByAddress(string address);
-		public void MoveTag(Tag tag);
+		public void MoveTag(MoveTagDTO moveTagDTO);
 		public void RemoveTag(int id);
 		public void ToggleScan(int id, bool on);
 		public void StartThreads();
