@@ -10,9 +10,9 @@ import { Alarm, AnalogInput, DigitalInput, InputsDTO } from 'src/model/models';
 export class InputsManageComponent {
   //globals
   isEdit: boolean = false
-  showDeleteIconAnalog: boolean[] = Array(InputsDto.AnalogInputs.length).fill(false)
-  showDeleteIconDigital: boolean[] = Array(InputsDto.DigitalInputs.length).fill(false)
   Inputs: InputsDTO = InputsDto
+  showDeleteIconAnalog: boolean[] = Array(this.Inputs.AnalogInputs.length).fill(false)
+  showDeleteIconDigital: boolean[] = Array(this.Inputs.DigitalInputs.length).fill(false)
 
   //view inputs
   deleteAnalog(input: AnalogInput){

@@ -1,0 +1,22 @@
+.wrapper{
+    height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: 40px auto;
+    row-gap: 10px;
+}
+.digital-item {
+    flex-basis: 100%;
+}
+.btn{
+    height: 56px;
+    width: 170px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.two-half-el-box{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+    margin: 10px 0;
+}

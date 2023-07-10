@@ -3,6 +3,7 @@
         <h1>Inputs</h1>
         <i class="material-icons" (click)="isEdit=!isEdit">{{ isEdit ? 'close' : 'add' }}</i>
     </div>
+    <!-- view -->
     <div class="content-card">
         <div class="content-box" *ngIf="!isEdit">
             <h2 class="title">Analog</h2>
@@ -46,23 +47,24 @@
                         <p class="address-label" *ngIf="!showDeleteIconDigital[i]">A{{input.Address}}</p>
                         <i class="material-icons" *ngIf="showDeleteIconDigital[i]" (click)='deleteDigital(input)'>close</i>
                     </div>
-                    <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" (click)="switch(input)">
+                    <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" >
                         <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- edit -->
         <div class="edit-box" *ngIf="isEdit">
 
             <div class="mydict" style="margin-bottom: 30px;">
                 <div>
                 <label>
-                    <input type="radio" name="type" [(ngModel)]="isAnalog" [value]="true">
+                    <input type="radio" name="typeI" [(ngModel)]="isAnalog" [value]="true">
                     <span>Analog</span>
                 </label>
                 <label>
-                    <input type="radio" name="type" [(ngModel)]="isAnalog" [value]="false">
+                    <input type="radio" name="typeI" [(ngModel)]="isAnalog" [value]="false">
                     <span>Digital</span>
                 </label>
                 </div>
@@ -140,7 +142,7 @@
             </div>  
             
             <div class="button-container">
-                <button mat-flat-button color="primary" class="t" (click)="createInput()">Add Input</button>
+                <button mat-flat-button color="primary" class="btn" (click)="createInput()">Add Input</button>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { InputsDTO } from 'src/model/models';
+import { InputsDTO, OutputsDTO } from 'src/model/models';
 export var InputsDto: InputsDTO = {
     AnalogInputs: [
       {
@@ -451,3 +451,55 @@ export var InputsDto: InputsDTO = {
       }
     ]
   }
+
+export var OutputsDto: OutputsDTO = {
+  AnalogOutputs : [
+    {
+      Id: 1,
+      Name: 'Ventilator',
+      Address: 1,
+      LowLimit: 0,
+      HightLimit: 30,
+      Unit: '°C',
+      Value: 15
+    },
+    {
+      Id: 5,
+      Name: 'Grijalica',
+      Address: 2,
+      LowLimit: 0,
+      HightLimit: 100,
+      Unit: '°C',
+      Value: 12
+    },
+    {
+      Id: 5,
+      Name: 'Cisterna',
+      Address: 3,
+      LowLimit: 0,
+      HightLimit: 100,
+      Unit: 'l',
+      Value: 99
+    }
+  ],
+  DigitalOutputs : [
+    {
+      Id: 1,
+      Name: 'Pumpa',
+      Address: 7,
+      Value: 1
+    },
+    {
+      Id: 1,
+      Name: 'Bazen',
+      Address: 8,
+      Value: 0
+    },
+    {
+      Id: 1,
+      Name: 'Grijalica',
+      Address: 9,
+      Value: 0
+    }
+  ]
+}
