@@ -33,6 +33,15 @@ namespace SCADA_Back.Service
 			_alarmRepository.AddAlarm(alarm);
 		}
 
+		public void RemoveAlarm(int id)
+		{
+			var alarm = GetById(id);
+			if (alarm == null) {
+				throw new Exception("Alarm not found");
+			}
+			_alarmRepository.RemoveAlarm(alarm);
+		}
+
 		public void AddAlarmValue(AlarmValue alarmValue, AnalogInput analogInput)
 		{
 			_alarmRepository.AddAlarmValue(alarmValue);

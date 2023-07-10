@@ -1,17 +1,10 @@
 using SCADA_Back.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using SCADA_Back.Model;
 using SCADA_Back.Service;
 using SCADA_Back.Repository;
-using SCADA_Back.Exceptions;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using System.Net;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
 using SCADA_Back.Service.Background;
-using Microsoft.AspNetCore.Hosting;
-using Serilog;
 using SCADA_Back.Utility.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);

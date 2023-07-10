@@ -99,6 +99,25 @@ namespace SCADA_Back.Repository
 			_context.SaveChanges();
 		}
 
+		public void MoveTag(Tag tag)
+		{
+			_context.Update(tag);
+			_context.SaveChanges();
+		}
+
+		public void RemoveTag(Tag tag)
+		{
+			if(tag is AnalogInput analogInput)
+			{
+				foreach(var alarm in analogInput.Alarms)
+				{
+					_context.Entry(alarm).State = EntityState.Deleted;
+				}
+			}
+			_context.Entry(tag).State = EntityState.Deleted;
+			_context.SaveChanges();
+		}
+
 		public void ToggleScan(Tag tag, bool on)
 		{
 			if(tag is AnalogInput analog)
@@ -114,15 +133,21 @@ namespace SCADA_Back.Repository
 			}
 		}
 
-		public void AddTagValue(TagValue tagValue)
+		public void AddTagValue(InputsValue tagValue)
 		{
-			_context.TagValue.Add(tagValue);
+			_context.InputsValues.Add(tagValue);
 			_context.SaveChanges();
 		}
 
-		public Task<TagValue?> GetTagValueByAddress(string address)
+		public Task<InputsValue?> GetTagValueByAddress(string address)
 		{
-			return _context.TagValue.Where(x => x.IOAddress == address).OrderByDescending(x=>x.TimeStamp).FirstOrDefaultAsync();
+			return _context.InputsValues.Where(x => x.IOAddress == address).OrderByDescending(x=>x.TimeStamp).FirstOrDefaultAsync();
+		}
+
+		public void AddOutputValue(OutputsValue outputsValue)
+		{
+			_context.OutputsValues.Add(outputsValue);
+			_context.SaveChanges();
 		}
 	}
 }

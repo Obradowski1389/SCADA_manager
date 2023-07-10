@@ -7,6 +7,7 @@ namespace SCADA_Back.Service.IService
 	{
 		public Alarm GetById(int id);
 		public void AddAlarm(Alarm alarm);
+		public void RemoveAlarm(int id);
 		public void AddAlarmValue(AlarmValue alarmValue, AnalogInput input);
 	}
 }

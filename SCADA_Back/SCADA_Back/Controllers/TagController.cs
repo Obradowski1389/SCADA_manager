@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SCADA_Back.Model;
+using SCADA_Back.Model.DTO;
 using SCADA_Back.Model.Tags;
 using SCADA_Back.Service.IService;
 
@@ -139,6 +140,64 @@ namespace SCADA_Back.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
+		}
+
+		[IgnoreAntiforgeryToken]
+		[HttpPut("move")]
+		public IActionResult MoveTag([FromBody] MoveTagDTO moveTagDTO)
+		{
+			try
+			{
+				_tagService.MoveTag(moveTagDTO);
+				return Ok();
+			}catch(Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+
+		[IgnoreAntiforgeryToken]
+		[HttpDelete("{id}")]
+		public IActionResult Delete(int id)
+		{
+			try
+			{
+				_tagService.RemoveTag(id);
+				return NoContent();
+			}catch(Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+
+		[IgnoreAntiforgeryToken]
+		[HttpDelete("alarm/{id}")]
+		public IActionResult DeleteAlarm(int id)
+		{
+			try
+			{
+				_alarmService.RemoveAlarm(id);
+				return NoContent();
+			}catch(Exception e)
+			{
+				return NotFound(e.Message);
+			}
+		}
+
+		[IgnoreAntiforgeryToken]
+		[HttpPost("output")]
+		public IActionResult AddOutputValue([FromBody] OutputValueDTO outputValueDTO)
+		{
+			try
+			{
+				_tagService.AddOutputValue(outputValueDTO);
+				return Ok();
+			}
+			catch(Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+
 		}
 
 	}

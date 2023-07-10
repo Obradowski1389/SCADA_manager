@@ -20,8 +20,13 @@ namespace SCADA_Back.Repository.IRepo
 		public void AddAnalogOutput(AnalogOutput analogOutput);
 		public void AddDigitalInput(DigitalInput digitalInput);
 		public void AddDigitalOutput(DigitalOutput digitalOutput);
+		public void MoveTag(Tag tag);
+		public void RemoveTag(Tag tag);
 		public void ToggleScan(Tag tag, bool on);
-		public void AddTagValue(TagValue tagValue);
-		public Task<TagValue?> GetTagValueByAddress(string address);
+
+		public void AddTagValue(InputsValue tagValue);
+		public Task<InputsValue?> GetTagValueByAddress(string address);
+
+		public void AddOutputValue(OutputsValue outputValue);
 	}
 }
