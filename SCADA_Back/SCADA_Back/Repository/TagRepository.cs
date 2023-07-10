@@ -99,6 +99,25 @@ namespace SCADA_Back.Repository
 			_context.SaveChanges();
 		}
 
+		public void MoveTag(Tag tag)
+		{
+			_context.Update(tag);
+			_context.SaveChanges();
+		}
+
+		public void RemoveTag(Tag tag)
+		{
+			if(tag is AnalogInput analogInput)
+			{
+				foreach(var alarm in analogInput.Alarms)
+				{
+					_context.Entry(alarm).State = EntityState.Deleted;
+				}
+			}
+			_context.Entry(tag).State = EntityState.Deleted;
+			_context.SaveChanges();
+		}
+
 		public void ToggleScan(Tag tag, bool on)
 		{
 			if(tag is AnalogInput analog)

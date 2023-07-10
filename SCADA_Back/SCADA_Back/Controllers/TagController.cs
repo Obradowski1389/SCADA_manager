@@ -141,5 +141,33 @@ namespace SCADA_Back.Controllers
 			}
 		}
 
+		[IgnoreAntiforgeryToken]
+		[HttpPost("move")]
+		public IActionResult MoveTag([FromBody] Tag tag)
+		{
+			try
+			{
+				_tagService.MoveTag(tag);
+				return Ok();
+			}catch(Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+
+		[IgnoreAntiforgeryToken]
+		[HttpDelete("{id}")]
+		public IActionResult Delete(int id)
+		{
+			try
+			{
+				_tagService.RemoveTag(id);
+				return NoContent();
+			}catch(Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+
 	}
 }

@@ -5,6 +5,7 @@ using SCADA_Back.Model.Tags;
 using SCADA_Back.Repository.IRepo;
 using SCADA_Back.Service.IService;
 using SCADA_Back.Utility.Hubs;
+using System.ComponentModel;
 
 namespace SCADA_Back.Service
 {
@@ -73,6 +74,31 @@ namespace SCADA_Back.Service
 
 		public Tag? GetByAddress(string address) {
 			return _tagRepository.GetAll().Find(a => a.IOAddress == address);
+		}
+
+		public void MoveTag(Tag tag)
+		{
+			Tag? newTag = _tagRepository.GetById(tag.Id);
+			if (tag == null)
+			{
+				throw new Exception("Tag not found");
+			}
+			if (GetByAddress(tag.IOAddress) != null)
+			{
+				throw new Exception("Address is already in use");
+			}
+			newTag.IOAddress = tag.IOAddress;
+			_tagRepository.MoveTag(newTag);
+		}
+
+		public void RemoveTag(int id)
+		{
+			Tag? tag = _tagRepository.GetById(id);
+			if (tag == null)
+			{
+				throw new Exception("Tag not found");
+			}
+			_tagRepository.RemoveTag(tag);
 		}
 
 		public void ToggleScan(int id, bool on)
