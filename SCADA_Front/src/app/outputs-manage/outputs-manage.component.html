@@ -15,7 +15,7 @@
                         (mouseover)="showDeleteIconAnalog[i] = true" 
                         (mouseout)="showDeleteIconAnalog[i] = false">
                         <p class="address-label" *ngIf="!showDeleteIconAnalog[i]">A{{input.Address}}</p>
-                        <i class="material-icons" *ngIf="showDeleteIconAnalog[i]">close</i>
+                        <i class="material-icons" *ngIf="showDeleteIconAnalog[i]" (click)='deleteAnalog(input)'>close</i>
                     </div>
                     <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" >
                         <p class="info-title">{{input.Name}} • {{input.Value}}{{input.Unit}}</p>
@@ -32,7 +32,7 @@
                         (mouseover)="showDeleteIconDigital[i] = true" 
                         (mouseout)="showDeleteIconDigital[i] = false">
                         <p class="address-label" *ngIf="!showDeleteIconDigital[i]">A{{input.Address}}</p>
-                        <i class="material-icons" *ngIf="showDeleteIconDigital[i]">close</i>
+                        <i class="material-icons" *ngIf="showDeleteIconDigital[i]" (click)='deleteDigital(input)'>close</i>
                     </div>
                     <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" >
                         <p class="info-title">{{input.Name}} • {{ input.Value ? "On" : "Off" }}</p>
@@ -57,33 +57,33 @@
             </div>
               
             <div class="two-el-box">
-                <input type="text" class="input" placeholder="Name">
+                <input type="text" [(ngModel)]="name" class="input" placeholder="Name">
                 <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">
                     <mat-label>Address</mat-label>
-                    <mat-select>
+                    <mat-select [(value)]="address">
                         <mat-option *ngFor="let option of getAddresses()" [value]="option">A{{option}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
 
             <div *ngIf="!isAnalog">
-                <input type="number"  class="input" placeholder="Value">
+                <input type="number" [(ngModel)]="value" class="input" placeholder="Value">
             </div>
     
             <!-- only analog part -->
             <div *ngIf="isAnalog">
                 <div class="two-half-el-box">
-                    <input type="number"  class="input" placeholder="Min">
-                    <input type="number"  name="name" class="input" placeholder="Max">
+                    <input type="number" [(ngModel)]="lowLimit" class="input" placeholder="Min">
+                    <input type="number" [(ngModel)]="hightLimit" name="name" class="input" placeholder="Max">
                 </div>
                 <div class="two-half-el-box">
-                    <input type="number"  class="input" placeholder="Value">
-                    <input type="text"  name="name" class="input" placeholder="Unit">
+                    <input type="number" [(ngModel)]="value" class="input" placeholder="Value">
+                    <input type="text" [(ngModel)]="unit" name="name" class="input" placeholder="Unit">
                 </div>
             </div>  
             
             <div class="button-container">
-                <button mat-flat-button color="primary" class="btn">Add Input</button>
+                <button mat-flat-button color="primary" class="btn" (click)="createOutput()">Add Input</button>
             </div>
         </div>
     </div>
