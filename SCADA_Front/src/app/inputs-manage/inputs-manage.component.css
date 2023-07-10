@@ -1,7 +1,8 @@
 .wrapper{
     height: 100%;
+    box-sizing: border-box;
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 40px auto;
     row-gap: 10px;
 }
 .header{
@@ -18,13 +19,19 @@ i{
     margin-top: 6px;
 }
 .content-card{
-    /* height: 100%;
-    max-height: 100%; */
-    height: calc(100% - 120px);
+    position: relative;
+    height: 100%;
+    padding: 0;
     background-color: #fafafa;
     border-radius: 10px;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
+    overflow-y: hidden;
+}
+.content-box {
+    position: absolute;
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: scroll;
 }
 .title{
     margin-left: 25px;
@@ -98,6 +105,7 @@ table {
 
 .edit-box{
     padding: 50px;
+    height: calc(100% - 120px);
 }
 
 .two-el-box{

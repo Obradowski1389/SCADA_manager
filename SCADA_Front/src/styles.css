@@ -25,6 +25,7 @@ h2{
     font-weight: 500;
 }
 table {
+    box-sizing: border-box;
     border-collapse:separate; 
     border-spacing: 5px 15px; 
 }

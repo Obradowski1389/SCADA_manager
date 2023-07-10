@@ -3,8 +3,8 @@
         <h1>Inputs</h1>
         <i class="material-icons" (click)="isEdit=!isEdit">{{ isEdit ? 'close' : 'add' }}</i>
     </div>
-    <div class="content-card" [ngStyle]="{'height': isEdit ? '100%' : 'calc(100% - 127px)'}">
-        <div *ngIf="!isEdit">
+    <div class="content-card">
+        <div class="content-box" *ngIf="!isEdit">
             <h2 class="title">Analog</h2>
             <table>
                 <tr *ngFor="let input of Inputs.AnalogInputs">
@@ -61,24 +61,24 @@
               
             <!-- name and address -->
             <div class="two-el-box">
-                <input type="text" name="name" class="input" placeholder="Name">
+                <input type="text" [(ngModel)]="name" class="input" placeholder="Name">
                 <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">
                     <mat-label>Address</mat-label>
-                    <mat-select style="max-height: 40px">
-                        <mat-option value="one">First option</mat-option>
-                        <mat-option value="two">Second option</mat-option>
+                    <mat-select [(value)]="address">
+                        <mat-option *ngFor="let option of getAddresses()" [value]="option">A{{option}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
+
             <!-- scan time and driver -->
             <div class="two-el-box">
-                <input type="text" name="name" class="input" placeholder="Scan Time">
+                <input type="number" [(ngModel)]="scanTime" class="input" placeholder="Scan Time">
                 <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">
                     <mat-label>Driver</mat-label>
-                    <mat-select style="max-height: 40px">
-                        <mat-option value="one">Sin</mat-option>
-                        <mat-option value="two">Cos</mat-option>
-                        <mat-option value="two">Ramp</mat-option>
+                    <mat-select [(value)]="driver">
+                        <mat-option value="sin">Sin</mat-option>
+                        <mat-option value="cos">Cos</mat-option>
+                        <mat-option value="ramp">Ramp</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -86,14 +86,14 @@
             <!-- only analog part -->
             <div *ngIf="isAnalog">
                 <div class="three-el-box">
-                    <input type="number" name="name" class="input" placeholder="Min">
-                    <input type="number" name="name" class="input" placeholder="Max">
-                    <input type="text" name="name" class="input" placeholder="Unit">
+                    <input type="number" [(ngModel)]="lowLimit" class="input" placeholder="Min">
+                    <input type="number" [(ngModel)]="hightLimit" name="name" class="input" placeholder="Max">
+                    <input type="text" [(ngModel)]="unit" name="name" class="input" placeholder="Unit">
                 </div>
                 
                 <h2 class="mini-title">Alarms</h2>
                 <!-- list of new alarms -->
-                <div style="display: flex;">
+                <div *ngIf="newAlarms.length != 0" style="display: flex; margin: 15px 0;">
                     <div class="alarm" style="margin-right: 10px;" *ngFor="let alarm of newAlarms">
                         <div class="alarm-info">
                             <div class="alarm-treshold">
@@ -105,32 +105,33 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- adding new alarm -->
-                <div *ngIf="isAnalog" class="four-el-box">
-                    <input type="number" name="name" class="input" placeholder="Treshold">
+                <div *ngIf="newAlarms.length < 5" class="four-el-box">
+                    <input type="number" [(ngModel)]="treshold" class="input" placeholder="Treshold">
                     <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">
                         <mat-label>Type</mat-label>
-                        <mat-select style="max-height: 40px">
-                            <mat-option value="0">Low</mat-option>
-                            <mat-option value="1">Hight</mat-option>
+                        <mat-select [(value)]="alarmType">
+                            <mat-option value='0'>Low</mat-option>
+                            <mat-option value='1'>Hight</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">
                         <mat-label>Priority</mat-label>
-                        <mat-select style="max-height: 40px">
-                            <mat-option value="1">Minor</mat-option>
-                            <mat-option value="2">Medium</mat-option>
-                            <mat-option value="3">Urgent</mat-option>
+                        <mat-select [(value)]="alarmPriority">
+                            <mat-option value='1'>Minor</mat-option>
+                            <mat-option value='2'>Medium</mat-option>
+                            <mat-option value='3'>Urgent</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <div class="center-icon">
-                        <i class="material-icons">add</i>
+                        <i class="material-icons" (click)="addAlarm()">add</i>
                     </div>
                 </div>
             </div>  
             
             <div class="button-container">
-                <button mat-flat-button color="primary" class="t">Add Input</button>
+                <button mat-flat-button color="primary" class="t" (click)="createInput()">Add Input</button>
             </div>
         </div>
     </div>

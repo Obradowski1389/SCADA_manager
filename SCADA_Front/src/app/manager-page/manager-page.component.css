@@ -2,7 +2,7 @@
     padding: 30px;
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr;
-    height: calc(100% - 60px);
+    height: calc(100vh - 60px);
     overflow: hidden;
     gap: 30px;
 }
