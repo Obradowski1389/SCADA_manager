@@ -56,5 +56,14 @@ namespace SCADA_Back.Service
 				writer.WriteLine("{0}   Alarm for input: {1}    Priority: {2}    Type: {3} ", alarmValue.TimeStamp ,analogInput.Name, alarmValue.Alarm.Priority, alarmValue.Alarm.Type);
 			}
 		}
+
+		public List<AlarmValue> GetAlarmValuesByDate(DateTime start, DateTime end) {
+			return _alarmRepository.GetAlarmValuesByDate(start, end);
+		}
+
+		public List<AlarmValue> GetAlarmsByPriority(int priority)
+		{
+			return _alarmRepository.GetAlarmsByPriority(priority);
+		}
 	}
 }

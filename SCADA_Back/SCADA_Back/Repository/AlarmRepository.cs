@@ -1,4 +1,5 @@
-﻿using SCADA_Back.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using SCADA_Back.Context;
 using SCADA_Back.Model;
 using SCADA_Back.Model.Tags;
 using SCADA_Back.Repository.IRepo;
@@ -44,6 +45,16 @@ namespace SCADA_Back.Repository
 			_context.AlarmsValue.Add(alarmValue);
 			_context.Attach(alarmValue.Alarm);
 			_context.SaveChanges();
+		}
+
+		public List<AlarmValue> GetAlarmValuesByDate(DateTime start, DateTime end)
+		{
+			return _context.AlarmsValue.Include(a => a.Alarm).Where(a => a.TimeStamp >=  start && a.TimeStamp <= end).ToList();
+		}
+
+		public List<AlarmValue> GetAlarmsByPriority(int priority)
+		{
+			return _context.AlarmsValue.Include(a=>a.Alarm).Where(a => a.Alarm.Priority == priority).ToList();
 		}
 	}
 }

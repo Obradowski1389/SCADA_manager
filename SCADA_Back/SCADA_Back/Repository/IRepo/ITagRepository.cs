@@ -1,5 +1,6 @@
 ﻿using SCADA_Back.Model.DTO;
 using SCADA_Back.Model.Tags;
+using ValueType = SCADA_Back.Model.Tags.ValueType;
 
 namespace SCADA_Back.Repository.IRepo
 {
@@ -28,5 +29,12 @@ namespace SCADA_Back.Repository.IRepo
 		public Task<InputsValue?> GetTagValueByAddress(string address);
 
 		public void AddOutputValue(OutputsValue outputValue);
+
+		public List<InputsValue> GetLastValues(ValueType valueType);
+		public List<OutputsValue> GetOutputValues(int id);
+		public List<InputsValue> GetInputValues(int id);
+		public List<OutputsValue> GetOutputValues(DateTime start, DateTime end);
+		public List<InputsValue> GetInputsValues(DateTime start, DateTime end);
+
 	}
 }

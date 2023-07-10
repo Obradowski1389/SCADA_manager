@@ -3,6 +3,7 @@ using SCADA_Back.Context;
 using SCADA_Back.Model.DTO;
 using SCADA_Back.Model.Tags;
 using SCADA_Back.Repository.IRepo;
+using ValueType = SCADA_Back.Model.Tags.ValueType;
 
 namespace SCADA_Back.Repository
 {
@@ -148,6 +149,37 @@ namespace SCADA_Back.Repository
 		{
 			_context.OutputsValues.Add(outputsValue);
 			_context.SaveChanges();
+		}
+
+		public List<InputsValue> GetLastValues(ValueType valueType)
+		{
+			var li = _context.InputsValues
+				.Where(i => i.ValueType == valueType && i.TagId != 0)
+				.GroupBy(i => i.TagId)
+				.Select(g => g.OrderByDescending(iv => iv.TimeStamp).FirstOrDefault())
+				.ToList();
+			return li;
+
+		}
+
+		public List<OutputsValue> GetOutputValues(int id)
+		{
+			return _context.OutputsValues.Where(i => i.TagId == id).ToList();
+		}
+
+		public List<InputsValue> GetInputValues(int id)
+		{
+			return _context.InputsValues.Where(i => i.TagId == id).ToList();
+		}
+
+		public List<OutputsValue> GetOutputValues(DateTime start, DateTime end)
+		{
+			return _context.OutputsValues.Where(i => i.TimeStamp >=  start && i.TimeStamp <= end).ToList();
+		}
+
+		public List<InputsValue> GetInputsValues(DateTime start, DateTime end)
+		{
+			return _context.InputsValues.Where(i => i.TimeStamp >= start && i.TimeStamp <= end).ToList();
 		}
 	}
 }

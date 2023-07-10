@@ -8,5 +8,8 @@ namespace SCADA_Back.Repository.IRepo
         public void AddAlarm(Alarm alarm);
         public void RemoveAlarm(Alarm alarm);
         public void AddAlarmValue(AlarmValue alarmValue);
-    }
+        public List<AlarmValue> GetAlarmValuesByDate(DateTime start, DateTime end);
+        public List<AlarmValue> GetAlarmsByPriority(int priority);
+
+	}
 }
