@@ -11,7 +11,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { TrendingPageComponent } from './trending-page/trending-page.component';
 import { ManagerPageComponent } from './manager-page/manager-page.component';
 import { InputsManageComponent } from './inputs-manage/inputs-manage.component';
-import { OutputsManageComponent } from './outputs-manage/outputs-manage.component';
+import { ChangeOutputDialog, OutputsManageComponent } from './outputs-manage/outputs-manage.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,8 @@ import { OutputsManageComponent } from './outputs-manage/outputs-manage.componen
     TrendingPageComponent,
     ManagerPageComponent,
     InputsManageComponent,
-    OutputsManageComponent
+    OutputsManageComponent,
+    ChangeOutputDialog
   ],
   imports: [
     BrowserModule,

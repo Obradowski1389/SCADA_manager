@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { OutputsDto } from 'src/model/data';
 import { AnalogOutput, DigitalOutput, OutputsDTO } from 'src/model/models';
 
@@ -9,6 +9,7 @@ import { AnalogOutput, DigitalOutput, OutputsDTO } from 'src/model/models';
   styleUrls: ['./outputs-manage.component.css']
 })
 export class OutputsManageComponent {
+  constructor(private dialog: MatDialog) {}
   //globals
   isEdit: boolean = false
   Outputs: OutputsDTO = OutputsDto
@@ -24,6 +25,13 @@ export class OutputsManageComponent {
   deleteDigital(input: DigitalOutput){
     const index = this.Outputs.DigitalOutputs.indexOf(input)
     this.Outputs.DigitalOutputs.splice(index, 1)
+  }
+
+  changeValue(output: any): void {
+    const dialogRef = this.dialog.open(ChangeOutputDialog, { data: output.Value });
+    dialogRef.afterClosed().subscribe(result => {
+        output.Value = result
+    })
   }
 
   //add inpts
@@ -92,5 +100,28 @@ export class OutputsManageComponent {
       this.Outputs.DigitalOutputs.push(outputD)
     }
     this.restartForm()
+  }
+}
+
+@Component({
+  selector: 'reject-dialog',
+  templateUrl: 'change-output-dialog.html',
+})
+export class ChangeOutputDialog {
+  value: number = 0
+
+  constructor(
+    public dialogRef: MatDialogRef<ChangeOutputDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
+    this.value = data
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close()
+  }
+
+  onYesClick() {
+    this.dialogRef.close(this.value)
   }
 }

@@ -17,7 +17,7 @@
                         <p class="address-label" *ngIf="!showDeleteIconAnalog[i]">A{{input.Address}}</p>
                         <i class="material-icons" *ngIf="showDeleteIconAnalog[i]" (click)='deleteAnalog(input)'>close</i>
                     </div>
-                    <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" >
+                    <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" (click)="changeValue(input)">
                         <p class="info-title">{{input.Name}} • {{input.Value}}{{input.Unit}}</p>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                         <p class="address-label" *ngIf="!showDeleteIconDigital[i]">A{{input.Address}}</p>
                         <i class="material-icons" *ngIf="showDeleteIconDigital[i]" (click)='deleteDigital(input)'>close</i>
                     </div>
-                    <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" >
+                    <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" (click)="changeValue(input)">
                         <p class="info-title">{{input.Name}} • {{ input.Value ? "On" : "Off" }}</p>
                     </div>
                 </div>
