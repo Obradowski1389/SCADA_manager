@@ -79,7 +79,7 @@ namespace SCADA_Back.Service
 					throw new Exception("Tag on this address is a digital output!");
 				}
 
-				outputsValue = new OutputsValue(outputValue.IOAddress, outputValue.Value, ValueType.DIGITAL);
+				outputsValue = new OutputsValue(outputValue.IOAddress,tag.Id, outputValue.Value, ValueType.DIGITAL);
 
 			}else
 			{
@@ -88,7 +88,7 @@ namespace SCADA_Back.Service
 				{
 					throw new Exception("Invalid value for this output");
 				}
-				outputsValue = new OutputsValue(outputValue.IOAddress, outputValue.Value, ValueType.ANALOG);
+				outputsValue = new OutputsValue(outputValue.IOAddress, tag.Id, outputValue.Value, ValueType.ANALOG);
 			}
 			_tagRepository.AddOutputValue(outputsValue);
 
@@ -229,6 +229,34 @@ namespace SCADA_Back.Service
 					Thread.Sleep(TimeSpan.FromSeconds(digitalInput.ScanTime));
 				}
 			}).Start();
+		}
+
+		public List<InputsValue> GetLastValues(ValueType v)
+		{
+			return _tagRepository.GetLastValues(v);
+		}
+
+		public List<object> GetValues(int id)
+		{
+			Tag? tag = _tagRepository.GetById(id);
+			if(tag == null){
+				return new List<object>();
+			}
+			if(tag is AnalogInput || tag is DigitalInput)
+			{
+				return _tagRepository.GetInputValues(id).Cast<object>().ToList();
+				
+			}return _tagRepository.GetOutputValues(id).Cast<object>().ToList();
+		}
+
+		public List<OutputsValue> GetOutputValues(DateTime start, DateTime end)
+		{
+			return _tagRepository.GetOutputValues(start, end);
+		}
+
+		public List<InputsValue> GetInputsValues(DateTime start, DateTime end)
+		{
+			return _tagRepository.GetInputsValues(start, end);
 		}
 	}
 }

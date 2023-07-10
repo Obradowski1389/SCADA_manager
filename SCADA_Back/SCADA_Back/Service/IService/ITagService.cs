@@ -1,5 +1,6 @@
 ﻿using SCADA_Back.Model.DTO;
 using SCADA_Back.Model.Tags;
+using ValueType = SCADA_Back.Model.Tags.ValueType;
 
 namespace SCADA_Back.Service.IService
 {
@@ -19,5 +20,9 @@ namespace SCADA_Back.Service.IService
 		public void RemoveTag(int id);
 		public void ToggleScan(int id, bool on);
 		public void StartThreads();
+		public List<InputsValue> GetLastValues(ValueType valueType);
+		public List<object> GetValues(int id);
+		public List<OutputsValue> GetOutputValues(DateTime start, DateTime end);
+		public List<InputsValue> GetInputsValues(DateTime start, DateTime end);
 	}
 }
