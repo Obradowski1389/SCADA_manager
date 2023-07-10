@@ -12,6 +12,7 @@ import { TrendingPageComponent } from './trending-page/trending-page.component';
 import { ManagerPageComponent } from './manager-page/manager-page.component';
 import { InputsManageComponent } from './inputs-manage/inputs-manage.component';
 import { ChangeOutputDialog, OutputsManageComponent } from './outputs-manage/outputs-manage.component';
+import { RtuManageComponent } from './rtu-manage/rtu-manage.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ChangeOutputDialog, OutputsManageComponent } from './outputs-manage/out
     ManagerPageComponent,
     InputsManageComponent,
     OutputsManageComponent,
-    ChangeOutputDialog
+    ChangeOutputDialog,
+    RtuManageComponent
   ],
   imports: [
     BrowserModule,

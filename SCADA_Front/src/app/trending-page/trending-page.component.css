@@ -93,14 +93,14 @@ tr{
 }
 
 /* digital inputs */
-.digital-inputs{
+.digital-inputss{
     display: flex;
     margin-left: 5px;
     flex-wrap: wrap;
     column-gap: 25px;
     row-gap: 15px;
 }
-.digital-item{
+.digital-itemm{
     display: grid;
     grid-template-columns: auto 1fr;
     min-width: 100px;
@@ -111,4 +111,7 @@ tr{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.info:hover{
+    scale: 1;
 }

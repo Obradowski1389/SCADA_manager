@@ -56,3 +56,10 @@ export interface OutputsDTO {
     AnalogOutputs: AnalogOutput[],
     DigitalOutputs: DigitalOutput[]
 }
+
+export interface RTU {
+    Id: number,
+    LowLimit: number,
+    HightLimit: number,
+    Address: number,
+}

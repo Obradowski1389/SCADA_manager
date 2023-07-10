@@ -1,4 +1,4 @@
-import { InputsDTO, OutputsDTO } from 'src/model/models';
+import { InputsDTO, OutputsDTO, RTU } from 'src/model/models';
 export var InputsDto: InputsDTO = {
     AnalogInputs: [
       {
@@ -503,3 +503,30 @@ export var OutputsDto: OutputsDTO = {
     }
   ]
 }
+
+export var RtuDto: RTU[] = [
+  {
+    Id: 1,
+    LowLimit: 1,
+    HightLimit: 111,
+    Address: 1,
+  },
+  {
+    Id: 2,
+    LowLimit: 1,
+    HightLimit: 33,
+    Address: 2,
+  },
+  {
+    Id: 3,
+    LowLimit: 1,
+    HightLimit: 55,
+    Address: 3,
+  },
+  {
+    Id: 4,
+    LowLimit: 1,
+    HightLimit: 22,
+    Address: 4,
+  }
+]
