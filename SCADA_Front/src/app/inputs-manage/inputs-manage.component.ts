@@ -8,11 +8,30 @@ import { Alarm, AnalogInput, DigitalInput, InputsDTO } from 'src/model/models';
   styleUrls: ['./inputs-manage.component.css']
 })
 export class InputsManageComponent {
+  //globals
   isEdit: boolean = false
-  isAnalog: boolean = true
+  showDeleteIconAnalog: boolean[] = Array(InputsDto.AnalogInputs.length).fill(false)
+  showDeleteIconDigital: boolean[] = Array(InputsDto.DigitalInputs.length).fill(false)
   Inputs: InputsDTO = InputsDto
-  newAlarms: Alarm[] = []
 
+  //view inputs
+  deleteAnalog(input: AnalogInput){
+    const index = this.Inputs.AnalogInputs.indexOf(input)
+    this.Inputs.AnalogInputs.splice(index, 1)
+  }
+
+  deleteDigital(input: DigitalInput){
+    const index = this.Inputs.DigitalInputs.indexOf(input)
+    this.Inputs.DigitalInputs.splice(index, 1)
+  }
+
+  switch(input: any){
+    input.ScanOn = !input.ScanOn
+  }
+
+  //add inpts
+  newAlarms: Alarm[] = []
+  isAnalog: boolean = true
   //form
   name: string = ''
   address: number|undefined = undefined 
@@ -50,39 +69,6 @@ export class InputsManageComponent {
     )
   }
 
-  createInput() {
-    if(!this.isFormValid()) return
-    if(this.isAnalog) {
-      var inputA: AnalogInput = {
-        Id: 0,
-        Name: this.name,
-        Driver: this.driver,
-        Address: this.address ?? 0,
-        ScanTime: this.scanTime ?? 0,
-        Alarms: this.newAlarms,
-        ScanOn: true,
-        LowLimit: this.lowLimit ?? 0,
-        HightLimit: this.hightLimit ?? 0,
-        Unit:this.unit,
-        Value:0
-      }
-      InputsDto.AnalogInputs.push(inputA)
-    }
-    else{
-      var inputD: DigitalInput = {
-        Id: 1,
-        Name: this.name,
-        Driver: this.driver,
-        Address: this.address ?? 0,
-        ScanTime: this.scanTime ?? 0,
-        ScanOn: true
-      }
-      InputsDto.DigitalInputs.push(inputD)
-    }
-    this.isEdit = false
-    this.restartForm()
-  }
-
   isFormValid(): boolean {
     if(this.name == '' || this.address == undefined || this.scanTime == undefined) {
       alert('Some field is empty')
@@ -107,8 +93,39 @@ export class InputsManageComponent {
     this.alarmType = '0'
     this.alarmPriority = '1'
     this.newAlarms = []
-
-    this.Inputs = InputsDto //TODO: delete
+    this.isEdit = false
   }
-  
+
+  createInput() {
+    if(!this.isFormValid()) return
+    if(this.isAnalog) {
+      var inputA: AnalogInput = {
+        Id: 0,
+        Name: this.name,
+        Driver: this.driver,
+        Address: this.address ?? 0,
+        ScanTime: this.scanTime ?? 0,
+        Alarms: this.newAlarms,
+        ScanOn: true,
+        LowLimit: this.lowLimit ?? 0,
+        HightLimit: this.hightLimit ?? 0,
+        Unit:this.unit,
+        Value:0
+      }
+      this.Inputs.AnalogInputs.push(inputA)
+    }
+    else{
+      var inputD: DigitalInput = {
+        Id: 1,
+        Name: this.name,
+        Driver: this.driver,
+        Address: this.address ?? 0,
+        ScanTime: this.scanTime ?? 0,
+        ScanOn: true
+      }
+      this.Inputs.DigitalInputs.push(inputD)
+    }
+    this.restartForm()
+  }
+
 }

@@ -7,12 +7,16 @@
         <div class="content-box" *ngIf="!isEdit">
             <h2 class="title">Analog</h2>
             <table>
-                <tr *ngFor="let input of Inputs.AnalogInputs">
-                    <td class="address-wrapper">
-                        <p class="address-label">A{{input.Address}}</p>
+                <tr *ngFor="let input of Inputs.AnalogInputs; let i = index">
+                    <td 
+                        class="address-wrapper"  
+                        (mouseover)="showDeleteIconAnalog[i] = true" 
+                        (mouseout)="showDeleteIconAnalog[i] = false">
+                        <p class="address-label" *ngIf="!showDeleteIconAnalog[i]">A{{input.Address}}</p>
+                        <i class="material-icons center-icon" *ngIf="showDeleteIconAnalog[i]" (click)='deleteAnalog(input)'>close</i>
                     </td>
                     <td class="basic-td">
-                        <div class="info">
+                        <div class="info" (click)="switch(input)">
                             <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
                             <p class="info-value" *ngIf="input.ScanOn">{{input.Value}}{{input.Unit}}</p>
                         </div>
@@ -33,11 +37,16 @@
             </table>
             <h2 class="title" style="margin-top: 0;">Digital</h2>
             <div class="digital-inputs">
-                <div class="digital-item" *ngFor="let input of Inputs.DigitalInputs">
-                    <div class="center-text address-wrapper" style="padding: 2px;">
-                        <p class="address-label">A{{input.Address}}</p>
+                <div class="digital-item" *ngFor="let input of Inputs.DigitalInputs; let i = index">
+                    <div 
+                        class="center-text address-wrapper" 
+                        style="padding: 2px;" 
+                        (mouseover)="showDeleteIconDigital[i] = true" 
+                        (mouseout)="showDeleteIconDigital[i] = false">
+                        <p class="address-label" *ngIf="!showDeleteIconDigital[i]">A{{input.Address}}</p>
+                        <i class="material-icons" *ngIf="showDeleteIconDigital[i]" (click)='deleteDigital(input)'>close</i>
                     </div>
-                    <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;">
+                    <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" (click)="switch(input)">
                         <p class="info-title">{{input.Name}} • {{ input.ScanOn ? "On" : "Off" }}</p>
                     </div>
                 </div>

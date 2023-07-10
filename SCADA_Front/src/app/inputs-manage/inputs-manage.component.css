@@ -145,5 +145,10 @@ table {
     font-size: 16px;
     font-weight: 600;
 }
-  
-  
+.center-icon {
+    text-align: center;
+}
+.basic-td:hover{
+    scale: 1.025;
+    cursor: default;
+}
