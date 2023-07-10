@@ -6,6 +6,7 @@ namespace SCADA_Back.Repository.IRepo
     {
         public Alarm GetById(int id);
         public void AddAlarm(Alarm alarm);
+        public void RemoveAlarm(Alarm alarm);
         public void AddAlarmValue(AlarmValue alarmValue);
     }
 }

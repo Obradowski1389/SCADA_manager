@@ -170,5 +170,19 @@ namespace SCADA_Back.Controllers
 			}
 		}
 
+		[IgnoreAntiforgeryToken]
+		[HttpDelete("alarm/{id}")]
+		public IActionResult DeleteAlarm(int id)
+		{
+			try
+			{
+				_alarmService.RemoveAlarm(id);
+				return NoContent();
+			}catch(Exception e)
+			{
+				return NotFound(e.Message);
+			}
+		}
+
 	}
 }
