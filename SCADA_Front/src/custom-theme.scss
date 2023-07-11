@@ -1,28 +1,44 @@
 
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
 @include mat.core();
 
-$grey: (
-    50 : #ededed,
-    100 : #d1d1d1,
-    200 : #b3b3b3,
-    300 : #949494,
-    400 : #7d7d7d,
-    500 : #666666,
-    600 : #5e5e5e,
-    700 : #666,
-    800 : #494949,
-    900 : #383838,
-    A100 : #f49c9c,
-    A200 : #ef6e6e,
-    A400 : #ff2a2a,
-    A700 : #ff1111,
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+
+/* For use in src/lib/core/theming/_palette.scss */
+/* For use in src/lib/core/theming/_palette.scss */
+/* For use in src/lib/core/theming/_palette.scss */
+/* For use in src/lib/core/theming/_palette.scss */
+/* For use in src/lib/core/theming/_palette.scss */
+$md-primary: (
+    50 : #ecf0f6,
+    100 : #cfd8e8,
+    200 : #afbfd8,
+    300 : #8fa5c8,
+    400 : #7791bd,
+    500 : #5f7eb1,
+    600 : #5776aa,
+    700 : #4d6ba1,
+    800 : #436198,
+    900 : #324e88,
+    A100 : #d2e0ff,
+    A200 : #9fbdff,
+    A400 : #6c9aff,
+    A700 : #5288ff,
     contrast: (
         50 : #000000,
         100 : #000000,
         200 : #000000,
         300 : #000000,
-        400 : #ffffff,
+        400 : #000000,
         500 : #ffffff,
         600 : #ffffff,
         700 : #ffffff,
@@ -30,10 +46,11 @@ $grey: (
         900 : #ffffff,
         A100 : #000000,
         A200 : #000000,
-        A400 : #ffffff,
-        A700 : #ffffff,
+        A400 : #000000,
+        A700 : #000000,
     )
 );
+
 
 $md-accent: (
     50 : #f7f7f7,
@@ -70,7 +87,7 @@ $md-accent: (
 
 
 
-$SCADA_Front-primary: mat.define-palette($grey, 700);
+$SCADA_Front-primary: mat.define-palette($md-primary, 800);
 $SCADA_Front-accent: mat.define-palette($md-accent, 900);
 
 // The warn palette is optional (defaults to red).
