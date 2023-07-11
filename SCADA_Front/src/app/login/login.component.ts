@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
-import { LoginDTO } from 'src/model/User';
+import { LoginDTO, User } from 'src/model/User';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,9 +25,10 @@ export class LoginComponent {
         "Username" : values.username!
       }
       this.userService.login(loginDTO).subscribe({
-        next: (value : any) => {
-          console.log("login");
-          this.router.navigate(["/main"]);
+        next: (value : User) => {
+          console.log(value);
+          if(value.role == 0) this.router.navigate(["/trending"]);
+          else this.router.navigate(["/dbManager"])
         },
         error: (error: any) => {
           console.log(error);

@@ -7,12 +7,13 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/environment/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
-import { MainPageComponent } from './main-page/main-page.component';
 import { TrendingPageComponent } from './trending-page/trending-page.component';
 import { ManagerPageComponent } from './manager-page/manager-page.component';
 import { InputsManageComponent } from './inputs-manage/inputs-manage.component';
 import { ChangeOutputDialog, OutputsManageComponent } from './outputs-manage/outputs-manage.component';
 import { RtuManageComponent } from './rtu-manage/rtu-manage.component';
+import { DBManagerComponent } from './dbmanager/dbmanager.component';
+import { NumberRangePipe } from './number-range.pipe';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,9 @@ import { RtuManageComponent } from './rtu-manage/rtu-manage.component';
     OutputsManageComponent,
     ChangeOutputDialog,
     RtuManageComponent
+    TrendingPageComponent,
+    DBManagerComponent,
+    NumberRangePipe
   ],
   imports: [
     BrowserModule,

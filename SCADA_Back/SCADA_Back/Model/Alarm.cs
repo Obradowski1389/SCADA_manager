@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
+using SCADA_Back.Model.Tags;
 
 namespace SCADA_Back.Model
 {
-	public enum AlarmType
+    public enum AlarmType
 	{
-		LOW, MEDIUM, HIGH
+		LOW, HIGH
 	}
 
 	public class Alarm
@@ -14,8 +17,8 @@ namespace SCADA_Back.Model
 		public double Threshold { get; set; }
 		public AlarmType Type { get; set; }
 		public int Priority { get; set; }
-		public DateTime TimeStamp { get; set; }
-		public AnalogInput AnalogInput { get; set; }
+		[JsonIgnore]
+		public AnalogInput? AnalogInput { get; set; }
 		public int AnalogInputId { get; set; }
 
 	}

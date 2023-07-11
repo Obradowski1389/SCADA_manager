@@ -39,9 +39,6 @@ namespace SCADA_Back.Migrations
                     b.Property<double>("Threshold")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -52,7 +49,7 @@ namespace SCADA_Back.Migrations
                     b.ToTable("Alarms");
                 });
 
-            modelBuilder.Entity("SCADA_Back.Model.AnalogInput", b =>
+            modelBuilder.Entity("SCADA_Back.Model.AlarmValue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,9 +57,26 @@ namespace SCADA_Back.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Driver")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AlarmId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlarmId");
+
+                    b.ToTable("AlarmsValue");
+                });
+
+            modelBuilder.Entity("SCADA_Back.Model.Tags.AnalogInput", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<double>("HighLimit")
                         .HasColumnType("float");
@@ -93,7 +107,7 @@ namespace SCADA_Back.Migrations
                     b.ToTable("AnalogInput");
                 });
 
-            modelBuilder.Entity("SCADA_Back.Model.AnalogOutput", b =>
+            modelBuilder.Entity("SCADA_Back.Model.Tags.AnalogOutput", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -127,17 +141,13 @@ namespace SCADA_Back.Migrations
                     b.ToTable("AnalogOutput");
                 });
 
-            modelBuilder.Entity("SCADA_Back.Model.DigitalInput", b =>
+            modelBuilder.Entity("SCADA_Back.Model.Tags.DigitalInput", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Driver")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IOAddress")
                         .IsRequired()
@@ -158,7 +168,7 @@ namespace SCADA_Back.Migrations
                     b.ToTable("DigitalInput");
                 });
 
-            modelBuilder.Entity("SCADA_Back.Model.DigitalOutput", b =>
+            modelBuilder.Entity("SCADA_Back.Model.Tags.DigitalOutput", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -182,9 +192,67 @@ namespace SCADA_Back.Migrations
                     b.ToTable("DigitalOutput");
                 });
 
+            modelBuilder.Entity("SCADA_Back.Model.Tags.InputsValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("IOAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ValueType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InputsValues");
+                });
+
+            modelBuilder.Entity("SCADA_Back.Model.Tags.OutputsValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("IOAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ValueType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OutputsValues");
+                });
+
             modelBuilder.Entity("SCADA_Back.Model.Alarm", b =>
                 {
-                    b.HasOne("SCADA_Back.Model.AnalogInput", "AnalogInput")
+                    b.HasOne("SCADA_Back.Model.Tags.AnalogInput", "AnalogInput")
                         .WithMany("Alarms")
                         .HasForeignKey("AnalogInputId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -193,7 +261,18 @@ namespace SCADA_Back.Migrations
                     b.Navigation("AnalogInput");
                 });
 
-            modelBuilder.Entity("SCADA_Back.Model.AnalogInput", b =>
+            modelBuilder.Entity("SCADA_Back.Model.AlarmValue", b =>
+                {
+                    b.HasOne("SCADA_Back.Model.Alarm", "Alarm")
+                        .WithMany()
+                        .HasForeignKey("AlarmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Alarm");
+                });
+
+            modelBuilder.Entity("SCADA_Back.Model.Tags.AnalogInput", b =>
                 {
                     b.Navigation("Alarms");
                 });
