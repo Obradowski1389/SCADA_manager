@@ -88,13 +88,30 @@ export class InputsManageComponent {
 
   //view inputs
   deleteAnalog(input: AnalogInput){
-    const index = this.Inputs.analogInputs.indexOf(input)
-    this.Inputs.analogInputs.splice(index, 1)
+
+    this.tagService.deleteTag(input.id).subscribe({
+      next: (val: any) =>{
+        const index = this.Inputs.analogInputs.indexOf(input)
+        this.Inputs.analogInputs.splice(index, 1)
+      },
+      error: (val: any) => {
+        console.log(val.error);
+      }
+    })
+   
   }
 
   deleteDigital(input: DigitalInput){
-    const index = this.Inputs.digitalInputs.indexOf(input)
-    this.Inputs.digitalInputs.splice(index, 1)
+    this.tagService.deleteTag(input.id).subscribe({
+      next: (val: any) =>{
+        const index = this.Inputs.digitalInputs.indexOf(input)
+        this.Inputs.digitalInputs.splice(index, 1)
+      },
+      error: (val: any) => {
+        console.log(val.error);
+      }
+    })
+    
   }
 
   switch(input: any){
@@ -118,9 +135,9 @@ export class InputsManageComponent {
 
   getAddresses(): number[]{
     var addresses = []
-    for(var i = 1; i < 21; i++){
-      if (this.Inputs.analogInputs.some((input) => input.ioAddress == i)) continue
-      if(this.Inputs.digitalInputs.some((input) => input.ioAddress == i)) continue
+    for(var i = 1; i < 11; i++){
+      if (this.Inputs.analogInputs.some((input) => input.ioAddress == i.toString())) continue
+      if(this.Inputs.digitalInputs.some((input) => input.ioAddress == i.toString())) continue
       addresses.push(i)
     }
     return addresses
@@ -128,7 +145,7 @@ export class InputsManageComponent {
 
   addAlarm(){
     if(this.treshold == undefined) {
-      alert('Treashold are empty')
+      alert('Threshold is empty')
       return
     }
     this.newAlarms.push(
@@ -136,7 +153,7 @@ export class InputsManageComponent {
         type: parseInt(this.alarmType),
         priority: parseInt(this.alarmPriority),
         threshold: this.treshold,
-        unit: this.unit
+        analogInputId: 0
       }
     )
   }
@@ -175,7 +192,7 @@ export class InputsManageComponent {
         id: 0,
         name: this.name,
         driver: this.driver,
-        ioAddress: this.address ?? 0,
+        ioAddress: this.address?.toString() ?? "0",
         scanTime: this.scanTime ?? 0,
         alarms: this.newAlarms,
         isOn: true,
@@ -184,18 +201,33 @@ export class InputsManageComponent {
         units:this.unit,
         value:0
       }
-      this.Inputs.analogInputs.push(inputA)
+
+      this.tagService.addAnalogInput(inputA).subscribe({
+        next: (val: any) =>{
+          this.Inputs.analogInputs.push(inputA)
+        },
+        error: (error: any)=> {
+          console.log(error.error);
+        } 
+      })
     }
     else{
       var inputD: DigitalInput = {
         id: 1,
         name: this.name,
         driver: this.driver,
-        ioAddress: this.address ?? 0,
+        ioAddress: this.address?.toString() ?? "0",
         scanTime: this.scanTime ?? 0,
         isOn: true
       }
-      this.Inputs.digitalInputs.push(inputD)
+      this.tagService.addDigitalInput(inputD).subscribe({
+        next: (val: any) =>{
+          this.Inputs.digitalInputs.push(inputD)
+        },
+        error: (error: any)=> {
+          console.log(error.error);
+        } 
+      })
     }
     this.restartForm()
   }

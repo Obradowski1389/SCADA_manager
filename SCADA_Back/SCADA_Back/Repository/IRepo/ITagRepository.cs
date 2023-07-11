@@ -17,7 +17,7 @@ namespace SCADA_Back.Repository.IRepo
 		public List<Tag> GetInputs();
 		public Task<Tag?> GetInputByAddress(string address);
 
-		public void AddAnalogInput(AnalogInput analogInput);
+		public AnalogInput AddAnalogInput(AnalogInput analogInput);
 		public void AddAnalogOutput(AnalogOutput analogOutput);
 		public void AddDigitalInput(DigitalInput digitalInput);
 		public void AddDigitalOutput(DigitalOutput digitalOutput);

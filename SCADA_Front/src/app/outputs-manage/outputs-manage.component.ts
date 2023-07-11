@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 // import { OutputsDto } from 'src/model/data';
 import { AnalogOutput, DigitalOutput, OutputsDTO } from 'src/model/models';
+import { TagService } from '../services/tag.service';
 
 @Component({
   selector: 'app-outputs-manage',
@@ -9,7 +10,7 @@ import { AnalogOutput, DigitalOutput, OutputsDTO } from 'src/model/models';
   styleUrls: ['./outputs-manage.component.css']
 })
 export class OutputsManageComponent {
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private tagService: TagService) {}
   //globals
   isEdit: boolean = false
   Outputs: OutputsDTO = {
@@ -19,15 +20,42 @@ export class OutputsManageComponent {
   showDeleteIconAnalog: boolean[] = Array(this.Outputs.analogOutputs.length).fill(false)
   showDeleteIconDigital: boolean[] = Array(this.Outputs.digitalOutputs.length).fill(false)
 
+  ngOnInit(){
+    this.tagService.getOutputs().subscribe({
+      next: (val: any) => {
+        this.Outputs = val;
+      },
+      error: (err: any) => {
+        console.log(err.error);
+      }
+    })
+  }
+
   //view
   deleteAnalog(input: AnalogOutput){
-    const index = this.Outputs.analogOutputs.indexOf(input)
-    this.Outputs.analogOutputs.splice(index, 1)
+    this.tagService.deleteTag(input.id).subscribe({
+      next: (val: any) =>{
+        const index = this.Outputs.analogOutputs.indexOf(input)
+        this.Outputs.analogOutputs.splice(index, 1)
+      },
+      error: (val: any) => {
+        console.log(val.error);
+      }
+    })
+    
   }
 
   deleteDigital(input: DigitalOutput){
-    const index = this.Outputs.digitalOutputs.indexOf(input)
-    this.Outputs.digitalOutputs.splice(index, 1)
+    this.tagService.deleteTag(input.id).subscribe({
+      next: (val: any) =>{
+        const index = this.Outputs.digitalOutputs.indexOf(input)
+        this.Outputs.digitalOutputs.splice(index, 1)
+      },
+      error: (val: any) => {
+        console.log(val.error);
+      }
+    })
+    
   }
 
   changeValue(output: any): void {
@@ -49,9 +77,9 @@ export class OutputsManageComponent {
 
   getAddresses(): number[]{
     var addresses = []
-    for(var i = 1; i < 21; i++){
-      if (this.Outputs.analogOutputs.some((input) => input.ioAddress == i)) continue
-      if(this.Outputs.digitalOutputs.some((input) => input.ioAddress == i)) continue
+    for(var i = 11; i < 21; i++){
+      if (this.Outputs.analogOutputs.some((input) => input.ioAddress == i.toString())) continue
+      if(this.Outputs.digitalOutputs.some((input) => input.ioAddress == i.toString())) continue
       addresses.push(i)
     }
     return addresses
@@ -85,22 +113,39 @@ export class OutputsManageComponent {
       var outputA: AnalogOutput = {
         id: 0,
         name: this.name,
-        ioAddress: this.address ?? 0,
+        ioAddress: this.address?.toString() ?? "0",
         lowLimit: this.lowLimit ?? 0,
         highLimit: this.hightLimit ?? 0,
         units:this.unit,
         value: this.value ?? 0
       }
-      this.Outputs.analogOutputs.push(outputA)
+      this.tagService.addAnalogOutput(outputA).subscribe({
+        next: (val: any) =>{
+          this.Outputs.analogOutputs.push(outputA)
+
+        },
+        error: (error: any)=> {
+          console.log(error.error);
+        } 
+      })
     }
     else{
       var outputD: DigitalOutput = {
         id: 1,
         name: this.name,
-        ioAddress: this.address ?? 0,
+        ioAddress: this.address?.toString() ?? "0",
         value: this.value ?? 0
       }
-      this.Outputs.digitalOutputs.push(outputD)
+
+      this.tagService.addDigitalOutput(outputD).subscribe({
+        next: (val: any) =>{
+          this.Outputs.digitalOutputs.push(outputD)
+
+        },
+        error: (error: any)=> {
+          console.log(error.error);
+        } 
+      })
     }
     this.restartForm()
   }

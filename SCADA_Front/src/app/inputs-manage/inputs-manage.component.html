@@ -95,14 +95,6 @@
             <!-- scan time and driver -->
             <div class="two-el-box">
                 <input type="number" [(ngModel)]="scanTime" class="input" placeholder="Scan Time">
-                <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">
-                    <mat-label>Driver</mat-label>
-                    <mat-select [(value)]="driver">
-                        <mat-option value="sin">Sin</mat-option>
-                        <mat-option value="cos">Cos</mat-option>
-                        <mat-option value="ramp">Ramp</mat-option>
-                    </mat-select>
-                </mat-form-field>
             </div>
 
             <!-- only analog part -->
@@ -135,7 +127,7 @@
                         <mat-label>Type</mat-label>
                         <mat-select [(value)]="alarmType">
                             <mat-option value='0'>Low</mat-option>
-                            <mat-option value='1'>Hight</mat-option>
+                            <mat-option value='1'>High</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">

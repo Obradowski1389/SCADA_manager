@@ -2,7 +2,7 @@ export interface AnalogInput{
     id: number,
     name: string,
     driver: string,
-    ioAddress: number,
+    ioAddress: string,
     scanTime: number,
     alarms: Alarm[],
     isOn: boolean,
@@ -16,7 +16,7 @@ export interface DigitalInput{
     id: number,
     name: string,
     driver: string,
-    ioAddress: number,
+    ioAddress: string,
     scanTime: number,
     isOn: boolean
 }
@@ -30,7 +30,7 @@ export interface Alarm{
     type: AlarmType,
     priority: number,
     threshold: number,
-    unit: string
+    analogInputId: number
 }
 
 enum AlarmType { Low, Hight }
@@ -38,7 +38,7 @@ enum AlarmType { Low, Hight }
 export interface AnalogOutput{
     id: number,
     name: string,
-    ioAddress: number,
+    ioAddress: string,
     lowLimit: number,
     highLimit: number,
     units: string,
@@ -48,7 +48,7 @@ export interface AnalogOutput{
 export interface DigitalOutput{
     id: number,
     name: string,
-    ioAddress: number,
+    ioAddress: string,
     value: number
 }
 
