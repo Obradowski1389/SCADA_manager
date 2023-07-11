@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpTransportType, HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
 import { AnalogInput, AnalogOutput, DigitalInput, DigitalOutput } from 'src/model/models';
 
@@ -83,4 +84,11 @@ export class TagService {
     return this.http.delete(environment.apiUrl+"Tag/"+id);
   }
 
+  addOutputValue(addres: string, val: number): Observable<any> {
+    return this.http.post(environment.apiUrl + "Tag/output", { "Value": val, "IOAddress": addres});
+  }
+
+  changeAddress(): Observable<any> {
+    return this.http.post(environment.apiUrl + "", {})
+  }
 }

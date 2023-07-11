@@ -1,7 +1,12 @@
 <div mat-dialog-content>
     <p>Change value to:</p>
-    <div>
-        <input type="number" [(ngModel)]="value" class="input" placeholder="Value">
+    <div class="box">
+        <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 100px">
+            <mat-label>Address A{{curr}}</mat-label>
+            <mat-select [(value)]="value" >
+                <mat-option *ngFor="let option of value" [value]="option">A{{option}}</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 </div>
 <div class="btn-wrapper" mat-dialog-actions>
@@ -11,6 +16,10 @@
 
 
 <style>
+    .box {
+        margin-right: auto;
+        margin-left: auto;
+    }
     p {
         text-align: center;
         color: #364165 ;

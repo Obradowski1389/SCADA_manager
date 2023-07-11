@@ -61,7 +61,19 @@ export class OutputsManageComponent {
   changeValue(output: any): void {
     const dialogRef = this.dialog.open(ChangeOutputDialog, { data: output.Value });
     dialogRef.afterClosed().subscribe(result => {
-        output.Value = result
+        if (result == null) {
+          return
+        }
+        this.tagService.addOutputValue(output.ioAddress, result).subscribe({
+          next: (val: any) =>{
+            console.log(result);
+            output.value = result;
+          },
+          error: (error: any)=> {
+            console.log(error.error);
+            alert(error)
+          } 
+        });
     })
   }
 
