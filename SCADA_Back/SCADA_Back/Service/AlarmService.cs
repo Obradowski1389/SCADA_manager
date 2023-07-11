@@ -51,7 +51,7 @@ namespace SCADA_Back.Service
 		private void LogAlarm(AlarmValue alarmValue, AnalogInput analogInput)
 		{
 			string fName = "Logs/alarmLog.txt";
-			using(StreamWriter writer = new StreamWriter(fName))
+			using(StreamWriter writer = new StreamWriter(fName, true))
 			{
 				writer.WriteLine("{0}   Alarm for input: {1}    Priority: {2}    Type: {3} ", alarmValue.TimeStamp ,analogInput.Name, alarmValue.Alarm.Priority, alarmValue.Alarm.Type);
 			}

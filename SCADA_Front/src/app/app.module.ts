@@ -11,9 +11,9 @@ import { TrendingPageComponent } from './trending-page/trending-page.component';
 import { ManagerPageComponent } from './manager-page/manager-page.component';
 import { InputsManageComponent } from './inputs-manage/inputs-manage.component';
 import { ChangeOutputDialog, OutputsManageComponent } from './outputs-manage/outputs-manage.component';
-import { RtuManageComponent } from './rtu-manage/rtu-manage.component';
 import { DBManagerComponent } from './dbmanager/dbmanager.component';
 import { NumberRangePipe } from './number-range.pipe';
+import { ReportsManageComponent } from './reports-manage/reports-manage.component';
 
 @NgModule({
   declarations: [
@@ -24,10 +24,10 @@ import { NumberRangePipe } from './number-range.pipe';
     InputsManageComponent,
     OutputsManageComponent,
     ChangeOutputDialog,
-    RtuManageComponent,
     TrendingPageComponent,
     DBManagerComponent,
-    NumberRangePipe
+    NumberRangePipe,
+    ReportsManageComponent
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,7 @@ namespace SCADA_Back.Controllers
 
 		// Svi alarmi koji su se desili u određenom vremenskom periodu
 		[HttpGet("alarm/time")]
-		public IActionResult GetTimeAlarmReport(DateTime start, DateTime end) 
+		public IActionResult GetTimeAlarmReport([FromQuery]DateTime start, [FromQuery]DateTime end) 
 		{
 			try
 			{
@@ -30,14 +30,14 @@ namespace SCADA_Back.Controllers
 
 		// Svi alarmi određenog prioriteta
 		[HttpGet("alarm/priority")]
-		public IActionResult GetPriorityAlarmReport(int priority)
+		public IActionResult GetPriorityAlarmReport([FromQuery] int priority)
 		{
 			return Ok(_reportService.GetAlarmsByPriority(priority));
 		}
 
 		// Sve vrednosti tagova koje su dospele na servis u određenom vremenskom periodu
 		[HttpGet]
-		public IActionResult GetAll(DateTime start, DateTime end)
+		public IActionResult GetAll([FromQuery] DateTime start, [FromQuery] DateTime end)
 		{
 			try
 			{

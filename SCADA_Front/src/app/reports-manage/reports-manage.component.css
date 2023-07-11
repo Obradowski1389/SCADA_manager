@@ -1,0 +1,46 @@
+.wrapper{
+    height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: 40px auto;
+    row-gap: 10px;
+}
+
+.content-card{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.content-card button{
+    padding: 20px 0px;
+    margin: 15px 0;
+    font-size: larger;
+}
+
+.report-div{
+    margin-top: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.39);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.content-card h1{
+    margin: 15px 0;
+}
+
+.button-div{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.button-div button{
+    padding: 5px;
+}
+
+.alarms-priority mat-select{
+    width: 100%;
+}
+
