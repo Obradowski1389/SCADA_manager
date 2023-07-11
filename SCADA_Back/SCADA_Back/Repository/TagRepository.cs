@@ -76,10 +76,12 @@ namespace SCADA_Back.Repository
 			return allTags.FirstOrDefault(t => t.IOAddress == address);
 		}
 
-		public void AddAnalogInput(AnalogInput analogInput)
+		public AnalogInput AddAnalogInput(AnalogInput analogInput)
 		{
 			_context.AnalogInput.Add(analogInput);
 			_context.SaveChanges();
+
+			return _context.AnalogInput.First(a => analogInput.IOAddress == a.IOAddress);
 		}
 
 		public void AddAnalogOutput(AnalogOutput analogOutput)
@@ -88,10 +90,12 @@ namespace SCADA_Back.Repository
 			_context.SaveChanges();
 		}
 
-		public void AddDigitalInput(DigitalInput digitalInput)
+		public DigitalInput AddDigitalInput(DigitalInput digitalInput)
 		{
 			_context.DigitalInput.Add(digitalInput);
 			_context.SaveChanges();
+
+			return _context.DigitalInput.First(d => digitalInput.IOAddress == d.IOAddress);
 		}
 
 		public void AddDigitalOutput(DigitalOutput digitalOutput)

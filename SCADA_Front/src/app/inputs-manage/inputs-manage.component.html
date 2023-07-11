@@ -17,19 +17,30 @@
                         <i class="material-icons center-icon" *ngIf="showDeleteIconAnalog[i]" (click)='deleteAnalog(input)'>close</i>
                     </td>
                     <td class="basic-td">
-                        <div class="info" (click)="switch(input)">
-                            <p class="info-title">{{input.name}} • {{ input.isOn ? "On" : "Off" }}</p>
-                            <p class="info-value" *ngIf="input.isOn">{{input.value}}{{input.units}}</p>
+                        <div class="info" (click)="changeAddressDialog(input)">
+                            <p class="info-title">{{input.name}} • <span id="info-isOn" (click)="toggleScan(input)">{{ input.isOn ? "On" : "Off" }}</span></p>
+                            <p class="info-value" *ngIf="input.isOn">{{input.value | numberRange: input.lowLimit: input.highLimit}}{{input.units}}</p>
                         </div>
                     </td>
                     <td  
                         class="alarm" 
                         *ngFor="let alarm of input.alarms">
-                        <div class="alarm-info">
-                            <div class="alarm-treshold">
+                            <div class="alarm-info">
+                                <div
+                                class="alarm-treshold"
+                                [ngClass]="{
+                                    'medium-alarm-treshold': alarm.priority === 2 && isAlarmActive(alarm, input),
+                                    'urgent-alarm-treshold blink-text': alarm.priority === 3 && isAlarmActive(alarm, input)
+                                }">
                                 <p style="font-size: 24px;">{{ alarm.type == 0 ? "🠗 " : "🠕 " }}{{alarm.threshold}}</p>
                             </div>
-                            <p class="alarm-priority minor-alarm">
+                            <p 
+                                class="alarm-priority minor-alarm" 
+                                [ngClass]="{
+                                    'minor-alarm-priority': alarm.priority === 1 && isAlarmActive(alarm, input),
+                                    'medium-alarm-priority': alarm.priority === 2 && isAlarmActive(alarm, input),
+                                    'urgent-alarm-priority': alarm.priority === 3 && isAlarmActive(alarm, input)
+                                }">
                                 {{ alarm.priority === 1 ? "MINOR" : alarm.priority === 2 ? "MEDIUM" : "URGENT" }}
                             </p>
                         </div>
@@ -48,7 +59,7 @@
                         <i class="material-icons" *ngIf="showDeleteIconDigital[i]" (click)='deleteDigital(input)'>close</i>
                     </div>
                     <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" >
-                        <p class="info-title">{{input.name}} • {{ input.isOn ? "On" : "Off" }}</p>
+                        <p class="info-title">{{input.name}} • <span id="info-isOn" (click)="toggleScan(input)">{{ input.isOn ? "On" : "Off" }}</span></p>
                     </div>
                 </div>
             </div>
@@ -84,14 +95,6 @@
             <!-- scan time and driver -->
             <div class="two-el-box">
                 <input type="number" [(ngModel)]="scanTime" class="input" placeholder="Scan Time">
-                <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">
-                    <mat-label>Driver</mat-label>
-                    <mat-select [(value)]="driver">
-                        <mat-option value="sin">Sin</mat-option>
-                        <mat-option value="cos">Cos</mat-option>
-                        <mat-option value="ramp">Ramp</mat-option>
-                    </mat-select>
-                </mat-form-field>
             </div>
 
             <!-- only analog part -->
@@ -124,7 +127,7 @@
                         <mat-label>Type</mat-label>
                         <mat-select [(value)]="alarmType">
                             <mat-option value='0'>Low</mat-option>
-                            <mat-option value='1'>Hight</mat-option>
+                            <mat-option value='1'>High</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">

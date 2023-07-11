@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpTransportType, HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
+import { AnalogInput, AnalogOutput, DigitalInput, DigitalOutput } from 'src/model/models';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +51,10 @@ export class TagService {
     return this.http.get(environment.apiUrl + "Tag/input");
   }
 
+  getOutputs(): any{
+    return this.http.get(environment.apiUrl + "Tag/output");
+  }
+
   toggleScan(on: boolean, id: number): any{
 
     if(on) { return this.http.put(environment.apiUrl+ "Tag/on/"+id, null);}
@@ -56,6 +62,36 @@ export class TagService {
     return this.http.put(environment.apiUrl+"Tag/off/"+id, null);
   }
 
+  addAnalogOutput(output: AnalogOutput): any{
+    return this.http.post(environment.apiUrl+"Tag/analog-output", output);
+  }
+
+  addDigitalOutput(output: DigitalOutput): any{
+    return this.http.post(environment.apiUrl + "Tag/digital-output", output);
+  }
+
+  addAnalogInput(input: AnalogInput): any{
+    return this.http.post(environment.apiUrl+"Tag/analog-input", input);
+
+  }
+
+  addDigitalInput(input: DigitalInput): any{
+    return this.http.post(environment.apiUrl + "Tag/digital-input", input);
+
+  }
+
+  deleteTag(id: number): any{
+    return this.http.delete(environment.apiUrl+"Tag/"+id);
+  }
+
+  addOutputValue(addres: string, val: number): Observable<any> {
+    return this.http.post(environment.apiUrl + "Tag/output", { "Value": val, "IOAddress": addres});
+  }
+
+  changeAddress(id: number, address: string): Observable<any> {
+    return this.http.put(environment.apiUrl + "Tag/move", { "Id": id, "IOAddress": address.toString() });
+  }
+  
   alarmsRange(start: Date, end: Date):any {
     const startParam = encodeURIComponent(start.toISOString());
     const endParam = encodeURIComponent(end.toISOString());

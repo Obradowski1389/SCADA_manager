@@ -23,6 +23,11 @@ table {
     margin-top: 2px;
     font-weight: 400;
 }
+#info-isOn:hover{
+    color: #de421b;
+    cursor: pointer;
+
+}
 .alarm{
     padding: 0;
     min-width: 70px;
@@ -47,6 +52,33 @@ table {
     justify-content: center;
     align-items: center;
 }
+
+/* active alarm */
+.minor-alarm-priority{
+    background-color:#ede245;
+}
+.medium-alarm-priority{
+    background-color:#dea31b;
+}
+.urgent-alarm-priority{
+    background-color:#de421b;
+}
+.medium-alarm-treshold{
+    border: 3px solid #dea31b;
+}
+.urgent-alarm-treshold{
+    border: 3px solid #de421b;
+    animation: blinkingBackground 1s infinite;
+}
+@keyframes blinkingBackground {
+    0% {
+        background-color: #ddd;
+    }
+    50% {
+        background-color: #fca4a4;
+    }
+}
+
 .four-el-box{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr auto;

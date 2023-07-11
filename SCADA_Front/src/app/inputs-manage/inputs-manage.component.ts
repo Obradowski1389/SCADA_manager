@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 // import { InputsDto } from 'src/model/data';
 import { Alarm, AnalogInput, DigitalInput, InputsDTO } from 'src/model/models';
 import { TagService } from '../services/tag.service';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-inputs-manage',
@@ -20,7 +21,8 @@ export class InputsManageComponent {
   showDeleteIconAnalog: boolean[] = Array(this.Inputs.analogInputs.length).fill(false)
   showDeleteIconDigital: boolean[] = Array(this.Inputs.digitalInputs.length).fill(false)
 
-  constructor(private tagService: TagService){
+
+  constructor(private tagService: TagService, private dialog: MatDialog){
     this.connectHub();
   }
 
@@ -38,6 +40,13 @@ export class InputsManageComponent {
       }
     });
     
+  }
+
+  isAlarmActive(alarm: Alarm, input: AnalogInput) : boolean {
+    if(!input.isOn) return false
+    if(alarm.type == 0 && input.value < alarm.threshold) return true
+    if(alarm.type == 1 && input.value > alarm.threshold) return true
+    return false
   }
 
   connectHub(){
@@ -81,17 +90,50 @@ export class InputsManageComponent {
 
   //view inputs
   deleteAnalog(input: AnalogInput){
-    const index = this.Inputs.analogInputs.indexOf(input)
-    this.Inputs.analogInputs.splice(index, 1)
+
+    this.tagService.deleteTag(input.id).subscribe({
+      next: (val: any) =>{
+        const index = this.Inputs.analogInputs.indexOf(input)
+        this.Inputs.analogInputs.splice(index, 1)
+      },
+      error: (val: any) => {
+        console.log(val.error);
+      }
+    })
+   
   }
 
   deleteDigital(input: DigitalInput){
-    const index = this.Inputs.digitalInputs.indexOf(input)
-    this.Inputs.digitalInputs.splice(index, 1)
+    this.tagService.deleteTag(input.id).subscribe({
+      next: (val: any) =>{
+        const index = this.Inputs.digitalInputs.indexOf(input)
+        this.Inputs.digitalInputs.splice(index, 1)
+      },
+      error: (val: any) => {
+        console.log(val.error);
+      }
+    })
+    
   }
 
-  switch(input: any){
-    input.ScanOn = !input.ScanOn
+  changeAddressDialog(input: any){
+    console.log("test");
+    console.log(input)
+    let data = { curr: input.ioAddress, all: this.getAddresses()}
+    const dialogRef = this.dialog.open(ChangeAddressDialog, { data: data});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == null) return;
+      this.tagService.changeAddress(input.id, result).subscribe({
+        next: (val: any) =>{
+          console.log(result);
+          console.log(val);
+        },
+        error: (error: any)=> {
+          console.log(error.error);
+          alert(error)
+        } 
+      });
+    });   
   }
 
   //add inpts
@@ -111,9 +153,9 @@ export class InputsManageComponent {
 
   getAddresses(): number[]{
     var addresses = []
-    for(var i = 1; i < 21; i++){
-      if (this.Inputs.analogInputs.some((input) => input.ioAddress == i)) continue
-      if(this.Inputs.digitalInputs.some((input) => input.ioAddress == i)) continue
+    for(var i = 1; i < 11; i++){
+      if (this.Inputs.analogInputs.some((input) => input.ioAddress == i.toString())) continue
+      if(this.Inputs.digitalInputs.some((input) => input.ioAddress == i.toString())) continue
       addresses.push(i)
     }
     return addresses
@@ -121,7 +163,7 @@ export class InputsManageComponent {
 
   addAlarm(){
     if(this.treshold == undefined) {
-      alert('Treashold are empty')
+      alert('Threshold is empty')
       return
     }
     this.newAlarms.push(
@@ -129,7 +171,7 @@ export class InputsManageComponent {
         type: parseInt(this.alarmType),
         priority: parseInt(this.alarmPriority),
         threshold: this.treshold,
-        unit: this.unit
+        analogInputId: 0
       }
     )
   }
@@ -168,7 +210,7 @@ export class InputsManageComponent {
         id: 0,
         name: this.name,
         driver: this.driver,
-        ioAddress: this.address ?? 0,
+        ioAddress: this.address?.toString() ?? "0",
         scanTime: this.scanTime ?? 0,
         alarms: this.newAlarms,
         isOn: true,
@@ -177,20 +219,85 @@ export class InputsManageComponent {
         units:this.unit,
         value:0
       }
-      this.Inputs.analogInputs.push(inputA)
+
+      this.tagService.addAnalogInput(inputA).subscribe({
+        next: (val: any) =>{
+          this.Inputs.analogInputs.push(inputA);
+          this.tags.push(inputA);
+        },
+        error: (error: any)=> {
+          console.log(error.error);
+        } 
+      })
     }
     else{
       var inputD: DigitalInput = {
         id: 1,
         name: this.name,
         driver: this.driver,
-        ioAddress: this.address ?? 0,
+        ioAddress: this.address?.toString() ?? "0",
         scanTime: this.scanTime ?? 0,
         isOn: true
       }
-      this.Inputs.digitalInputs.push(inputD)
+      this.tagService.addDigitalInput(inputD).subscribe({
+        next: (val: any) =>{
+          this.Inputs.digitalInputs.push(inputD);
+          this.tags.push(inputD);
+        },
+        error: (error: any)=> {
+          console.log(error.error);
+        } 
+      })
     }
     this.restartForm()
   }
 
+  toggleScan(input: AnalogInput|DigitalInput){
+    if(input.isOn){
+      this.tagService.toggleScan(false, input.id).subscribe({
+        next: (val: any) => {
+          input.isOn = false;
+        },
+        error: (error: any) => {
+          console.log(error.error);
+        }
+      })
+    }else{
+      this.tagService.toggleScan(true, input.id).subscribe({
+        next:(val: any) => {
+          input.isOn = true;
+        },
+        error: (error: any) => {
+          console.log(error.error);
+        }
+      })
+    }
+  }
+
+}
+
+@Component({
+  selector: 'change-dialog',
+  templateUrl: 'change-address-dialog.html',
+})
+export class ChangeAddressDialog {
+  value: any;
+  curr: any;
+  constructor(
+    public dialogRef: MatDialogRef<ChangeAddressDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.curr = data.curr;
+    this.value = data.all;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close()
+  }
+
+  onYesClick(val: any) {
+    console.log(val)
+    this.dialogRef.close(val)
+  }
+  
 }

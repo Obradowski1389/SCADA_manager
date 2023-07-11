@@ -15,13 +15,15 @@ namespace SCADA_Back.Service
 		private readonly ITagRepository _tagRepository;
 		private readonly IHubContext<RTUHub, IRTUClient> _rtuHub;
 		private readonly IServiceScopeFactory _serviceScope;
+		private readonly IAlarmService _alarmService;
 
 
-		public TagService(ITagRepository tagRepository, IHubContext<RTUHub, IRTUClient> hub, IServiceScopeFactory serviceScope)
+		public TagService(ITagRepository tagRepository, IHubContext<RTUHub, IRTUClient> hub, IServiceScopeFactory serviceScope, IAlarmService alarmService)
 		{
 			_tagRepository = tagRepository;
 			_rtuHub = hub;
 			_serviceScope = serviceScope;
+			_alarmService = alarmService;
 		}
 
 		public void AddAnalogInput(AnalogInput input)
@@ -30,7 +32,17 @@ namespace SCADA_Back.Service
 			{
 				throw new Exception("This Address is already taken");
 			}
-			_tagRepository.AddAnalogInput(input);
+			List<Alarm> alarms = input.Alarms;
+			input.Alarms = new List<Alarm>();
+			var saved = _tagRepository.AddAnalogInput(input);
+
+			foreach(Alarm alarm in alarms)
+			{
+				alarm.AnalogInputId = saved.Id;
+				_alarmService.AddAlarm(alarm);
+			}
+
+			startAnalogThread(saved);
 		}
 
 		public void AddAnalogOutput(AnalogOutput output)
@@ -39,6 +51,8 @@ namespace SCADA_Back.Service
 			{
 				throw new Exception("This Address is already taken");
 			}
+
+			
 			_tagRepository.AddAnalogOutput(output);
 		}
 
@@ -48,7 +62,9 @@ namespace SCADA_Back.Service
 			{
 				throw new Exception("This Address is already taken");
 			}
-			_tagRepository.AddDigitalInput(input);
+			DigitalInput digital = _tagRepository.AddDigitalInput(input);
+
+			startDigitalThread(digital);
 		}
 
 		public void AddDigitalOutput(DigitalOutput output)
@@ -112,7 +128,7 @@ namespace SCADA_Back.Service
 
 		public Tag? GetByAddress(string address) {
 			return _tagRepository.GetAll().Find(a => a.IOAddress == address);
-		}
+        }
 
 		public void MoveTag(MoveTagDTO tag)
 		{
