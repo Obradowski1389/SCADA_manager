@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { InputsDto } from 'src/model/data';
+// import { InputsDto } from 'src/model/data';
 import { Alarm, AnalogInput, DigitalInput, InputsDTO } from 'src/model/models';
+import { TagService } from '../services/tag.service';
 
 @Component({
   selector: 'app-inputs-manage',
@@ -10,19 +11,83 @@ import { Alarm, AnalogInput, DigitalInput, InputsDTO } from 'src/model/models';
 export class InputsManageComponent {
   //globals
   isEdit: boolean = false
-  Inputs: InputsDTO = InputsDto
-  showDeleteIconAnalog: boolean[] = Array(this.Inputs.AnalogInputs.length).fill(false)
-  showDeleteIconDigital: boolean[] = Array(this.Inputs.DigitalInputs.length).fill(false)
+  Inputs: InputsDTO = {
+    analogInputs: [],
+    digitalInputs: []
+  };
+  tags: any[] = [];
+
+  showDeleteIconAnalog: boolean[] = Array(this.Inputs.analogInputs.length).fill(false)
+  showDeleteIconDigital: boolean[] = Array(this.Inputs.digitalInputs.length).fill(false)
+
+  constructor(private tagService: TagService){
+    this.connectHub();
+  }
+
+  ngOnInit(){
+    this.tagService.getInputs().subscribe({
+      next: (val: any) => {
+        console.log(val);
+        this.Inputs = val;
+        this.Inputs.analogInputs.forEach(x => this.tags.push(x));
+        this.Inputs.digitalInputs.forEach(x => this.tags.push(x));
+        console.log(this.tags);
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    });
+    
+  }
+
+  connectHub(){
+    this.tagService.startConnection()
+      .then(() => {
+        console.log('SignalR Simulation connection established');
+      })
+      .catch((error) => {
+        console.error('SignalR Simulation connection error:', error);
+      });
+    // Handle received simulation data
+    // Handle received simulation data
+    this.tagService.getHubConnection().on('SendSimulationData', (data) => {
+      this.handleSimulationData(data);
+    });
+
+    this.tagService.startRTU()
+      .then(() => {
+        console.log("SignalR RTU connection established");
+      }).catch((error) => {
+        console.error('SignalR RTU connection error:', error);
+      });
+
+    this.tagService.getRTU().on("SendRTUData", (data) => {
+      this.handleRTU(data);
+    });
+  }
+
+  handleSimulationData(data: any){
+    console.log(data);
+    for(let tag of this.tags){
+      if(tag.ioAddress == data.address) tag.value=data.value;
+    }
+  }
+
+  handleRTU(data: any){
+    for (let tag of this.tags){
+      if(tag.ioAddress == data.ioAddress) tag.value = data.value;
+    }
+  }
 
   //view inputs
   deleteAnalog(input: AnalogInput){
-    const index = this.Inputs.AnalogInputs.indexOf(input)
-    this.Inputs.AnalogInputs.splice(index, 1)
+    const index = this.Inputs.analogInputs.indexOf(input)
+    this.Inputs.analogInputs.splice(index, 1)
   }
 
   deleteDigital(input: DigitalInput){
-    const index = this.Inputs.DigitalInputs.indexOf(input)
-    this.Inputs.DigitalInputs.splice(index, 1)
+    const index = this.Inputs.digitalInputs.indexOf(input)
+    this.Inputs.digitalInputs.splice(index, 1)
   }
 
   switch(input: any){
@@ -47,8 +112,8 @@ export class InputsManageComponent {
   getAddresses(): number[]{
     var addresses = []
     for(var i = 1; i < 21; i++){
-      if (this.Inputs.AnalogInputs.some((input) => input.Address == i)) continue
-      if(this.Inputs.DigitalInputs.some((input) => input.Address == i)) continue
+      if (this.Inputs.analogInputs.some((input) => input.ioAddress == i)) continue
+      if(this.Inputs.digitalInputs.some((input) => input.ioAddress == i)) continue
       addresses.push(i)
     }
     return addresses
@@ -61,10 +126,10 @@ export class InputsManageComponent {
     }
     this.newAlarms.push(
       {
-        Type: parseInt(this.alarmType),
-        Priority: parseInt(this.alarmPriority),
-        Treshold: this.treshold,
-        Unit: this.unit
+        type: parseInt(this.alarmType),
+        priority: parseInt(this.alarmPriority),
+        threshold: this.treshold,
+        unit: this.unit
       }
     )
   }
@@ -100,30 +165,30 @@ export class InputsManageComponent {
     if(!this.isFormValid()) return
     if(this.isAnalog) {
       var inputA: AnalogInput = {
-        Id: 0,
-        Name: this.name,
-        Driver: this.driver,
-        Address: this.address ?? 0,
-        ScanTime: this.scanTime ?? 0,
-        Alarms: this.newAlarms,
-        ScanOn: true,
-        LowLimit: this.lowLimit ?? 0,
-        HightLimit: this.hightLimit ?? 0,
-        Unit:this.unit,
-        Value:0
+        id: 0,
+        name: this.name,
+        driver: this.driver,
+        ioAddress: this.address ?? 0,
+        scanTime: this.scanTime ?? 0,
+        alarms: this.newAlarms,
+        isOn: true,
+        lowLimit: this.lowLimit ?? 0,
+        highLimit: this.hightLimit ?? 0,
+        units:this.unit,
+        value:0
       }
-      this.Inputs.AnalogInputs.push(inputA)
+      this.Inputs.analogInputs.push(inputA)
     }
     else{
       var inputD: DigitalInput = {
-        Id: 1,
-        Name: this.name,
-        Driver: this.driver,
-        Address: this.address ?? 0,
-        ScanTime: this.scanTime ?? 0,
-        ScanOn: true
+        id: 1,
+        name: this.name,
+        driver: this.driver,
+        ioAddress: this.address ?? 0,
+        scanTime: this.scanTime ?? 0,
+        isOn: true
       }
-      this.Inputs.DigitalInputs.push(inputD)
+      this.Inputs.digitalInputs.push(inputD)
     }
     this.restartForm()
   }

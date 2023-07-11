@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RtuDto } from 'src/model/data';
+// import { RtuDto } from 'src/model/data';
 import { RTU } from 'src/model/models';
 
 @Component({
@@ -10,7 +10,7 @@ import { RTU } from 'src/model/models';
 export class RtuManageComponent {
   //globals
   isEdit: boolean = false
-  RTUs: RTU[] = RtuDto
+  RTUs: RTU[] = [];
   showDeleteIcon: boolean[] = Array(this.RTUs.length).fill(false)
 
   //view

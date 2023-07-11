@@ -28,7 +28,7 @@ export class LoginComponent {
         next: (value : User) => {
           console.log(value);
           if(value.role == 0) this.router.navigate(["/trending"]);
-          else this.router.navigate(["/dbManager"])
+          else this.router.navigate(["/manager"])
         },
         error: (error: any) => {
           console.log(error);

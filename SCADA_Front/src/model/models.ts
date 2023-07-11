@@ -16,7 +16,7 @@ export interface DigitalInput{
     id: number,
     name: string,
     driver: string,
-    address: number,
+    ioAddress: number,
     scanTime: number,
     isOn: boolean
 }
@@ -36,25 +36,25 @@ export interface Alarm{
 enum AlarmType { Low, Hight }
 
 export interface AnalogOutput{
-    Id: number,
-    Name: string,
-    Address: number,
-    LowLimit: number,
-    HightLimit: number,
-    Unit: string,
-    Value: number
+    id: number,
+    name: string,
+    ioAddress: number,
+    lowLimit: number,
+    highLimit: number,
+    units: string,
+    value: number
 }
 
 export interface DigitalOutput{
-    Id: number,
-    Name: string,
-    Address: number,
-    Value: number
+    id: number,
+    name: string,
+    ioAddress: number,
+    value: number
 }
 
 export interface OutputsDTO {
-    AnalogOutputs: AnalogOutput[],
-    DigitalOutputs: DigitalOutput[]
+    analogOutputs: AnalogOutput[],
+    digitalOutputs: DigitalOutput[]
 }
 
 export interface RTU {

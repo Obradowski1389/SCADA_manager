@@ -48,7 +48,7 @@
         <div class="digital-inputs">
             <div class="digital-item" *ngFor="let input of Inputs.digitalInputs">
                 <div class="center-text address-wrapper" style="padding: 2px;">
-                    <p class="address-label">A{{input.address}}</p>
+                    <p class="address-label">A{{input.ioAddress}}</p>
                 </div>
                 <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;">
                     <p class="info-title">{{input.name}} • <span id="info-isOn" (click)="toggleScan(input)">{{ input.isOn ? "On" : "Off" }}</span></p>

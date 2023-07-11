@@ -19,13 +19,12 @@ import { NumberRangePipe } from './number-range.pipe';
   declarations: [
     AppComponent,
     LoginComponent,
-    MainPageComponent,
     TrendingPageComponent,
     ManagerPageComponent,
     InputsManageComponent,
     OutputsManageComponent,
     ChangeOutputDialog,
-    RtuManageComponent
+    RtuManageComponent,
     TrendingPageComponent,
     DBManagerComponent,
     NumberRangePipe

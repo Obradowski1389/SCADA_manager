@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { OutputsDto } from 'src/model/data';
+// import { OutputsDto } from 'src/model/data';
 import { AnalogOutput, DigitalOutput, OutputsDTO } from 'src/model/models';
 
 @Component({
@@ -12,19 +12,22 @@ export class OutputsManageComponent {
   constructor(private dialog: MatDialog) {}
   //globals
   isEdit: boolean = false
-  Outputs: OutputsDTO = OutputsDto
-  showDeleteIconAnalog: boolean[] = Array(this.Outputs.AnalogOutputs.length).fill(false)
-  showDeleteIconDigital: boolean[] = Array(this.Outputs.DigitalOutputs.length).fill(false)
+  Outputs: OutputsDTO = {
+    analogOutputs: [],
+    digitalOutputs: []
+  }
+  showDeleteIconAnalog: boolean[] = Array(this.Outputs.analogOutputs.length).fill(false)
+  showDeleteIconDigital: boolean[] = Array(this.Outputs.digitalOutputs.length).fill(false)
 
   //view
   deleteAnalog(input: AnalogOutput){
-    const index = this.Outputs.AnalogOutputs.indexOf(input)
-    this.Outputs.AnalogOutputs.splice(index, 1)
+    const index = this.Outputs.analogOutputs.indexOf(input)
+    this.Outputs.analogOutputs.splice(index, 1)
   }
 
   deleteDigital(input: DigitalOutput){
-    const index = this.Outputs.DigitalOutputs.indexOf(input)
-    this.Outputs.DigitalOutputs.splice(index, 1)
+    const index = this.Outputs.digitalOutputs.indexOf(input)
+    this.Outputs.digitalOutputs.splice(index, 1)
   }
 
   changeValue(output: any): void {
@@ -47,8 +50,8 @@ export class OutputsManageComponent {
   getAddresses(): number[]{
     var addresses = []
     for(var i = 1; i < 21; i++){
-      if (this.Outputs.AnalogOutputs.some((input) => input.Address == i)) continue
-      if(this.Outputs.DigitalOutputs.some((input) => input.Address == i)) continue
+      if (this.Outputs.analogOutputs.some((input) => input.ioAddress == i)) continue
+      if(this.Outputs.digitalOutputs.some((input) => input.ioAddress == i)) continue
       addresses.push(i)
     }
     return addresses
@@ -80,24 +83,24 @@ export class OutputsManageComponent {
     if(!this.isFormValid()) return
     if(this.isAnalog) {
       var outputA: AnalogOutput = {
-        Id: 0,
-        Name: this.name,
-        Address: this.address ?? 0,
-        LowLimit: this.lowLimit ?? 0,
-        HightLimit: this.hightLimit ?? 0,
-        Unit:this.unit,
-        Value: this.value ?? 0
+        id: 0,
+        name: this.name,
+        ioAddress: this.address ?? 0,
+        lowLimit: this.lowLimit ?? 0,
+        highLimit: this.hightLimit ?? 0,
+        units:this.unit,
+        value: this.value ?? 0
       }
-      this.Outputs.AnalogOutputs.push(outputA)
+      this.Outputs.analogOutputs.push(outputA)
     }
     else{
       var outputD: DigitalOutput = {
-        Id: 1,
-        Name: this.name,
-        Address: this.address ?? 0,
-        Value: this.value ?? 0
+        id: 1,
+        name: this.name,
+        ioAddress: this.address ?? 0,
+        value: this.value ?? 0
       }
-      this.Outputs.DigitalOutputs.push(outputD)
+      this.Outputs.digitalOutputs.push(outputD)
     }
     this.restartForm()
   }
