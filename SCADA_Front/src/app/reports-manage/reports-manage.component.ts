@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TagService } from '../services/tag.service';
+import { saveAs } from 'file-saver';
+import { InputsDTO } from 'src/model/models';
+
 
 @Component({
   selector: 'app-reports-manage',
@@ -86,10 +89,13 @@ export class ReportsManageComponent {
 
   generateReport(){
     if(this.alarmsDate){
-      if(this.rangeAlarms.value.startDate != null && this.rangeAlarms.value.endDate != null){
-        this.tagService.alarmsRange(this.rangeAlarms.value.startDate!, this.rangeAlarms.value.endDate!).subscribe({
+      const startDate = this.rangeAlarms.value.startDate;
+      const endDate = this.rangeAlarms.value.endDate;
+      if(startDate != null && endDate != null){
+        this.tagService.alarmsRange(startDate!, endDate!).subscribe({
           next: (val : any) =>{
             console.log(val);
+            this.downloadFile(val, "Alarms-"+startDate.toISOString()+"-"+endDate.toISOString() +".csv");
           },
           error: (err: any) => {
             console.log(err);
@@ -100,6 +106,7 @@ export class ReportsManageComponent {
       this.tagService.alarmsPriority(parseInt(this.alarmPriorityValue)).subscribe({
         next:(val:any) => {
           console.log(val);
+          this.downloadFile(val, "Alarms-"+this.alarmPriorityValue+".csv");
         },
         error: (val: any) => {
           console.log(val.error);
@@ -111,6 +118,8 @@ export class ReportsManageComponent {
         this.tagService.allTag(values.start, values.end).subscribe({
           next:(val:any) => {
             console.log(val);
+          this.downloadInputs(val, "AllTags.csv");
+
           },
           error: (val: any) => {
             console.log(val.error);
@@ -121,6 +130,7 @@ export class ReportsManageComponent {
       this.tagService.lastAnalog().subscribe({
         next:(val:any) => {
           console.log(val);
+          this.downloadFile(val, "LastAnalog-"+new Date().toISOString()+".csv")
         },
         error: (val: any) => {
           console.log(val.error);
@@ -130,6 +140,8 @@ export class ReportsManageComponent {
       this.tagService.lastDigital().subscribe({
         next:(val:any) => {
           console.log(val);
+          this.downloadFile(val, "LastDigital-"+new Date().toISOString()+".csv")
+
         },
         error: (val: any) => {
           console.log(val.error);
@@ -139,12 +151,123 @@ export class ReportsManageComponent {
       this.tagService.allByID(this.tagId).subscribe({
         next:(val:any) => {
           console.log(val);
+          this.downloadFile(val, "Tag-"+this.tagId+"-"+new Date().toISOString()+".csv")
+
         },
         error: (val: any) => {
           console.log(val.error);
         }
       })
     }
+  }
+
+  downloadInputs(data: any, fName: string): void {
+    const flattenObject = (obj: any): any => {
+      const result: { [key: string]: any } = {};
+
+      const flatten = (value: any, prefix = ''): void => {
+        if (typeof value === 'object' && value !== null) {
+          if (Array.isArray(value)) {
+            value.forEach((item, index) => {
+              flatten(item, `${prefix}${index}.`);
+            });
+          } else {
+            Object.entries(value).forEach(([key, val]) => {
+              flatten(val, `${prefix}${key}.`);
+            });
+          }
+        } else {
+          result[prefix.slice(0, -1)] = value;
+        }
+      };
+
+      flatten(obj);
+      return result;
+    };
+
+    const replacer = (key: any, value: any) => (value === null ? '' : value);
+
+    // Flatten analogInputs
+    const flattenedAnalogInputs = data.inputsValues.map((input:any) => flattenObject(input));
+    const analogHeader = Object.keys(flattenedAnalogInputs[0] || {});
+    const analogCsv = flattenedAnalogInputs.map((input:any) =>
+      analogHeader.map((fieldName) => JSON.stringify(input[fieldName], replacer)).join(',')
+    );
+
+    // Flatten digitalInputs
+    const flattenedDigitalInputs = data.outputsValues.map((input:any) => flattenObject(input));
+    const digitalHeader = Object.keys(flattenedDigitalInputs[0] || {});
+    const digitalCsv = flattenedDigitalInputs.map((input:any) =>
+      digitalHeader.map((fieldName) => JSON.stringify(input[fieldName], replacer)).join(',')
+    );
+
+    // Combine the analog and digital CSV arrays
+    const csv = [];
+    if (analogCsv.length > 0) {
+      csv.push(analogHeader.join(','));
+      csv.push(...analogCsv);
+    }
+    if (digitalCsv.length > 0) {
+      csv.push(digitalHeader.join(','));
+      csv.push(...digitalCsv);
+    }
+    const csvArray = csv.join('\r\n');
+
+    const blob = new Blob([csvArray], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fName;
+    link.click();
+    window.URL.revokeObjectURL(url);
+    link.remove();
+  }
+
+  downloadFile(data: any[], fName: string): void {
+    const flattenObject = (obj: any): any => {
+      const result: { [key: string]: any } = {}; // Define the type of 'result' as an indexable object
+
+      const flatten = (value: any, prefix = ''): void => {
+        if (typeof value === 'object' && value !== null) {
+          if (Array.isArray(value)) {
+            value.forEach((item, index) => {
+              flatten(item, `${prefix}${index}.`);
+            });
+          } else {
+            Object.entries(value).forEach(([key, val]) => {
+              flatten(val, `${prefix}${key}.`);
+            });
+          }
+        } else {
+          result[prefix.slice(0, -1)] = value;
+        }
+      };
+
+      flatten(obj);
+      return result;
+    };
+
+    const replacer = (key: any, value: any) => (value === null ? '' : value);
+    const flattenedData = data.map((row) => flattenObject(row));
+    const header = Object.keys(flattenedData[0]);
+    const csv = flattenedData.map((row) =>
+      header
+        .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+        .join(',')
+    );
+    csv.unshift(header.join(','));
+    const csvArray = csv.join('\r\n');
+
+    const blob = new Blob([csvArray], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fName;
+    link.click();
+    window.URL.revokeObjectURL(url);
+    link.remove();
   }
 
 }
