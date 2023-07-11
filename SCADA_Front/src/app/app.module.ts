@@ -8,10 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/environment/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TrendingPageComponent } from './trending-page/trending-page.component';
-import { ManagerPageComponent } from './manager-page/manager-page.component';
-import { InputsManageComponent } from './inputs-manage/inputs-manage.component';
-import { ChangeOutputDialog, OutputsManageComponent } from './outputs-manage/outputs-manage.component';
-import { RtuManageComponent } from './rtu-manage/rtu-manage.component';
 import { DBManagerComponent } from './dbmanager/dbmanager.component';
 import { NumberRangePipe } from './number-range.pipe';
 
@@ -19,13 +15,6 @@ import { NumberRangePipe } from './number-range.pipe';
   declarations: [
     AppComponent,
     LoginComponent,
-    MainPageComponent,
-    TrendingPageComponent,
-    ManagerPageComponent,
-    InputsManageComponent,
-    OutputsManageComponent,
-    ChangeOutputDialog,
-    RtuManageComponent
     TrendingPageComponent,
     DBManagerComponent,
     NumberRangePipe
