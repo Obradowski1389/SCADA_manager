@@ -90,10 +90,12 @@ namespace SCADA_Back.Repository
 			_context.SaveChanges();
 		}
 
-		public void AddDigitalInput(DigitalInput digitalInput)
+		public DigitalInput AddDigitalInput(DigitalInput digitalInput)
 		{
 			_context.DigitalInput.Add(digitalInput);
 			_context.SaveChanges();
+
+			return _context.DigitalInput.First(d => digitalInput.IOAddress == d.IOAddress);
 		}
 
 		public void AddDigitalOutput(DigitalOutput digitalOutput)

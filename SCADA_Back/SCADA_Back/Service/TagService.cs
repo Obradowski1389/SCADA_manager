@@ -41,6 +41,8 @@ namespace SCADA_Back.Service
 				alarm.AnalogInputId = saved.Id;
 				_alarmService.AddAlarm(alarm);
 			}
+
+			startAnalogThread(saved);
 		}
 
 		public void AddAnalogOutput(AnalogOutput output)
@@ -60,7 +62,9 @@ namespace SCADA_Back.Service
 			{
 				throw new Exception("This Address is already taken");
 			}
-			_tagRepository.AddDigitalInput(input);
+			DigitalInput digital = _tagRepository.AddDigitalInput(input);
+
+			startDigitalThread(digital);
 		}
 
 		public void AddDigitalOutput(DigitalOutput output)

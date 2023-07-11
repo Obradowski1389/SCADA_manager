@@ -86,26 +86,4 @@ export class TrendingPageComponent implements OnInit{
     return false
   }
 
-  toggleScan(input: AnalogInput | DigitalInput){
-    if(input.isOn){
-      this.tagService.toggleScan(false, input.id).subscribe({
-        next: (val: any) => {
-          input.isOn = false;
-        },
-        error: (error: any) => {
-          console.log(error.error);
-        }
-      })
-    }else{
-      this.tagService.toggleScan(true, input.id).subscribe({
-        next:(val: any) => {
-          input.isOn = true;
-        },
-        error: (error: any) => {
-          console.log(error.error);
-        }
-      })
-    }
-  }
-
 }

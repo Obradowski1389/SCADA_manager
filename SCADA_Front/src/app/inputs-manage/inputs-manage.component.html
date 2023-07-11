@@ -18,7 +18,7 @@
                     </td>
                     <td class="basic-td">
                         <div class="info" (click)="switch(input)">
-                            <p class="info-title">{{input.name}} • {{ input.isOn ? "On" : "Off" }}</p>
+                            <p class="info-title">{{input.name}} • <span id="info-isOn" (click)="toggleScan(input)">{{ input.isOn ? "On" : "Off" }}</span></p>
                             <p class="info-value" *ngIf="input.isOn">{{input.value}}{{input.units}}</p>
                         </div>
                     </td>
@@ -59,7 +59,7 @@
                         <i class="material-icons" *ngIf="showDeleteIconDigital[i]" (click)='deleteDigital(input)'>close</i>
                     </div>
                     <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" >
-                        <p class="info-title">{{input.name}} • {{ input.isOn ? "On" : "Off" }}</p>
+                        <p class="info-title">{{input.name}} • <span id="info-isOn" (click)="toggleScan(input)">{{ input.isOn ? "On" : "Off" }}</span></p>
                     </div>
                 </div>
             </div>

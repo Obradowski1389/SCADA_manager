@@ -116,8 +116,3 @@ tr{
 .info:hover{
     scale: 1;
 }
-#info-isOn:hover{
-    color: #de421b;
-    cursor: pointer;
-
-}

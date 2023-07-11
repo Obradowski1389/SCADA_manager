@@ -19,7 +19,7 @@ namespace SCADA_Back.Repository.IRepo
 
 		public AnalogInput AddAnalogInput(AnalogInput analogInput);
 		public void AddAnalogOutput(AnalogOutput analogOutput);
-		public void AddDigitalInput(DigitalInput digitalInput);
+		public DigitalInput AddDigitalInput(DigitalInput digitalInput);
 		public void AddDigitalOutput(DigitalOutput digitalOutput);
 		public void MoveTag(Tag tag);
 		public void RemoveTag(Tag tag);
