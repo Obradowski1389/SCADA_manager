@@ -18,7 +18,8 @@ export interface DigitalInput{
     driver: string,
     ioAddress: string,
     scanTime: number,
-    isOn: boolean
+    isOn: boolean,
+    value: number
 }
 
 export interface InputsDTO {

@@ -17,9 +17,10 @@
                         <i class="material-icons center-icon" *ngIf="showDeleteIconAnalog[i]" (click)='deleteAnalog(input)'>close</i>
                     </td>
                     <td class="basic-td">
-                        <div class="info" (click)="changeAddressDialog(input)">
+                        <div class="info" style="text-align: center;">
                             <p class="info-title">{{input.name}} • <span id="info-isOn" (click)="toggleScan(input)">{{ input.isOn ? "On" : "Off" }}</span></p>
                             <p class="info-value" *ngIf="input.isOn">{{input.value | numberRange: input.lowLimit: input.highLimit}}{{input.units}}</p>
+                            <p id="info-isOn" (click)="changeAddressDialog(input)">Change Address</p>
                         </div>
                     </td>
                     <td  
@@ -55,11 +56,13 @@
                         style="padding: 2px;" 
                         (mouseover)="showDeleteIconDigital[i] = true" 
                         (mouseout)="showDeleteIconDigital[i] = false">
-                        <p class="address-label" *ngIf="!showDeleteIconDigital[i]">A{{input.ioAddress}}</p>
+                        <p class="address-label" *ngIf="!showDeleteIconDigital[i]" >A{{input.ioAddress}}</p>
                         <i class="material-icons" *ngIf="showDeleteIconDigital[i]" (click)='deleteDigital(input)'>close</i>
                     </div>
-                    <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" >
+                    <div class="info basic-td" style="border-radius: 0 10px 10px 0; width: 100%; text-align: center;" >
                         <p class="info-title">{{input.name}} • <span id="info-isOn" (click)="toggleScan(input)">{{ input.isOn ? "On" : "Off" }}</span></p>
+                        <p class="info-value" *ngIf="input.isOn">{{input.value}}</p>
+                        <p id="info-isOn" (click)="changeAddressDialog(input)">Change Address</p>
                     </div>
                 </div>
             </div>

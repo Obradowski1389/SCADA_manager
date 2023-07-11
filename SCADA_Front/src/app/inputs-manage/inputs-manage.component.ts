@@ -232,12 +232,13 @@ export class InputsManageComponent {
     }
     else{
       var inputD: DigitalInput = {
-        id: 1,
+        id: 0,
         name: this.name,
         driver: this.driver,
         ioAddress: this.address?.toString() ?? "0",
         scanTime: this.scanTime ?? 0,
-        isOn: true
+        isOn: true,
+        value: 0
       }
       this.tagService.addDigitalInput(inputD).subscribe({
         next: (val: any) =>{
@@ -245,7 +246,7 @@ export class InputsManageComponent {
           this.tags.push(inputD);
         },
         error: (error: any)=> {
-          console.log(error.error);
+          console.log(error);
         } 
       })
     }

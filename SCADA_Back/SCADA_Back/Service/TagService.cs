@@ -236,7 +236,7 @@ namespace SCADA_Back.Service
 						if (digitalInput.IsOn)
 						{
 							var repo = scope.ServiceProvider.GetRequiredService<ITagRepository>();
-							InputsValue? value = await _tagRepository.GetTagValueByAddress(digitalInput.IOAddress);
+							InputsValue? value = await repo.GetTagValueByAddress(digitalInput.IOAddress);
 							if (value == null) { return; }
 							sendValue(value);
 
