@@ -128,7 +128,7 @@ namespace SCADA_Back.Service
 
 		public Tag? GetByAddress(string address) {
 			return _tagRepository.GetAll().Find(a => a.IOAddress == address);
-		}
+        }
 
 		public void MoveTag(MoveTagDTO tag)
 		{

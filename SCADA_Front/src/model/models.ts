@@ -42,14 +42,14 @@ export interface AnalogOutput{
     lowLimit: number,
     highLimit: number,
     units: string,
-    value: number
+    initialValue: number
 }
 
 export interface DigitalOutput{
     id: number,
     name: string,
     ioAddress: string,
-    value: number
+    initialValue: number
 }
 
 export interface OutputsDTO {

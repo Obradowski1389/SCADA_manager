@@ -129,7 +129,7 @@ export class OutputsManageComponent {
         lowLimit: this.lowLimit ?? 0,
         highLimit: this.hightLimit ?? 0,
         units:this.unit,
-        value: this.value ?? 0
+        initialValue: this.value ?? 0
       }
       this.tagService.addAnalogOutput(outputA).subscribe({
         next: (val: any) =>{
@@ -146,7 +146,7 @@ export class OutputsManageComponent {
         id: 1,
         name: this.name,
         ioAddress: this.address?.toString() ?? "0",
-        value: this.value ?? 0
+        initialValue: this.value ?? 0
       }
 
       this.tagService.addDigitalOutput(outputD).subscribe({

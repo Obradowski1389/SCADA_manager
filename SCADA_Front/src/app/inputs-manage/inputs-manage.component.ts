@@ -122,7 +122,8 @@ export class InputsManageComponent {
     let data = { curr: input.ioAddress, all: this.getAddresses()}
     const dialogRef = this.dialog.open(ChangeAddressDialog, { data: data});
     dialogRef.afterClosed().subscribe(result => {
-      this.tagService.changeAddress().subscribe({
+      if (result == null) return;
+      this.tagService.changeAddress(input.id, result).subscribe({
         next: (val: any) =>{
           console.log(result);
           console.log(val);
@@ -294,8 +295,9 @@ export class ChangeAddressDialog {
     this.dialogRef.close()
   }
 
-  onYesClick() {
-    this.dialogRef.close(this.value)
+  onYesClick(val: any) {
+    console.log(val)
+    this.dialogRef.close(val)
   }
   
 }

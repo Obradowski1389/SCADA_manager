@@ -88,7 +88,7 @@ export class TagService {
     return this.http.post(environment.apiUrl + "Tag/output", { "Value": val, "IOAddress": addres});
   }
 
-  changeAddress(): Observable<any> {
-    return this.http.post(environment.apiUrl + "", {})
+  changeAddress(id: number, address: string): Observable<any> {
+    return this.http.put(environment.apiUrl + "Tag/move", { "Id": id, "IOAddress": address.toString() });
   }
 }

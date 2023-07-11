@@ -18,7 +18,7 @@
                         <i class="material-icons" *ngIf="showDeleteIconAnalog[i]" (click)='deleteAnalog(input)'>close</i>
                     </div>
                     <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" (click)="changeValue(input)">
-                        <p class="info-title">{{input.name}} • {{input.value}}{{input.units}}</p>
+                        <p class="info-title">{{input.name}} • {{input.initialValue}}{{input.units}}</p>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         <i class="material-icons" *ngIf="showDeleteIconDigital[i]" (click)='deleteDigital(input)'>close</i>
                     </div>
                     <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;" (click)="changeValue(input)">
-                        <p class="info-title">{{input.name}} • {{ input.value ? "On" : "Off" }}</p>
+                        <p class="info-title">{{input.name}} • {{ input.initialValue ? "On" : "Off" }}</p>
                     </div>
                 </div>
             </div>
