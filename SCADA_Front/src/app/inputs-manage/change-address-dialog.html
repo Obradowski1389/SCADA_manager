@@ -1,0 +1,49 @@
+<div mat-dialog-content>
+    <p>Change value to:</p>
+    <div class="box">
+        <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 100px">
+            <mat-label>Address A{{curr}}</mat-label>
+            <mat-select [(value)]="value" >
+                <mat-option *ngFor="let option of value" (click)="onYesClick(option)">A{{option}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+<div class="btn-wrapper" mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">CANCEL</button>
+  <!-- <button mat-raised-button color="primary" (click)="onYesClick(option)">CHANGE</button> -->
+</div>
+
+
+<style>
+    .box {
+        margin-right: auto;
+        margin-left: auto;
+    }
+    p {
+        text-align: center;
+        color: #364165 ;
+        margin-top: 1rem !important;
+        margin-bottom: 2rem !important; 
+        font-size: 32px;
+        font-weight: 500;
+    }
+    .mat-dialog-title {
+        text-align: center;
+    }
+    p {
+        text-align: center;
+        margin: 0;
+    }
+    mat-form-field {
+        width: 30rem;
+    }
+    .btn-wrapper{
+        justify-content: center;
+        margin-top: -1vh;
+        margin-bottom: 1.5vh;
+    }
+    button {
+        height: 40px !important;
+      }
+</style>

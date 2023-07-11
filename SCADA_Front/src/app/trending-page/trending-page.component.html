@@ -1,0 +1,59 @@
+<div class="body">
+    <!-- Analog Inputs -->
+    <h1 class="title">Analog Inputs</h1>
+    <div class="table-container">
+        <table style="margin-top: -14px;">
+            <tr *ngFor="let input of Inputs.analogInputs">
+                <td class="address-wrapper">
+                    <p class="address-label">A{{input.ioAddress}}</p>
+                </td>
+                <td class="basic-td">
+                    <div class="info">
+                        <p class="info-title">{{input.name}} • {{ input.isOn ? "On" : "Off" }}</p>
+                        <p class="info-value" *ngIf="input.isOn">
+                            <span class="value-style">{{input.value | numberRange: input.lowLimit: input.highLimit}}</span>
+                            <span class="unit-label">{{input.units}}</span>
+                        </p>
+                    </div>
+                </td>
+                <td  
+                    class="alarm" 
+                    *ngFor="let alarm of input.alarms">
+                    <div class="alarm-info">
+                        <div
+                            class="alarm-treshold"
+                            [ngClass]="{
+                                'medium-alarm-treshold': alarm.priority === 2 && isAlarmActive(alarm, input),
+                                'urgent-alarm-treshold blink-text': alarm.priority === 3 && isAlarmActive(alarm, input)
+                            }">
+                            <p style="font-size: 24px;">{{ alarm.type == 0 ? "🠗 " : "🠕 " }}{{alarm.threshold}}</p>
+                        </div>
+                        <p 
+                            class="alarm-priority minor-alarm" 
+                            [ngClass]="{
+                                'minor-alarm-priority': alarm.priority === 1 && isAlarmActive(alarm, input),
+                                'medium-alarm-priority': alarm.priority === 2 && isAlarmActive(alarm, input),
+                                'urgent-alarm-priority': alarm.priority === 3 && isAlarmActive(alarm, input)
+                            }">
+                            {{ alarm.priority === 1 ? "MINOR" : alarm.priority === 2 ? "MEDIUM" : "URGENT" }}
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- Digital Inputs -->
+    <div *ngIf="Inputs.digitalInputs.length != 0">
+        <h1 class="title">Digital Inputs</h1>
+        <div class="digital-inputs">
+            <div class="digital-item" *ngFor="let input of Inputs.digitalInputs">
+                <div class="center-text address-wrapper" style="padding: 2px;">
+                    <p class="address-label">A{{input.ioAddress}}</p>
+                </div>
+                <div class="center-text info basic-td" style="border-radius: 0 10px 10px 0;">
+                    <p class="info-title">{{input.name}} • {{ input.isOn ? "On" : "Off" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
