@@ -11,14 +11,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required])
+    username: new FormControl(''),
+    password: new FormControl('')
   });
 
   constructor(private userService: UserService, private router: Router) {}
 
   public login(){
-    if(this.loginForm.valid){
+    if(this.loginForm.value.username?.trim() != "" && this.loginForm.value.password?.trim() != ""){
       const values = this.loginForm.value;
       const loginDTO : LoginDTO = {
         "Password": values.password!,

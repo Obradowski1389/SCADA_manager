@@ -25,11 +25,22 @@
                     <td  
                         class="alarm" 
                         *ngFor="let alarm of input.alarms">
-                        <div class="alarm-info">
-                            <div class="alarm-treshold">
+                            <div class="alarm-info">
+                                <div
+                                class="alarm-treshold"
+                                [ngClass]="{
+                                    'medium-alarm-treshold': alarm.priority === 2 && isAlarmActive(alarm, input),
+                                    'urgent-alarm-treshold blink-text': alarm.priority === 3 && isAlarmActive(alarm, input)
+                                }">
                                 <p style="font-size: 24px;">{{ alarm.type == 0 ? "🠗 " : "🠕 " }}{{alarm.threshold}}</p>
                             </div>
-                            <p class="alarm-priority minor-alarm">
+                            <p 
+                                class="alarm-priority minor-alarm" 
+                                [ngClass]="{
+                                    'minor-alarm-priority': alarm.priority === 1 && isAlarmActive(alarm, input),
+                                    'medium-alarm-priority': alarm.priority === 2 && isAlarmActive(alarm, input),
+                                    'urgent-alarm-priority': alarm.priority === 3 && isAlarmActive(alarm, input)
+                                }">
                                 {{ alarm.priority === 1 ? "MINOR" : alarm.priority === 2 ? "MEDIUM" : "URGENT" }}
                             </p>
                         </div>

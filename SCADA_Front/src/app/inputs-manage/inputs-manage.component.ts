@@ -40,6 +40,13 @@ export class InputsManageComponent {
     
   }
 
+  isAlarmActive(alarm: Alarm, input: AnalogInput) : boolean {
+    if(!input.isOn) return false
+    if(alarm.type == 0 && input.value < alarm.threshold) return true
+    if(alarm.type == 1 && input.value > alarm.threshold) return true
+    return false
+  }
+
   connectHub(){
     this.tagService.startConnection()
       .then(() => {
