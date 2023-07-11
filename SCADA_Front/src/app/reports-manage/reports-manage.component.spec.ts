@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RtuManageComponent } from './rtu-manage.component';
+import { ReportsManageComponent } from './reports-manage.component';
 
-describe('RtuManageComponent', () => {
-  let component: RtuManageComponent;
-  let fixture: ComponentFixture<RtuManageComponent>;
+describe('ReportsManageComponent', () => {
+  let component: ReportsManageComponent;
+  let fixture: ComponentFixture<ReportsManageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RtuManageComponent ]
+      declarations: [ ReportsManageComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RtuManageComponent);
+    fixture = TestBed.createComponent(ReportsManageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

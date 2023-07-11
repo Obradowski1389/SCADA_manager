@@ -56,4 +56,33 @@ export class TagService {
     return this.http.put(environment.apiUrl+"Tag/off/"+id, null);
   }
 
+  alarmsRange(start: Date, end: Date):any {
+    const startParam = encodeURIComponent(start.toISOString());
+    const endParam = encodeURIComponent(end.toISOString());
+    return this.http.get(environment.apiUrl + 'Reports/alarm/time?start='+startParam+'&end='+endParam);
+  }
+
+  allTag(start:Date, end:Date):any{
+    const startParam = encodeURIComponent(start.toISOString());
+    const endParam = encodeURIComponent(end.toISOString());
+    return this.http.get(environment.apiUrl + 'Reports?start='+startParam+'&end='+endParam);
+  }
+
+  alarmsPriority(p : number){
+    return this.http.get(environment.apiUrl+"Reports/alarm/priority?priority="+p);
+  }
+
+  lastAnalog(){
+    return this.http.get(environment.apiUrl+"Reports/analog");
+  }
+
+  lastDigital(){
+    return this.http.get(environment.apiUrl+"Reports/digital");
+
+  }
+
+  allByID(id: number){
+    return this.http.get(environment.apiUrl+"Reports/"+id);
+  }
+
 }

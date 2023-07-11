@@ -1,0 +1,89 @@
+<div class="wrapper">
+    <div class="header">
+        <h1>Reports</h1>
+    </div>
+    <div class="content-card">
+        <button mat-raised-button color="primary" (click)="alarmsDateRange()">Alarms in date range</button>
+        <button mat-raised-button color="primary" (click)="alarmsPriority()">Alarms by priority</button>
+        <button mat-raised-button color="primary" (click)="tagValuesRange()">All tag values in date range</button>
+        <button mat-raised-button color="primary" (click)="lastAnalog()">Last analog input values</button>
+        <button mat-raised-button color="primary" (click)="lastDigital()">Last digital input values</button>
+        <button mat-raised-button color="primary" (click)="tagValuedID()">All tag values by id</button>
+
+        <div *ngIf="alarmsDate" class="report-div">
+            <h1>Alarms in date range</h1>
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [formGroup]="rangeAlarms" [rangePicker]="picker">
+                    <input formControlName="startDate" matStartDate placeholder="Start date">
+                    <input formControlName="endDate" matEndDate placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+
+            <div class="button-div">
+                <button mat-raised-button color="primary" (click)="generateReport()">Generate report</button>
+            </div>
+        </div>
+
+        <div *ngIf="alarmPriority" class="report-div">
+            <h1>Alarms by priority</h1>
+            <mat-form-field appearance="outline" style="max-height: 40px; width: 100%;" >
+                <mat-label>Priority</mat-label>
+                <mat-select  [(value)]="alarmPriorityValue">
+                    <mat-option value='1'>Minor</mat-option>
+                    <mat-option value='2'>Medium</mat-option>
+                    <mat-option value='3'>Urgent</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="button-div" style="margin-top: 20px;">
+                <button mat-raised-button color="primary" (click)="generateReport()">Generate report</button>
+            </div>
+        </div>
+
+        <div *ngIf="allTag" class="report-div">
+            <h1>All tag values in date range</h1>
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [formGroup]="rangeTag" [rangePicker]="picker">
+                    <input formControlName="start" matStartDate placeholder="Start date">
+                    <input formControlName="end" matEndDate placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+
+            <div class="button-div">
+                <button mat-raised-button color="primary" (click)="generateReport()">Generate report</button>
+            </div>
+        </div>
+
+        <div *ngIf="lastA" class="report-div">
+            <h1>Last analog input values</h1>
+            <div class="button-div">
+                <button mat-raised-button color="primary" (click)="generateReport()">Generate report</button>
+            </div>
+        </div>
+
+        <div *ngIf="lastD" class="report-div">
+            <h1>Last digital input values</h1>
+            <div class="button-div">
+                <button mat-raised-button color="primary" (click)="generateReport()">Generate report</button>
+            </div>
+        </div>
+
+        <div *ngIf="allId" class="report-div">
+            <h1>Last analog values</h1>
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Tag id</mat-label>
+                <input [(ngModel)]="tagId" name="id" type="number" min="1" matInput>
+            </mat-form-field>
+            <div class="button-div">
+                <button mat-raised-button color="primary" (click)="generateReport()">Generate report</button>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
