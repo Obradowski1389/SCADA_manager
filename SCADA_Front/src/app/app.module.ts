@@ -14,6 +14,7 @@ import { ChangeOutputDialog, OutputsManageComponent } from './outputs-manage/out
 import { DBManagerComponent } from './dbmanager/dbmanager.component';
 import { NumberRangePipe } from './number-range.pipe';
 import { ChangeAddressDialog } from './inputs-manage/inputs-manage.component';
+import { ReportsManageComponent } from './reports-manage/reports-manage.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ChangeAddressDialog } from './inputs-manage/inputs-manage.component';
     TrendingPageComponent,
     DBManagerComponent,
     NumberRangePipe,
-    ChangeAddressDialog
+    ChangeAddressDialog,
+    ReportsManageComponent
   ],
   imports: [
     BrowserModule,
