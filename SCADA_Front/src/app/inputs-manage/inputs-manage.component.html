@@ -1,0 +1,155 @@
+<div class="wrapper">
+    <div class="header">
+        <h1>Inputs</h1>
+        <i class="material-icons" (click)="isEdit=!isEdit">{{ isEdit ? 'close' : 'add' }}</i>
+    </div>
+    <!-- view -->
+    <div class="content-card">
+        <div class="content-box" *ngIf="!isEdit">
+            <h2 class="title">Analog</h2>
+            <table>
+                <tr *ngFor="let input of Inputs.analogInputs; let i = index">
+                    <td 
+                        class="address-wrapper"  
+                        (mouseover)="showDeleteIconAnalog[i] = true" 
+                        (mouseout)="showDeleteIconAnalog[i] = false">
+                        <p class="address-label" *ngIf="!showDeleteIconAnalog[i]">A{{input.ioAddress}}</p>
+                        <i class="material-icons center-icon" *ngIf="showDeleteIconAnalog[i]" (click)='deleteAnalog(input)'>close</i>
+                    </td>
+                    <td class="basic-td">
+                        <div class="info" style="text-align: center;">
+                            <p class="info-title">{{input.name}} • <span id="info-isOn" (click)="toggleScan(input)">{{ input.isOn ? "On" : "Off" }}</span></p>
+                            <p class="info-value" *ngIf="input.isOn">{{input.value | numberRange: input.lowLimit: input.highLimit}}{{input.units}}</p>
+                            <p id="info-isOn" (click)="changeAddressDialog(input)">Change Address</p>
+                        </div>
+                    </td>
+                    <td  
+                        class="alarm" 
+                        *ngFor="let alarm of input.alarms">
+                            <div class="alarm-info">
+                                <div
+                                class="alarm-treshold"
+                                [ngClass]="{
+                                    'medium-alarm-treshold': alarm.priority === 2 && isAlarmActive(alarm, input),
+                                    'urgent-alarm-treshold blink-text': alarm.priority === 3 && isAlarmActive(alarm, input)
+                                }">
+                                <p style="font-size: 24px;">{{ alarm.type == 0 ? "🠗 " : "🠕 " }}{{alarm.threshold}}</p>
+                            </div>
+                            <p 
+                                class="alarm-priority minor-alarm" 
+                                [ngClass]="{
+                                    'minor-alarm-priority': alarm.priority === 1 && isAlarmActive(alarm, input),
+                                    'medium-alarm-priority': alarm.priority === 2 && isAlarmActive(alarm, input),
+                                    'urgent-alarm-priority': alarm.priority === 3 && isAlarmActive(alarm, input)
+                                }">
+                                {{ alarm.priority === 1 ? "MINOR" : alarm.priority === 2 ? "MEDIUM" : "URGENT" }}
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <h2 class="title" style="margin-top: 0;">Digital</h2>
+            <div class="digital-inputs">
+                <div class="digital-item" *ngFor="let input of Inputs.digitalInputs; let i = index">
+                    <div 
+                        class="center-text address-wrapper" 
+                        style="padding: 2px;" 
+                        (mouseover)="showDeleteIconDigital[i] = true" 
+                        (mouseout)="showDeleteIconDigital[i] = false">
+                        <p class="address-label" *ngIf="!showDeleteIconDigital[i]" >A{{input.ioAddress}}</p>
+                        <i class="material-icons" *ngIf="showDeleteIconDigital[i]" (click)='deleteDigital(input)'>close</i>
+                    </div>
+                    <div class="info basic-td" style="border-radius: 0 10px 10px 0; width: 100%; text-align: center;" >
+                        <p class="info-title">{{input.name}} • <span id="info-isOn" (click)="toggleScan(input)">{{ input.isOn ? "On" : "Off" }}</span></p>
+                        <p class="info-value" *ngIf="input.isOn">{{input.value}}</p>
+                        <p id="info-isOn" (click)="changeAddressDialog(input)">Change Address</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- edit -->
+        <div class="edit-box" *ngIf="isEdit">
+
+            <div class="mydict" style="margin-bottom: 30px;">
+                <div>
+                <label>
+                    <input type="radio" name="typeI" [(ngModel)]="isAnalog" [value]="true">
+                    <span>Analog</span>
+                </label>
+                <label>
+                    <input type="radio" name="typeI" [(ngModel)]="isAnalog" [value]="false">
+                    <span>Digital</span>
+                </label>
+                </div>
+            </div>
+              
+            <!-- name and address -->
+            <div class="two-el-box">
+                <input type="text" [(ngModel)]="name" class="input" placeholder="Name">
+                <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">
+                    <mat-label>Address</mat-label>
+                    <mat-select [(value)]="address">
+                        <mat-option *ngFor="let option of getAddresses()" [value]="option">A{{option}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!-- scan time and driver -->
+            <div class="two-el-box">
+                <input type="number" [(ngModel)]="scanTime" class="input" placeholder="Scan Time">
+            </div>
+
+            <!-- only analog part -->
+            <div *ngIf="isAnalog">
+                <div class="three-el-box">
+                    <input type="number" [(ngModel)]="lowLimit" class="input" placeholder="Min">
+                    <input type="number" [(ngModel)]="hightLimit" name="name" class="input" placeholder="Max">
+                    <input type="text" [(ngModel)]="unit" name="name" class="input" placeholder="Unit">
+                </div>
+                
+                <h2 class="mini-title">Alarms</h2>
+                <!-- list of new alarms -->
+                <div *ngIf="newAlarms.length != 0" style="display: flex; margin: 15px 0;">
+                    <div class="alarm" style="margin-right: 10px;" *ngFor="let alarm of newAlarms">
+                        <div class="alarm-info">
+                            <div class="alarm-treshold">
+                                <p style="font-size: 24px;">{{ alarm.type == 0 ? "🠗 " : "🠕 " }}{{alarm.threshold}}</p>
+                            </div>
+                            <p class="alarm-priority minor-alarm">
+                                {{ alarm.priority === 1 ? "MINOR" : alarm.priority === 2 ? "MEDIUM" : "URGENT" }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- adding new alarm -->
+                <div *ngIf="newAlarms.length < 5" class="four-el-box">
+                    <input type="number" [(ngModel)]="treshold" class="input" placeholder="Treshold">
+                    <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">
+                        <mat-label>Type</mat-label>
+                        <mat-select [(value)]="alarmType">
+                            <mat-option value='0'>Low</mat-option>
+                            <mat-option value='1'>High</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="margin-bottom: -1.4em; max-height: 40px">
+                        <mat-label>Priority</mat-label>
+                        <mat-select [(value)]="alarmPriority">
+                            <mat-option value='1'>Minor</mat-option>
+                            <mat-option value='2'>Medium</mat-option>
+                            <mat-option value='3'>Urgent</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div class="center-icon">
+                        <i class="material-icons" (click)="addAlarm()">add</i>
+                    </div>
+                </div>
+            </div>  
+            
+            <div class="button-container">
+                <button mat-flat-button color="primary" class="btn" (click)="createInput()">Add Input</button>
+            </div>
+        </div>
+    </div>
+</div>
